@@ -25,9 +25,11 @@ import com.haarman.supertooltips.ToolTip;
 import com.haarman.supertooltips.ToolTipRelativeLayout;
 import com.haarman.supertooltips.ToolTipView;
 import com.lazooz.lbm.communications.ServerCom;
+import com.lazooz.lbm.components.MCrypt;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
+
 
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
@@ -398,7 +400,8 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 					serverMessage = jsonReturnObj.getString("message");
 					if (serverMessage.equals("success")){
 						String requestId = jsonReturnObj.getString("registration_request_id");
-						MySharedPreferences.getInstance().saveRegRequestId(RegistrationActivity.this, requestId);
+						String firstEncKey = jsonReturnObj.getString("encryption_key");
+						MySharedPreferences.getInstance().saveRegRequestId(RegistrationActivity.this, requestId, firstEncKey);
 					}
 				}
 			} 
@@ -465,9 +468,11 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 					if (serverMessage.equals("success")){
 						String userId = jsonReturnObj.getString("user_id");
 						String userSecret = jsonReturnObj.getString("user_secret");
+						String encKey = jsonReturnObj.getString("encryption_key");
 						mIsNewUser = Utils.yesNoToBoolean(jsonReturnObj.getString("is_new_user"));
 
-						MySharedPreferences.getInstance().saveActivationData(RegistrationActivity.this, userId, userSecret);
+						MySharedPreferences.getInstance().saveActivationData(RegistrationActivity.this, userId, userSecret, encKey);
+						MCrypt.getInstance().setSecretKey(encKey);
 					}
 				}
 			} 

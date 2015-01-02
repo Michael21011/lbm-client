@@ -1,8 +1,10 @@
 package com.lazooz.lbm.preference;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,9 +160,15 @@ public class MySharedPreferences {
 
 
 
-	public void saveRegRequestId(Context context, String requestId) {
+	public void saveRegRequestId(Context context, String requestId, String firstEncKey) {
 		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
 		spData.edit().putString("requestId", requestId).commit();
+		spData.edit().putString("firstEncKey", firstEncKey).commit();
+	}
+
+	public String getFirstEncKey(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("firstEncKey", "");
 	}
 
 	public String getRegRequestId(Context context) {
@@ -168,16 +176,23 @@ public class MySharedPreferences {
 		return spData.getString("requestId", "");
 	}
 
-	public void saveActivationData(Context context, String userId, String userSecret) {
+	public void saveActivationData(Context context, String userId, String userSecret, String encKey) {
 		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
 	    SharedPreferences.Editor editor = spData.edit();
 	    
 	    editor.putString("userId", userId);
 	    editor.putString("userSecret", userSecret);
+	    editor.putString("encKey", encKey);
 	    	    
 	    editor.commit();
 		
 	}
+	
+	public String getEncKey(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+		return spData.getString("encKey", "");
+	}
+
 	
 	public long getRoute(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);

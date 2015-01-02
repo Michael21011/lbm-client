@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import com.lazooz.lbm.cfg.StaticParms;
+import com.lazooz.lbm.components.MCrypt;
+import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
 
 import android.content.Context;
@@ -66,6 +68,7 @@ public class ServerCom {
 		
 		this.postRequestToServer(-1, -1, url, params);
 	}
+
 	
 	public void getUserKeyData(String UserId, String UserSecret)
 	{
@@ -85,12 +88,12 @@ public class ServerCom {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("user_id", UserId ));
-		params.add(new BasicNameValuePair("user_secret", UserSecret ));
-		params.add(new BasicNameValuePair("network_location", locationString ));
-		params.add(new BasicNameValuePair("android_build_num", Utils.getVersionCode(mContext) + ""));
-		params.add(new BasicNameValuePair("public_key", publicKey ));
+		params.add(getBasicNameValuePairEnc("user_secret", UserSecret ));
+		params.add(getBasicNameValuePairEnc("network_location", locationString ));
+		params.add(getBasicNameValuePairEnc("android_build_num", Utils.getVersionCode(mContext) + ""));
+		params.add(getBasicNameValuePairEnc("public_key", publicKey ));
 		
-		this.postRequestToServer(-1, -1, url, params);
+		this.postRequestToServerEnc(-1, -1, url, params);
 	}
 
 	public void getUserNotifications(String UserId, String UserSecret, int fromNumber)
@@ -283,16 +286,18 @@ public class ServerCom {
 	public void registerValidationToServer(String requestId, String token, String publicKey, String recommendationCode) {
 		String url = StaticParms.BASE_SERVER_URL + "api_register_validation";
 
+		MCrypt.getInstance().setSecretKey(MySharedPreferences.getInstance().getFirstEncKey(mContext));
+		
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("registration_request_id", requestId ));
-		params.add(new BasicNameValuePair("registration_request_token", token ));
-		params.add(new BasicNameValuePair("registration_request_recommendation_token", recommendationCode ));
-		params.add(new BasicNameValuePair("public_key", publicKey ));
+		params.add(getBasicNameValuePairEnc("registration_request_token", token ));
+		params.add(getBasicNameValuePairEnc("registration_request_recommendation_token", recommendationCode ));
+		params.add(getBasicNameValuePairEnc("public_key", publicKey ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 		
 	}
-	
+		
 	
 	public void setFriendRecommend(String UserId, String UserSecret, String data, String theMessage) {
 		String url = StaticParms.BASE_SERVER_URL + "api_set_friend_recommend";
@@ -467,25 +472,117 @@ public class ServerCom {
   	           }
   	       }
   	  }
-  	  
-  	  
   	}
 
+  	 
+  	public String postRequestToServerEnc(int connTimeout, int SoTimeout, String apiUrl, List<NameValuePair> params)
+  	{
+  		
+  		String TAG = "server";
+  		Log.e(TAG,"postRequestToServer: " + apiUrl);
+  		Log.e(TAG,"postRequestToServerParams: " + params.toString());
+
+      	try { 
+      	          HttpClient client = new DefaultHttpClient();
+      	          
+      	          if (connTimeout > -1)
+      	        	  HttpConnectionParams.setConnectionTimeout(client.getParams(), connTimeout);
+      	          if (SoTimeout > -1)
+      	        	  HttpConnectionParams.setSoTimeout(client.getParams(), SoTimeout);
+      	          
+      	          HttpPost request = new HttpPost();
+      	          request.setURI(new URI(apiUrl));
+      	          
+      	          request.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+      	          Log.e(TAG,apiUrl);
+      	          
+      	          HttpResponse response = client.execute(request);
+      	          
+      	          
+      	          
+      	          this.responseProcessEnc(response);
+      	          
+      	          
+      	      }catch(URISyntaxException e){
+      	          Log.e(TAG,"myHttpGetHttpGet URISyntaxException");
+
+      	      }catch(IOException e){
+      	          Log.e(TAG,"myHttpGetHttpGet IOException : " + e.getMessage());
+      	      }catch(IllegalStateException e){
+      	          Log.e(TAG,"myHttpGetHttpGet IllegalStateException");
+      	      }catch (JSONException e) {
+  				e.printStackTrace();
+      	      }
+  			
+  		
+  		return "";
+  	}
+  	
+  	private void responseProcessEnc(HttpResponse response) throws JSONException{
+    	  BufferedReader inBuff = null;
+    	  final String TAG = "responseProcess";
+    	  try{  
+    		  
+    		  inBuff = new BufferedReader (new InputStreamReader(response.getEntity().getContent()));
+    	      StringBuffer stringBuf = new StringBuffer("");
+    	      String line = null;
+    	      String NewLine = System.getProperty("line.separator");
+    	      while ((line = inBuff.readLine()) != null) {
+    	          stringBuf.append(line + NewLine);
+    	      }
+    	      inBuff.close();
+    	      String page = stringBuf.toString();
+    	      
+    	      try {
+  			page = MCrypt.getInstance().decrypt(page);
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		}
+    	      
+            Log.e("server","postRequestToServerResponse: " + page);
+
+    	      
+
+    	    	 JSONObject object = (JSONObject) new JSONTokener(page).nextValue();
+    	    	 
+    	    	 this.returnObject = object;
+    	    	 
+
+    	  }catch(IOException e){
+    	       Log.e(TAG," IOException");
+
+    	  }
+    	  finally {
+    	    if (inBuff != null) {
+    	     try {
+    	      inBuff.close();
+    	           }catch (IOException e) {
+    	              Log.e(TAG,"IOException closing buffer");
+    	           }
+    	       }
+    	  }
+    	  
+    	  
+    	}
 
 
 
+  	private BasicNameValuePair getBasicNameValuePairEnc(String name, String value){
+  		MCrypt mcrypt = MCrypt.getInstance();
+  		String encVal = "";
+  		try {
+  			encVal = mcrypt.bytesToHex(mcrypt.encrypt(value));
+  		} catch (Exception e) {
+  		}
 
-
-
-
-	
-	
-
-
-
-	
-	
-	
-	
-}	
-	
+  		BasicNameValuePair obj = new BasicNameValuePair(name, encVal);
+  		return obj;
+  	}
+  	
+  
+  	
+  	
+  	
+  }	
+  	
