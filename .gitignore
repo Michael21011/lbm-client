@@ -144,3 +144,9 @@ bin/res/crunch/drawable-xxhdpi/accept_btn_press.png
 bin/res/crunch/drawable-xxhdpi/gen_btn_dis.png
 bin/res/crunch/drawable-xxhdpi/splash.png
 bin/*s
+lbm/build/*
+local.properties
+mapUtilsLibrary/build/*
+supertooltipslib/build/*
+build/intermediates/model_data.bin
+lbm/lbm.iml
