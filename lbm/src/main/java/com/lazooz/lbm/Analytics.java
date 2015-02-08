@@ -21,11 +21,11 @@ import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.GoogleAnalytics;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import java.util.HashMap;
 
-public class Analytics extends Application {
+public class Analytics extends MultiDexApplication {
 
     // The following line should be changed to include the correct property id.
     private static final String PROPERTY_ID = "UA-55856450-1";
