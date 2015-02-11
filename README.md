@@ -21,10 +21,14 @@ The project can be build for both Android Studio and Eclipse ADT.
 
 How to update your local repository
 ===================================
-From command line : 
-git pull <remote name> <branch name> 
-e.g:
+From command line :
+
+git pull (remote name) (branch name)
+
+e.g
+
 For updating android_studio branch:
+
 git pull origin android_studio 
 
 
