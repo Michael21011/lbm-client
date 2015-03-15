@@ -12,6 +12,8 @@ import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.preference.SettingsActivity;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -76,8 +78,13 @@ public class MyActionBarActivity extends ActionBarActivity {
         
 		createDrawerStuff();
 		
-		getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\">" + getString(R.string.app_name) + "</font>"));		
-		
+		getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\">" + getString(R.string.app_name) + "</font>"));
+
+		getSupportActionBar().setLogo(R.drawable.ic_stat_notif_logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.lazooz_blue)));
+
 	}
 
 	private void createDrawerStuff(){
