@@ -76,6 +76,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private boolean mSoundStart = false;
 	private boolean mIsListenToGPSProviderFromNetChange = false;
 	private boolean mIsRequestLocationUpdateFirstTime = true;
+    private long startGPSTime = 0;
 	private boolean mWifiWasEnabled;
 	private WifiTracker mWifiTracker;
 	private NetworkLocationListener mNetworkLocationListener;
@@ -755,14 +756,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	
 	
-	private void start1MinNoSpeedTimer(){
-		if (mNoSpeedTimer != null){
-			mNoSpeedTimer.cancel();
-			mNoSpeedTimer = null;
-		}
-		mNoSpeedTimer = new NoSpeedTimer(1000*60, 1000);
-		mNoSpeedTimer.startNow1();
-	}
+
 	
 	private void start5MinNoSpeedTimer(){
 		if (mNoSpeedTimer != null){
@@ -772,6 +766,18 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		mNoSpeedTimer = new NoSpeedTimer(1000*60*5, 1000);
 		mNoSpeedTimer.startNow1();
 	}
+
+
+
+    private void start1MinNoSpeedTimer(){
+        if (mNoSpeedTimer != null){
+            mNoSpeedTimer.cancel();
+            mNoSpeedTimer = null;
+        }
+        mNoSpeedTimer = new NoSpeedTimer(1000*60, 1000);
+        mNoSpeedTimer.startNow1();
+    }
+
 
 	public class NoSpeedTimer extends CountDownTimer {
 		private boolean mIsActive = false;
@@ -845,6 +851,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		if (!mIsListenToGPSProvider){
 			if (MiningEnabledMode && ((!ChargerConnectivityMode) || (ChargerConnectivityMode && Utils.isPowerCableConnected(this)))){
 				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_MIN_TIME_LOCATION_UPDATE_HIGHT, GPS_MIN_DISTANCE_LOCATION_UPDATE, mGPSLocationListener);
+                startGPSTime = System.nanoTime();
 				start1MinNoSpeedTimer();
 				mIsListenToGPSProvider = true;
 				mIsListenToGPSProviderFromCellChange =true;
@@ -913,6 +920,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				Log.i(FILE_TAG, "requestLocationUpdates GPS_PROVIDER");
 				MySharedPreferences.getInstance().promoteRoute(LbmService.this);
 				start1MinNoSpeedTimer();
+                startGPSTime = System.nanoTime();
+
 				mLocationManager.removeUpdates(mNetworkLocationListener);
 				
 				mIsListenToGPSProviderFromNetChange = true;
@@ -1017,6 +1026,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 				//Utils.playSound1(LbmService.this, R.raw.read_sensors);
 				return;
 			}
+
+            //mReadingSensorsNow = true;
 			
 			
 			//Utils.playSound(LbmService.this, R.raw.gps);
@@ -1036,25 +1047,31 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 
 			if (location.hasSpeed()){
-				Log.i(FILE_TAG, "GPS location hasSpeed");
+				//Log.i(FILE_TAG, "GPS location hasSpeed");
 				float speed = location.getSpeed();
 				if ((speed > 2.7)||(mNoSpeedTimer.isActive())){   // 2.7m/s = 10km/h  enter if over 10km/s or the 5 min timer is active
 				
-					if (speed > 2.7){  // over 10 km/s start-over the timer
+					if ((speed > 2.7)&& (speed<60)){   // over 10 km/h and less than 210 km/h start-over the timer
 						if (location.hasAccuracy()){
 							if (location.getAccuracy()<= 25){ //if gps is on - read sensors 				
-								Log.i(FILE_TAG, "GPS Speed Over 10 kms");
+								//Log.i(FILE_TAG, "GPS Speed Over 10 kms");
 								//Utils.playSound1(LbmService.this, R.raw.ten_kms);
-								if ((mSoundStart== false)&&(mIsListenToGPSProviderFromCellChange||mIsListenToGPSProviderFromNetChange))
+								if ((speed > 5.4 )&& (mSoundStart== false)&&(mIsListenToGPSProviderFromCellChange||mIsListenToGPSProviderFromNetChange))
 								{ 
 									/* This is done here..because cell change might happend on idle state..and can cause to false gps mining start*/
 									/* It need to ba handle*/
-									Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
-									mSoundStart = true;
-									if (mIsListenToGPSProviderFromCellChange)
-									 mIsListenToGPSProviderFromCellChange = false;
-									if (mIsListenToGPSProviderFromNetChange)
-										mIsListenToGPSProviderFromNetChange = false;
+                                    long currentTime = System.nanoTime();
+
+                                    if ((startGPSTime > 0) && (currentTime - startGPSTime > 5*1000*1000)) {
+
+
+                                        Utils.playSound1(LbmService.this, R.raw.potential_zooz_mining_stared);
+                                        mSoundStart = true;
+                                        if (mIsListenToGPSProviderFromCellChange)
+                                            mIsListenToGPSProviderFromCellChange = false;
+                                        if (mIsListenToGPSProviderFromNetChange)
+                                            mIsListenToGPSProviderFromNetChange = false;
+                                    }
 									
 								}
 								start5MinNoSpeedTimer();
