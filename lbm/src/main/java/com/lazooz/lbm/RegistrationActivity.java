@@ -122,7 +122,7 @@ public class RegistrationActivity extends MyActionBarActivity
                  .addOnConnectionFailedListener(this)
                 .build();
         mGoogleApiClient.connect();
-        System.out.println("connect");
+      //  System.out.println("connect");
         Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);

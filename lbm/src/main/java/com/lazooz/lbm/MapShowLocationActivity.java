@@ -150,7 +150,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
     				if (location != null){
     					updateAccuracy((int)location.getAccuracy());
     					LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-    					Log.i("ZOOZ", "MAP_SW google map location change: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
+    					//Log.i("ZOOZ", "MAP_SW google map location change: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
     					setMapLocation(location);
     					
     				}
@@ -244,7 +244,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 		if (location != null){
 			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
 			
-			Log.i("ZOOZ", "MAP_SW set map location: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
+			//Log.i("ZOOZ", "MAP_SW set map location: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
 			
 			if (mLastMarker != null)
 				mLastMarker.remove();
@@ -292,34 +292,34 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.i("ZOOZ", "MAP_SW onLocationChanged: " + "LAT:"+ location.getLatitude() + " LON: " + location.getLongitude() + " ACC:" + (int)location.getAccuracy());
+		//Log.i("ZOOZ", "MAP_SW onLocationChanged: " + "LAT:"+ location.getLatitude() + " LON: " + location.getLongitude() + " ACC:" + (int)location.getAccuracy());
 		if (mMapWasInit){
-			Log.i("ZOOZ", "MAP_SW onLocationChanged, map was init");
+		//	Log.i("ZOOZ", "MAP_SW onLocationChanged, map was init");
 			if (location.getProvider().equals(LocationManager.GPS_PROVIDER)){
-				Log.i("ZOOZ", "MAP_SW sonLocationChanged from GPS_PROVIDER");
+			//	Log.i("ZOOZ", "MAP_SW sonLocationChanged from GPS_PROVIDER");
 				setMapLocation(location);
 			}
-			else
-				Log.i("ZOOZ", "MAP_SW sonLocationChanged from NETWORK - do nothing");
+			//else
+			//	Log.i("ZOOZ", "MAP_SW sonLocationChanged from NETWORK - do nothing");
 		}
 		
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Log.i("ZOOZ", "MAP_SW onProviderDisabled: " +  provider);
+		//Log.i("ZOOZ", "MAP_SW onProviderDisabled: " +  provider);
 		
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Log.i("ZOOZ", "MAP_SW onProviderEnabled: " +  provider);
+		//Log.i("ZOOZ", "MAP_SW onProviderEnabled: " +  provider);
 		
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.i("ZOOZ", "MAP_SW onStatusChanged: " +  provider + " status:" + status);
+	//	Log.i("ZOOZ", "MAP_SW onStatusChanged: " +  provider + " status:" + status);
 	}
 
 	private Location getLocation(){
@@ -343,7 +343,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	
 	@Override
 	protected void onResume() {
-		Log.i("ZOOZ", "MAP_SW onResume, start listen to location");
+		//Log.i("ZOOZ", "MAP_SW onResume, start listen to location");
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 		super.onResume();
@@ -352,7 +352,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	
 	@Override
 	protected void onPause() {
-		Log.i("ZOOZ", "MAP_SW onPause, stop listen to location");
+		//Log.i("ZOOZ", "MAP_SW onPause, stop listen to location");
 		mLocationManager.removeUpdates(this);
 		super.onPause();
 	}

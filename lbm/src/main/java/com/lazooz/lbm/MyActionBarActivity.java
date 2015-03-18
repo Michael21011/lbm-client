@@ -199,7 +199,7 @@ public class MyActionBarActivity extends ActionBarActivity {
     		Intent intent = new Intent(this, SettingsActivity.class);
     		startActivity(intent);
     	}
-        else if (di.getText().equals("Registration")){
+        else if (di.getText().equals(getString(R.string.drawer_entry_registration))){
             Intent intent = new Intent(this, RegistrationActivity.class);
             startActivity(intent);
         }
