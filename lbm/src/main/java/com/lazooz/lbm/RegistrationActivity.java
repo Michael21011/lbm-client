@@ -3,6 +3,7 @@ package com.lazooz.lbm;
 
 
 
+import java.io.IOException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +11,14 @@ import java.util.Arrays;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.AccountPicker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.plus.Plus;
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.NetworkParameters;
@@ -29,6 +38,10 @@ import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
+import android.accounts.AccountManager;
+import android.app.Dialog;
+import android.content.IntentSender;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.app.AlertDialog;
@@ -56,13 +69,17 @@ import android.widget.Toast;
 
 
 
-public class RegistrationActivity extends MyActionBarActivity implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener {
+public class RegistrationActivity extends MyActionBarActivity
+        implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 	
 	
 	private Button mRegBtn;
 
 	private Button mConfBtn;
-	private ProgressBar mProgBar;
+    private Button mLaterBtn;
+
+
+    private ProgressBar mProgBar;
 	private String mPhoneNoInternational;
 	private String mPhoneNoE164;
 	private TextView mToolTipButton;
@@ -77,6 +94,16 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 	public boolean mIsNewUser;
 	private TextView mSpacerTV;
 	protected TextView mToolTipDlgTV;
+    static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
+    // Request code to use when launching the resolution activity
+    private static final int REQUEST_RESOLVE_ERROR = 1001;
+    // Unique tag for the error dialog fragment
+    private static final String DIALOG_ERROR = "dialog_error";
+    // Bool to track whether the app is already resolving an error
+    private boolean mResolvingError = false;
+    private GoogleApiClient mGoogleApiClient;
+    private boolean  with_num =false;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +114,16 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		
 		//setContentView(R.layout.activity_registration);
 
-		
-		Utils.setTitleColor(this, getResources().getColor(R.color.white));
+         mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Drive.API)
+                 .addApi(Plus.API)
+                .addScope(Drive.SCOPE_FILE)
+                 .addConnectionCallbacks(this)
+                 .addOnConnectionFailedListener(this)
+                .build();
+        mGoogleApiClient.connect();
+        System.out.println("connect");
+        Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
 		mToolTipFrameLayout = (ToolTipRelativeLayout) findViewById(R.id.tooltipframelayout);
 		
@@ -176,9 +211,20 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		
 		mProgBar = (ProgressBar)findViewById(R.id.reg_progbar);
 		mProgBar.setVisibility(View.GONE);
-		
-		
-		mConfBtn = (Button)findViewById(R.id.reg_confirm_btn);
+
+        mLaterBtn = (Button)findViewById(R.id.later_btn);
+        mLaterBtn.setVisibility(View.GONE);
+        mLaterBtn.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
+                startNextScreen();
+            }
+        });
+
+                mConfBtn = (Button)findViewById(R.id.reg_confirm_btn);
 		mConfBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -236,9 +282,9 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 				
 			}
 		});
-		
-		
-		
+
+
+
 		
 		String actCode = getIntent().getStringExtra("ACTIVATION_CODE");
 		String recCode = getIntent().getStringExtra("RECOMMENDATION_CODE");
@@ -250,6 +296,20 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 		
 		
 	}
+    String mEmail;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_RESOLVE_ERROR) {
+            mResolvingError = false;
+            if (resultCode == RESULT_OK) {
+                // Make sure the app is not already connected or attempting to connect
+                if (!mGoogleApiClient.isConnecting() &&
+                        !mGoogleApiClient.isConnected()) {
+                    mGoogleApiClient.connect();
+                }
+            }
+        }
+    }
 	
 	private class CountryOnItemSelectedListener implements OnItemSelectedListener {
 		 
@@ -287,6 +347,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 			.setPositiveButton(getString(R.string.approve), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+                    with_num = true;
 					registerToServerAsync(mPhoneNoE164);
 				}	
 			})
@@ -416,7 +477,12 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CELL_SENT_OK);
-				Toast.makeText(RegistrationActivity.this, getString(R.string.send_validation_code_thanks), Toast.LENGTH_LONG).show();
+                if (with_num) {
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.send_validation_code_thanks), Toast.LENGTH_LONG).show();
+                }
+                else {
+                    performActivation("dummy", "dummy");
+                }
 			}
 			else if (result.equals("error_cell_not_valid")){
 				Utils.messageToUser(RegistrationActivity.this, "Input Error",getString(R.string.send_validation_code_fail));
@@ -462,7 +528,7 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 					serverMessage = "ConnectionError";
 				else {
 					serverMessage = jsonReturnObj.getString("message");
-					if (serverMessage.equals("success")){
+					if ((serverMessage.equals("success"))||serverMessage.equals("success_email")){
 						String userId = jsonReturnObj.getString("user_id");
 						String userSecret = jsonReturnObj.getString("user_secret");
 						mIsNewUser = Utils.yesNoToBoolean(jsonReturnObj.getString("is_new_user"));
@@ -487,6 +553,10 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
 				startNextScreen();
 			}
+            else if (result.equals("success_email")) {
+                mLaterBtn.setVisibility(View.VISIBLE);
+            }
+
 			else{
 				Toast.makeText(RegistrationActivity.this, getString(R.string.code_validation_fail), Toast.LENGTH_LONG).show();
 			}
@@ -637,8 +707,96 @@ public class RegistrationActivity extends MyActionBarActivity implements View.On
 	        }
 	  }
 
+    @Override
+    public void onConnectionSuspended(int  result)
+    {
 
-	
-	
-	
+    }
+    @Override
+    public void onConnected(Bundle connectionHint) {
+       // System.out.println("onConnected");
+        String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        registerToServerAsync(accountName);
+
+       // performActivation("dummy","dummy");
+
+           // String accountID = GoogleAuthUtil.getAccountId(this,accountName);
+            Toast.makeText(getApplicationContext(), " =)"+accountName+":"+":",
+                    Toast.LENGTH_LONG).show();
+
+
+    }
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+      //  System.out.println("onConnectionFailed");
+        if (mResolvingError) {
+            // Already attempting to resolve an error.
+            return;
+        } else if (result.hasResolution()) {
+            try {
+                mResolvingError = true;
+                result.startResolutionForResult(this, REQUEST_RESOLVE_ERROR);
+            } catch (IntentSender.SendIntentException e) {
+                // There was an error with the resolution intent. Try again.
+                mGoogleApiClient.connect();
+            }
+        } else {
+            // Show dialog using GooglePlayServicesUtil.getErrorDialog()
+            showErrorDialog(result.getErrorCode());
+            mResolvingError = true;
+        }
+    }
+
+    // The rest of this code is all about building the error dialog
+
+    /* Creates a dialog for an error message */
+    private void showErrorDialog(int errorCode) {
+        // Create a fragment for the error dialog
+        ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
+        // Pass the error that should be displayed
+        Bundle args = new Bundle();
+        args.putInt(DIALOG_ERROR, errorCode);
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getSupportFragmentManager(), "errordialog");
+    }
+
+    /* Called from ErrorDialogFragment when the dialog is dismissed. */
+    public void onDialogDismissed() {
+        mResolvingError = false;
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mResolvingError) {  // more about this later
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    /* A fragment to display an error dialog */
+    public static class ErrorDialogFragment extends DialogFragment {
+        public ErrorDialogFragment() { }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Get the error code and retrieve the appropriate dialog
+            int errorCode = this.getArguments().getInt(DIALOG_ERROR);
+            return GooglePlayServicesUtil.getErrorDialog(errorCode,
+                    this.getActivity(), REQUEST_RESOLVE_ERROR);
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            ((RegistrationActivity)getActivity()).onDialogDismissed();
+        }
+
+    }
 }
+	
+	
+

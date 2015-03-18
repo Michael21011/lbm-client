@@ -70,6 +70,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_report_bug),0));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_intro),0));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_settings),0));
+        mDrawerItems.add(new DrawerItem("Registration",0));
 
         
         
@@ -198,6 +199,10 @@ public class MyActionBarActivity extends ActionBarActivity {
     		Intent intent = new Intent(this, SettingsActivity.class);
     		startActivity(intent);
     	}
+        else if (di.getText().equals("Registration")){
+            Intent intent = new Intent(this, RegistrationActivity.class);
+            startActivity(intent);
+        }
 
     	
     	
