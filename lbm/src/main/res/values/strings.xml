@@ -5,41 +5,36 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
-	<string name="reg_input_num_title">Registration</string>
-	<string name="reg_input_num_body">Please enter your cell phone number, we will send you a validation code</string>
-	<string name="reg_input_conf_title">Registration</string>
-	<string name="reg_input_conf_body">Please enter validation code</string>
-	<string name="gps_activate_gps_title">Activate GPS</string>
+    <string name="reg_input_num_title">Registration</string>
+    <string name="reg_input_num_body">Please enter your cell phone number, we will send you a validation code</string>
+    <string name="reg_input_conf_title">Registration</string>
+    <string name="reg_input_conf_body">Please enter validation code</string>
+    <string name="gps_activate_gps_title">Activate GPS</string>
     <string name="gps_activate_gps_body">Please turn on the GPS so proof of location can be established</string>
     <string name="gps_activate_gps_setting">Open GPS Settings</string>
-	
-	<string name="activation_code_template_eng">La\'Zooz app registration token: </string>
-	<string name="recommendation_code_template_eng">La\'Zooz app with a friend recommendation benefit</string>
-	<string name="recommendation_pre_code_template_eng">token:</string>
-	
-	<string name="recommendation_input_msg_title">Recommendation</string>
-	<string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
-	<string name="recommendation_default">This is a link to social app I installed. This application builds a \'ride sharing\' network which will be owned by the community. After you install this app it will start mining Potential Zooz tokens for you while you drive with your phone\'s GPS on. When the network will be established you can use these tokens to pay for movement. Check it out!</string>
-	<string name="recommendation_default_start">Hello there, </string>
-	<string name="invitation_sent">Invitation sent</string>
-	
-			
-	<string name="drawer_entry_me">Me</string>
-	<string name="drawer_entry_info">Info</string>
-	<string name="drawer_entry_share">Share</string>
-	<string name="drawer_entry_website">Web Site</string>
-	<string name="drawer_entry_wallet">Wallet</string>
-	<string name="drawer_entry_legal">Legal and Privacy</string>
-	<string name="drawer_entry_report_bug">Submit issue/bug</string>
-	<string name="drawer_entry_intro">Introduction</string>
-	<string name="drawer_entry_settings">Settings</string>
-		
-	<string name="forground_notif_ticker_text">notif ticker</string>
-	<string name="forground_notif_title">notif title</string>
-	<string name="forground_notif_text">notif text</string>
-	
-	
-	<string-array name="drawer_array">
+    <string name="activation_code_template_eng">La\'Zooz app registration token: </string>
+    <string name="recommendation_code_template_eng">La\'Zooz app with a friend recommendation benefit</string>
+    <string name="recommendation_pre_code_template_eng">token:</string>
+    <string name="recommendation_input_msg_title">Recommendation</string>
+    <string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
+    <string name="recommendation_default">This is a link to social app I installed. This application builds a \'ride sharing\' network which will be owned by the community. After you install this app it will start mining Potential Zooz tokens for you while you drive with your phone\'s GPS on. When the network will be established you can use these tokens to pay for movement. Check it out!</string>
+    <string name="recommendation_default_start">Hello there, </string>
+    <string name="invitation_sent">Invitation sent</string>
+    <string name="drawer_entry_me">Me</string>
+    <string name="drawer_entry_info">Info</string>
+    <string name="drawer_entry_share">Share</string>
+    <string name="drawer_entry_website">Web Site</string>
+    <string name="drawer_entry_wallet">Wallet</string>
+    <string name="drawer_entry_legal">Legal and Privacy</string>
+    <string name="drawer_entry_report_bug">Submit issue/bug</string>
+    <string name="drawer_entry_intro">Introduction</string>
+    <string name="drawer_entry_settings">Settings</string>
+    <string name="drawer_entry_registration">Registration</string>
+    <string name="forground_notif_ticker_text">notif ticker</string>
+    <string name="forground_notif_title">notif title</string>
+    <string name="forground_notif_text">notif text</string>
+
+    <string-array name="drawer_array">
         <item>@string/drawer_entry_me</item>
         <item>@string/drawer_entry_info</item>
         <item>@string/drawer_entry_share</item>
@@ -47,68 +42,49 @@
         <item>@string/drawer_entry_wallet</item>
         <item>@string/drawer_entry_legal</item>
     </string-array>
-	
-	<string name="drawer_open1"></string>
+
+    <string name="drawer_open1"></string>
     <string name="drawer_close1"></string>
-	
-    
-     <string name="menu_search">Search</string>
+    <string name="menu_search">Search</string>
     <string name="search_hint">Find contacts</string>
-    
-    
     <string name="friends_message_p1_one_select">Hi %1$s it\'s %2$s,</string>
     <string name="friends_message_p1_multy_select">Hi it\'s %s,</string>
     <string name="friends_message_main">Check out this cool app.</string>
-    
     <string name="share_via">Share via</string>
-    
-    
     <string name="gps_notif_open_gps_title">La\'Zooz GPS</string>
     <string name="gps_notif_open_gps_body">Please turn on the GPS</string>
-    
     <string name="gps_message_no_gps_yes_net">Your GPS is off, please note that you will not be able to collect zoozs</string>
     <string name="gps_message_no_gps_no_net">Your GPS and your network location are turned off, please note that you will not be able to collect zoozs</string>
     <string name="gps_message_no_gps_no_net_feature">Your GPS and your network location are turned off. You need to enable that for this feature</string>
     <string name="gps_message_yes_gps_no_net">Your network location is disable. It is recommended to enable it for battery usage efficiency</string>
-    
     <string name="splash_version_check_title">New Version</string>
     <string name="splash_version_check_les_current">There is a new version of La\'Zooz, please update the app from Google Play.</string>
     <string name="splash_version_check_les_min">Your current version of La\'Zooz is not up to date. In order to proceed, please update the app from Google Play.</string>
-    
-    
     <string name="settings_category_mining">Mining</string>
     <string name="settings_mining_charger_connectivity_title_on">Charger Connectivity - On</string>
     <string name="settings_mining_charger_connectivity_title_off">Charger Connectivity - Off</string>
     <string name="settings_mining_charger_connectivity_summary_on">Mining only when charger cable is connected</string>
     <string name="settings_mining_charger_connectivity_summary_off">Mining regardless charger cable connectivity</string>
-    
     <string name="settings_mining_enable_disable_mining_title">Mining</string>
     <string name="settings_mining_enable_disable_mining_summary_enable">Mining enable</string>
     <string name="settings_mining_enable_disable_mining_summary_disable">Mining disable</string>
-    
     <string name="settings_sound_enable_disable_title">Sound</string>
     <string name="settings_sound_enable_disable_summary_enable">Sound enable</string>
     <string name="settings_sound_enable_disable_summary_disable">Sound disable</string>
-
-    
     <string name="settings_category_privacy">Privacy</string>
     <string name="settings_privacy_show_my_location_title">Visibility to Others</string>
     <string name="settings_privacy_show_my_location_summary_enable">My position is visible to others (no itentity)</string>
     <string name="settings_privacy_show_my_location_summary_disable">My position is hidden</string>
-    
     <string name="save_for_later">save for later</string>
-    
     <string name="successfuly_located">Successfully located, please continue to the next screen.</string>
     <string name="improve_your_location">Please reach the open air to improve your location accuracy</string>
     <string name="identifying_your_location">Identifing your location....</string>
-    
     <string name="no_connection">No Connection</string>
     <string name="no_connection_msg">Failed to connect to La\'Zooz server, please try again later.</string>
-    
     <string name="no_net_connection">No Network Connection</string>
     <string name="no_net_connection_msg">Please connect your device to the network and restart the application</string>
-    
-     <string-array name="sched_gps">
+
+    <string-array name="sched_gps">
         <item>a day</item>
         <item>a week</item>
         <item>Mon</item>
@@ -118,8 +94,6 @@
         <item>Fri</item>
         <item>Sat</item>
     </string-array>
-    
-     
     <string-array name="days_array">
         <item>NULL</item>
         <item>Sun</item>
@@ -130,7 +104,6 @@
         <item>Fri</item>
         <item>Sat</item>
     </string-array>
-    
     <string-array name="months_array">
         <item>NULL</item>
         <item>Jan</item>
@@ -144,9 +117,8 @@
         <item>Oct</item>
         <item>Nov</item>
         <item>Dec</item>
-     </string-array>
-    
-        <string-array name="country_list_entry_values">
+    </string-array>
+    <string-array name="country_list_entry_values">
         <item>AF</item>
         <item>AL</item>
         <item>DZ</item>
@@ -678,6 +650,7 @@
         <item>Zimbabwe</item>
         <item>Åland Islands</item>
     </string-array>
+
     <string name="intro_text" formatted="false">Hello, I am La\'Zooz %v%.\r\n\r\nBy running and sharing this app with others,you are taking part in the establishment of the first\n  Collaborative Transportation Web.\n\rYour contribution will be rewarded with Potential Zooz tokens, to be traded for movement once the network is established.</string>
     <string name="disclaimer_title">La\'Zooz DISCLAIMER</string>
     <string name="disclaimer_text">* You need to scroll the text before you can press \'I accept the terms\'.
@@ -700,7 +673,6 @@ Adding any friend to the network will entitle you some Potential Zooz tokens.</s
     <string name="congratulation_for_registration">Congratulations, you\'ve got yourself a new digital wallet!</string>
     <string name="ok_button">OK</string>
     <string name="welcome_back">Welcome Back!</string>
-    
     <string name="do_not_show_this_msg_again">Don\'t show this message again</string>
     <string name="scanning">Scanning...</string>
     <string name="shake_text">Meeting with other users face to face helps in securing the network.
@@ -709,109 +681,76 @@ But it is also fun :)
 
 In this step you are prompt to interact with other users by meeting with them and shaking your phones together.
 For each shake with a new user you will mine a number of Potential Zooz tokens.</string>
-    
     <string name="find_lazooz_users">Find La\'Zooz users</string>
-     <string name="next">Next</string>
-     <string name="whats_next">What\'s Next?</string>
-     <string name="registration_1">You can now start receiving Potential Zooz for your contribution</string>
-     <string name="registration_2">Potential Zooz are digital tokens that are currently stored on our servers. 
+    <string name="next">Next</string>
+    <string name="whats_next">What\'s Next?</string>
+    <string name="registration_1">You can now start receiving Potential Zooz for your contribution</string>
+    <string name="registration_2">Potential Zooz are digital tokens that are currently stored on our servers. 
 After testing phase they will be stored onto a secured public ledger.</string>
-     <string name="registration_3">Enter your mobile phone number to create a wallet, a validation code will be sent to you via SMS.</string>
-     <string name="registration_4">Register</string>
-     <string name="registration_5">Enter Validation Code</string>
-     <string name="country">Country: </string>
-     
-     <string name="remained_me">Remind me in:</string>
-     <string name="a_day">a day</string>
-     <string name="a_week">a week</string>
-     <string name="never">never</string>
-     
-     <string name="validation_code">Validation code:</string>
-     <string name="invitation_code">Invitation code:</string>
-     
-     <string name="send_invitation">Send Invitation</string>
-     
-     <string name="i_accept_the_terms">I accept the terms</string>
-     
-     <string name="friends_accepted_your_invitation">friends accepted \nyour invitation</string>
-     
-     <string name="friends_pending_your_invitation">pending friends \ninvitations</string>
-     
-      <string name="mined_km">MINED KILOMETERS</string>
-     <string name="km">Km</string>
-     
-     <string name="invited_freinds">INVITED FRIENDS</string>
-     <string name="potential_zooz">POTENTIAL ZOOZ</string>
-     <string name="shakes">shakes</string>
-     <string name="critical_mass">CRITICAL MASS</string>
-      <string name="times_shaken">TIMES SHAKEN</string>
-      <string name="friends">friends</string>
-      <string name="pz">pz</string>
-      
-      <string name="me_shakes">Shakes</string>
-      <string name="me_invited_freinds">Invited Friends</string>
-      <string name="me_mined_km">Mined Km</string>
-      <string name="me_my_impact">My Impact</string>
-      <string name="me_wallet_num">Wallet #: </string>
-      <string name="me_id">ID: </string>
-      
-      
-      <string name="info_version">Version: </string>
-      <string name="info_app_build_version">Application Build Number: </string>
-      <string name="info_server_build_number">Server Build Number: </string>
-      
-      <string name="total">Total</string>
-      <string name="miners_paveing_the_web">Miners Paving the Web</string>
-      <string name="days">Days</string>
-      <string name="miners">Miners</string>
-      <string name="my_mined_km_history">My Mined Km History</string>
-      
-      <string name="total_community_mined_km_history">Total Community Mined Km History</string>
-      
-      <string name="tap_here_to_invite_a_friend">Tap here to invite a friend</string>
-      
-     
-      
-      
-      
-      
-      <string name="gotit">Got it!</string>
-      
-       <string name ="potential_zooz_balance">Potential Zooz Balance</string>
-       <string name ="zooz_balance">Zooz Balance</string>
-       
-       <string name ="zooz_address">Zooz address</string>
-       <string name ="private_key">Private Key</string>
-       <string name ="scan">Scan</string>
-       <string name ="export">Export</string>
-       <string name ="show">Show</string>
-       <string name ="hide">Hide</string>
-       <string name ="scan_a_new_key">Scan a new Key</string>
-       <string name ="scan_a_new_key_msg">Did you backed up your old key?\nPlease note that scanning a new key will delete the old one and you will not be able to take the money from there.\nPlease use the Export button for backup.</string>
-       
-
-       <string name ="my_zooz_address">My Zooz address</string>
-       <string name ="export_zooz_address">Export Zooz Address</string>
-       <string name ="export_private_key">Export Private Key</string>
-       <string name ="my_private_key">My Private Key</string>
-       
-       <string name ="export_private_key_msg">You are about to export your private key.\nPlease note that it\'s your wallet and you should send it to yourself for backup purposes only</string>
-       <string name ="the_key_updated">The key updated</string>
-       <string name ="key_update_fail">Failed to update key. Please try again later.</string>
-       
-       <string name ="scan_qr_msg">The QR code is not a valid address</string>
-        <string name ="import_zooz_address">Import Zooz Address</string>
-		     	 
-		     	<string name ="new_zooz_address_scan_msg_1">A new Zooz Address was scanned:\n</string>
-		     	<string name ="new_zooz_address_scan_msg_2">\nDo you want to replace the existing one?</string>
-       
-       
-       
-       
-       
-       <string name ="share_def_text">Hi,\nJoin La\`Zooz .\nDownload from here:\n</string>
-       
-       <string name ="legal_and_privacy">Terms and Conditions for the La’Zooz Mining Application
+    <string name="registration_3">Enter your mobile phone number to create a wallet, a validation code will be sent to you via SMS.</string>
+    <string name="registration_4">Register</string>
+    <string name="registration_5">Enter Validation Code</string>
+    <string name="registration_later">Later</string>
+    <string name="country">Country: </string>
+    <string name="remained_me">Remind me in:</string>
+    <string name="a_day">a day</string>
+    <string name="a_week">a week</string>
+    <string name="never">never</string>
+    <string name="validation_code">Validation code:</string>
+    <string name="invitation_code">Invitation code:</string>
+    <string name="send_invitation">Send Invitation</string>
+    <string name="i_accept_the_terms">I accept the terms</string>
+    <string name="friends_accepted_your_invitation">friends accepted \nyour invitation</string>
+    <string name="friends_pending_your_invitation">pending friends \ninvitations</string>
+    <string name="mined_km">MINED KILOMETERS</string>
+    <string name="km">Km</string>
+    <string name="invited_freinds">INVITED FRIENDS</string>
+    <string name="potential_zooz">POTENTIAL ZOOZ</string>
+    <string name="shakes">shakes</string>
+    <string name="critical_mass">CRITICAL MASS</string>
+    <string name="times_shaken">TIMES SHAKEN</string>
+    <string name="friends">friends</string>
+    <string name="pz">pz</string>
+    <string name="me_shakes">Shakes</string>
+    <string name="me_invited_freinds">Invited Friends</string>
+    <string name="me_mined_km">Mined Km</string>
+    <string name="me_my_impact">My Impact</string>
+    <string name="me_wallet_num">Wallet #: </string>
+    <string name="me_id">ID: </string>
+    <string name="info_version">Version: </string>
+    <string name="info_app_build_version">Application Build Number: </string>
+    <string name="info_server_build_number">Server Build Number: </string>
+    <string name="total">Total</string>
+    <string name="miners_paveing_the_web">Miners Paving the Web</string>
+    <string name="days">Days</string>
+    <string name="miners">Miners</string>
+    <string name="my_mined_km_history">My Mined Km History</string>
+    <string name="total_community_mined_km_history">Total Community Mined Km History</string>
+    <string name="tap_here_to_invite_a_friend">Tap here to invite a friend</string>
+    <string name="gotit">Got it!</string>
+    <string name="potential_zooz_balance">Potential Zooz Balance</string>
+    <string name="zooz_balance">Zooz Balance</string>
+    <string name="zooz_address">Zooz address</string>
+    <string name="private_key">Private Key</string>
+    <string name="scan">Scan</string>
+    <string name="export">Export</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="scan_a_new_key">Scan a new Key</string>
+    <string name="scan_a_new_key_msg">Did you backed up your old key?\nPlease note that scanning a new key will delete the old one and you will not be able to take the money from there.\nPlease use the Export button for backup.</string>
+    <string name="my_zooz_address">My Zooz address</string>
+    <string name="export_zooz_address">Export Zooz Address</string>
+    <string name="export_private_key">Export Private Key</string>
+    <string name="my_private_key">My Private Key</string>
+    <string name="export_private_key_msg">You are about to export your private key.\nPlease note that it\'s your wallet and you should send it to yourself for backup purposes only</string>
+    <string name="the_key_updated">The key updated</string>
+    <string name="key_update_fail">Failed to update key. Please try again later.</string>
+    <string name="scan_qr_msg">The QR code is not a valid address</string>
+    <string name="import_zooz_address">Import Zooz Address</string>
+    <string name="new_zooz_address_scan_msg_1">A new Zooz Address was scanned:\n</string>
+    <string name="new_zooz_address_scan_msg_2">\nDo you want to replace the existing one?</string>
+    <string name="share_def_text">Hi,\nJoin La\`Zooz .\nDownload from here:\n</string>
+    <string name="legal_and_privacy">Terms and Conditions for the La’Zooz Mining Application
 
 The following Terms and Conditions (“Terms”) govern the Mining of Potential Zooz (“PZ”), by users (“Users” or “Miners” collectively, and “User” or “Miner” individually) of the La’Zooz mining application, (“La’Zooz”). La’Zooz is being developed primarily by a volunteer contributor team, and will continue to be developed on a volunteer basis by some developers as well as under a more formalized contracting or employment relationship for other developers. The group of developers and other personnel that is now, or will be, employed by, or contracted with La’Zooz is termed the “La’Zooz Team”.
 
@@ -837,28 +776,5 @@ Mining PZ, and to the extent permitted by law, the User agrees not hold any of t
 La’Zooz Parties liable for any tax liability associated with or arising from the Mining or using of PZ.
 
 Altogether we must stress the fact that the effort of making this happen is a joint effort to change the state of transportation in the world and the creation of this network will reward each and every one of us with a transportation web that is more efficient, more fair, and most important – will be owned by the community for the service of the community. Thank you for making your effort at this early stage. Lets change the face of transportation.</string>
-       
-       
-       
-        
 
-       
-       
-     
-     
-     
-     
-     
-     
-     
-     
-     
-    
-    
-    
-    
-    
-    
-    
-    
 </resources>

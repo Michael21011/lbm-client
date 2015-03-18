@@ -33,6 +33,7 @@
 	<string name="drawer_entry_report_bug">דווח תקלות</string>
 	<string name="drawer_entry_intro">הסבר</string>
 	<string name="drawer_entry_settings">הגדרות</string>
+    <string name="drawer_entry_registration">רישום</string>
 	<string name="share_via">שתף באמצעות</string>
 		
 	<string name="forground_notif_ticker_text">notif ticker</string>
@@ -146,6 +147,7 @@
     <string name="registration_3">הכנס את מספר הטלפון שלך כדי ליצור ארנק.קוד אימות ישלח אליך באמצעות הודעת טקסט.האפליקציה תקרא ותאמת אותו</string>
     <string name="registration_4">הרשם</string>
     <string name="registration_5">הכנס קוד אימות</string>
+    <string name="registration_later">יותר מאוחר</string>
     <string name="country">מדינה</string>
      
     <string name="remained_me">הזכר לי</string>

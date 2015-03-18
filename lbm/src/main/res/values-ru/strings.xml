@@ -33,6 +33,7 @@
 	<string name="drawer_entry_report_bug">Сообщить о проблеме/ошибке</string>
 	<string name="drawer_entry_intro">Введение</string>
 	<string name="drawer_entry_settings">Настройки</string>
+    <string name="drawer_entry_registration">Registration</string>
 		
 	<string name="forground_notif_ticker_text">Тикер сообщения</string>
 	<string name="forground_notif_title">Заголовок сообщения</string>
@@ -712,6 +713,7 @@
      <string name="registration_3">Укажите номер телефона для создания кошелька, код проверки будет отправлен Вам по СМС.</string>
      <string name="registration_4">Регистрация</string>
      <string name="registration_5">Введите код проверки</string>
+     <string name="registration_later">Later</string>
      <string name="country">Страна: </string>
      
      <string name="remained_me">Напомнить мне через:</string>

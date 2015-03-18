@@ -27,7 +27,7 @@ import android.widget.Toast;
 import android.os.Build;
 import android.provider.Settings;
 
-public class DesclmtrActivity extends ActionBarActivity {
+public class DesclmtrActivity extends MyActionBarActivity {
 
 	private Button nextBtn;
 	private TextView mInfoTV;
@@ -37,7 +37,7 @@ public class DesclmtrActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState,R.layout.activity_desclimer, false);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		

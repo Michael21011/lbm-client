@@ -23,7 +23,7 @@ import android.widget.Toast;
 import android.os.Build;
 import android.provider.Settings;
 
-public class IntroActivity extends ActionBarActivity {
+public class IntroActivity extends MyActionBarActivity {
 
 	private Button nextBtn;
 	private Button gpsActivateBtn;
@@ -32,7 +32,7 @@ public class IntroActivity extends ActionBarActivity {
 	private boolean mIsFromMenuMode;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState,R.layout.activity_intro, false);
 		
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
 		

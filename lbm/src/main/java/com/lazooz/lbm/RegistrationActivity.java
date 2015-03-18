@@ -721,8 +721,9 @@ public class RegistrationActivity extends MyActionBarActivity
        // performActivation("dummy","dummy");
 
            // String accountID = GoogleAuthUtil.getAccountId(this,accountName);
-            Toast.makeText(getApplicationContext(), " =)"+accountName+":"+":",
+           /* Toast.makeText(getApplicationContext(), " =)"+accountName+":"+":",
                     Toast.LENGTH_LONG).show();
+                    */
 
 
     }
