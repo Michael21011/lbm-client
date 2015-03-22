@@ -44,12 +44,13 @@ public class ServerCom {
 	} 
 	
 
-	public void registerToServer(String cellphone)
+	public void registerToServer(String cellphone,String accountname)
 	{
 		String url = StaticParms.BASE_SERVER_URL + "api_register";
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("cellphone", cellphone ));
+        params.add(new BasicNameValuePair("accountname", accountname ));
 		
 		this.postRequestToServer(-1, -1, url, params);
 		
@@ -390,8 +391,8 @@ public class ServerCom {
 	{
 		
 		String TAG = "server";
-		Log.e(TAG,"postRequestToServer: " + apiUrl);
-		Log.e(TAG,"postRequestToServerParams: " + params.toString());
+		//Log.e(TAG,"postRequestToServer: " + apiUrl);
+		//Log.e(TAG,"postRequestToServerParams: " + params.toString());
 
     	try { 
     	          HttpClient client = new DefaultHttpClient();
@@ -406,7 +407,7 @@ public class ServerCom {
     	          
     	          request.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
-    	          Log.e(TAG,apiUrl);
+    	        //  Log.e(TAG,apiUrl);
     	          
     	          HttpResponse response = client.execute(request);
     	          

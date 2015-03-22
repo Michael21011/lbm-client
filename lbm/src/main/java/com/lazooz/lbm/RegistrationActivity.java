@@ -103,6 +103,8 @@ public class RegistrationActivity extends MyActionBarActivity
     private boolean mResolvingError = false;
     private GoogleApiClient mGoogleApiClient;
     private boolean  with_num =false;
+    private String accountName =null;
+    private boolean mIsFromMenuMode;
 
 
 	@Override
@@ -110,18 +112,11 @@ public class RegistrationActivity extends MyActionBarActivity
 		//super.onCreate(savedInstanceState);
 		super.onCreate(savedInstanceState, R.layout.activity_registration, false);
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+        mIsFromMenuMode = getIntent().getBooleanExtra("FROM_MENU_MODE", false);
 		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		//setContentView(R.layout.activity_registration);
 
-         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Drive.API)
-                 .addApi(Plus.API)
-                .addScope(Drive.SCOPE_FILE)
-                 .addConnectionCallbacks(this)
-                 .addOnConnectionFailedListener(this)
-                .build();
-        mGoogleApiClient.connect();
       //  System.out.println("connect");
         Utils.setTitleColor(this, getResources().getColor(R.color.white));
 		
@@ -212,17 +207,6 @@ public class RegistrationActivity extends MyActionBarActivity
 		mProgBar = (ProgressBar)findViewById(R.id.reg_progbar);
 		mProgBar.setVisibility(View.GONE);
 
-        mLaterBtn = (Button)findViewById(R.id.later_btn);
-        mLaterBtn.setVisibility(View.GONE);
-        mLaterBtn.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-                MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
-                startNextScreen();
-            }
-        });
 
                 mConfBtn = (Button)findViewById(R.id.reg_confirm_btn);
 		mConfBtn.setOnClickListener(new View.OnClickListener() {
@@ -282,6 +266,36 @@ public class RegistrationActivity extends MyActionBarActivity
 				
 			}
 		});
+        mLaterBtn = (Button)findViewById(R.id.later_btn);
+        mLaterBtn.setVisibility(View.GONE);
+        if (mIsFromMenuMode ==false) {
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Drive.API)
+                    .addApi(Plus.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+            mGoogleApiClient.connect();
+
+
+            mLaterBtn.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View v) {
+                    MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
+                    startNextScreen();
+                }
+            });
+
+        }
+        else
+            accountName = MySharedPreferences.getInstance().getAccountName(RegistrationActivity.this);
+
+
+
 
 
 
@@ -438,13 +452,12 @@ public class RegistrationActivity extends MyActionBarActivity
 		protected String doInBackground(String... params) {
 			
 			String cellnum = params[0];
-          	
           	ServerCom bServerCom = new ServerCom(RegistrationActivity.this);
         	
               
         	JSONObject jsonReturnObj=null;
 			try {
-				bServerCom.registerToServer(cellnum);
+				bServerCom.registerToServer(cellnum,accountName);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -504,15 +517,19 @@ public class RegistrationActivity extends MyActionBarActivity
 
 		@Override
 		protected String doInBackground(String... params) {
-			
+
+            String publicKey;
 			String requestId = params[0];
 			String token = params[1];
 			String recommendationCode = params[2];
           	ServerCom bServerCom = new ServerCom(RegistrationActivity.this);
-        	
-          	genKeyPair();
-          	
-            String publicKey = MySharedPreferences.getInstance().getPublicKey(RegistrationActivity.this);  
+
+            publicKey = MySharedPreferences.getInstance().getPublicKey(RegistrationActivity.this);
+            if (publicKey.equalsIgnoreCase("")) {
+                genKeyPair();
+
+                publicKey = MySharedPreferences.getInstance().getPublicKey(RegistrationActivity.this);
+            }
         	JSONObject jsonReturnObj=null;
 			try {
 				bServerCom.registerValidationToServer(requestId, token, publicKey, recommendationCode);
@@ -715,8 +732,9 @@ public class RegistrationActivity extends MyActionBarActivity
     @Override
     public void onConnected(Bundle connectionHint) {
        // System.out.println("onConnected");
-        String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
-        registerToServerAsync(accountName);
+        accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        MySharedPreferences.getInstance().saveAccountName(this, accountName);
+        registerToServerAsync(null);
 
        // performActivation("dummy","dummy");
 
@@ -765,19 +783,7 @@ public class RegistrationActivity extends MyActionBarActivity
     public void onDialogDismissed() {
         mResolvingError = false;
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (!mResolvingError) {  // more about this later
-            mGoogleApiClient.connect();
-        }
-    }
 
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
 
     /* A fragment to display an error dialog */
     public static class ErrorDialogFragment extends DialogFragment {

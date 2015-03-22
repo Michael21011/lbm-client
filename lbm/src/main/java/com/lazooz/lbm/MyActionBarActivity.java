@@ -201,6 +201,7 @@ public class MyActionBarActivity extends ActionBarActivity {
     	}
         else if (di.getText().equals(getString(R.string.drawer_entry_registration))){
             Intent intent = new Intent(this, RegistrationActivity.class);
+            intent.putExtra("FROM_MENU_MODE", true);
             startActivity(intent);
         }
 
