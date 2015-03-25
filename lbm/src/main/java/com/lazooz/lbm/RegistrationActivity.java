@@ -673,6 +673,14 @@ public class RegistrationActivity extends MyActionBarActivity
                         dialog.cancel();
                         RegistrationActivity.this.finish();
                     }
+                    else {
+
+                        NavUtils.navigateUpFromSameTask(RegistrationActivity.this);
+                        dialog.cancel();
+                        RegistrationActivity.this.finish();
+
+                    }
+
 		    	}
 		    });
 		    if(!RegistrationActivity.this.isFinishing())
