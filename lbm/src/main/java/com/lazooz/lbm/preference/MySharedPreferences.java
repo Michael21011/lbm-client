@@ -97,10 +97,6 @@ public class MySharedPreferences {
 
 	}
 	
-	
-	
-	
-	
 	public int getStage(Context context){
 		SharedPreferences spData = context.getSharedPreferences("AppData", Context.MODE_MULTI_PROCESS);
 		return spData.getInt("STAGE", STAGE_NEVER_RUN);		
@@ -178,6 +174,15 @@ public class MySharedPreferences {
 	    editor.commit();
 		
 	}
+
+    public void saveRegisterOk(Context context, String RegisterOk) {
+        SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = spData.edit();
+
+        editor.putString("regstate", RegisterOk);
+        editor.commit();
+
+    }
 	
 	public long getRoute(Context context){
 		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
@@ -689,6 +694,22 @@ public class MySharedPreferences {
 				return false;
 		}
 	}
+    public void saveAccountName(Context context, String accountname) {
+        SharedPreferences spData = context.getSharedPreferences("AccountName",Context.MODE_MULTI_PROCESS);
+        Editor editor = spData.edit();
+        editor.putString("AccountName", accountname);
+        editor.commit();
+    }
+
+    public String getAccountName(Context context) {
+        SharedPreferences spData = context.getSharedPreferences("AccountName",Context.MODE_MULTI_PROCESS);
+        return spData.getString("AccountName", "");
+    }
+
+    public String getRegisterState(Context context) {
+        SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+        return spData.getString("regstate", "");
+    }
 
 	public void saveKeyPair(Context context, String privateKey, String publicKey) {
 		SharedPreferences spData = context.getSharedPreferences("KeyPair",Context.MODE_MULTI_PROCESS);

@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import com.google.android.gms.internal.mf;
+//import com.google.android.gms.internal.mf;
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
 import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
@@ -238,7 +238,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		
 		Random r = new Random();
-		int delay = r.nextInt(1000);
+		//int delay = r.nextInt(1000);
 		
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
@@ -258,13 +258,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 	}
 	*/
-
+/*
 	private void displayNotifGPSDialog(){
 		Intent intent = new Intent(this, GPSNotifDialogActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 	}
-	
+*/
 	protected void checkEveryLongPeriod() {
 		
 	//	MySharedPreferences msp = MySharedPreferences.getInstance();
@@ -590,7 +590,6 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		if (mWifiTracker.isWifiEnabled()){
 			mWifiWasEnabled = true;
-			return;
 		}
 		else{
 			mWifiWasEnabled = false;
@@ -1080,7 +1079,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 									initWifi();
 								else
 								{
-									if (mWifiWasEnabled ==false)
+									if (!mWifiWasEnabled)
 									{
 										if (mWifiTracker.isWifiEnabled()){
 											mWifiWasSetOnByMe = true;

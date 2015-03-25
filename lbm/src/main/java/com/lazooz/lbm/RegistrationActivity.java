@@ -42,6 +42,7 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.IntentSender;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.app.AlertDialog;
@@ -310,7 +311,6 @@ public class RegistrationActivity extends MyActionBarActivity
 		
 		
 	}
-    String mEmail;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_RESOLVE_ERROR) {
@@ -397,6 +397,12 @@ public class RegistrationActivity extends MyActionBarActivity
 		if (id == R.id.action_settings) {
 			return true;
 		}
+        switch (id ) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -568,6 +574,9 @@ public class RegistrationActivity extends MyActionBarActivity
 			mProgBar.setVisibility(View.GONE);
 			if (result.equals("success")){
 				MySharedPreferences.getInstance().setStage(RegistrationActivity.this, MySharedPreferences.STAGE_REG_CONF_SENT_OK);
+                MySharedPreferences.getInstance().saveRegisterOk(RegistrationActivity.this, "DONE");
+
+
 				startNextScreen();
 			}
             else if (result.equals("success_email")) {
@@ -656,12 +665,14 @@ public class RegistrationActivity extends MyActionBarActivity
 		    	
 		    	@Override
 		        public void onClick(DialogInterface dialog, int which) {
-					Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					intent.putExtra("NEW_USER", false);
-					startActivity(intent);
-					dialog.cancel();
-					RegistrationActivity.this.finish();					        
+                    if (!mIsFromMenuMode) {
+                        Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("NEW_USER", false);
+                        startActivity(intent);
+                        dialog.cancel();
+                        RegistrationActivity.this.finish();
+                    }
 		    	}
 		    });
 		    if(!RegistrationActivity.this.isFinishing())

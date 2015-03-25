@@ -149,7 +149,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
     			public void onMyLocationChange(Location location) {
     				if (location != null){
     					updateAccuracy((int)location.getAccuracy());
-    					LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+    					//LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
     					//Log.i("ZOOZ", "MAP_SW google map location change: " + "LAT:"+ ll.latitude + " LON: " + ll.longitude + " ACC:" + (int)location.getAccuracy());
     					setMapLocation(location);
     					
@@ -334,10 +334,7 @@ public class MapShowLocationActivity extends ActionBarActivity implements View.O
 	private boolean isGPSEnabled(){
 		return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
-			
-	private boolean isNetworkEnabled(){
-		return mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-	}
+
 
 
 	

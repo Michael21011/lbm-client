@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.os.Build;
 
-public class InfoActivity extends ActionBarActivity {
+public class InfoActivity extends MyActionBarActivity {
 
 	private Button nextBtn;
 	private TextView mBuildNameTV;

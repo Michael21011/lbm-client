@@ -48,13 +48,10 @@ public class MyActionBarActivity extends ActionBarActivity {
 	private List<DrawerItem> mDrawerItems;
 	 
 	protected void onCreate(Bundle savedInstanceState, int layoutID, boolean isExistingUser) {
+        int stage;
 		super.onCreate(savedInstanceState);
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
-		
 
-		
-		
-		
 		mDrawerItems = new ArrayList<DrawerItem>();
 		if (isExistingUser)
 			mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_me),R.drawable.tool_me));
@@ -70,10 +67,10 @@ public class MyActionBarActivity extends ActionBarActivity {
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_report_bug),0));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_intro),0));
 		mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_settings),0));
-        mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_registration),0));
 
-        
-        
+        if (!MySharedPreferences.getInstance().getRegisterState(this).equalsIgnoreCase("DONE"))
+            mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_registration),0));
+
 		setContentView(layoutID);
 		
         
