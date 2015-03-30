@@ -3,7 +3,6 @@ package com.lazooz.lbm;
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.android.gms.internal.ac;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.ContactFriend;
 import com.lazooz.lbm.businessClasses.ContactFriendList;
