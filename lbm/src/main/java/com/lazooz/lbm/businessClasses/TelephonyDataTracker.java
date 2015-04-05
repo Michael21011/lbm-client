@@ -67,8 +67,8 @@ public class TelephonyDataTracker {
 	protected void checkEveryPeriod() {
 		GsmCellLocation gsmCellLocation;
 		CdmaCellLocation cdmaCellLocation;
-		int CallState = mTelephonyManager.getCallState();
-		int  DataState = mTelephonyManager.getDataState();
+	//	int CallState = mTelephonyManager.getCallState();
+	//	int  DataState = mTelephonyManager.getDataState();
 
 		try {
 			CellLocation cellLocation = (CellLocation)mTelephonyManager.getCellLocation();

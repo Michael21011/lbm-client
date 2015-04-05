@@ -1,152 +1,41 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must ends with two \r.
-Icon
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-*.class
-*.cache
-bin/AndroidManifest.xml
-gen/android/support/v7/appcompat/R.java
-gen/com/lazooz/lbm/BuildConfig.java
-gen/com/lazooz/lbm/R.java
-bin/R.txt
-bin/classes.dex
-bin/dexedLibs/android-support-v4-1594875d5a59cd8a2f414a9a03c22bcf.jar
-bin/dexedLibs/android-support-v7-appcompat-e9b5abefa81f337b4a1c2f995accb081.jar
-bin/dexedLibs/apache-mime4j-9214ae4fe481ab2ec3d4e90dc243adfd.jar
-bin/dexedLibs/appcompat_v7_3-b9c732d4c90f53728596f2e0c103357b.jar
-bin/dexedLibs/httpclient-4.2.5-c649da8c79f12389c1fecc9ff25620b0.jar
-bin/dexedLibs/httpcore-4.2.4-509f34c681c3549a1db2134c82ff9ac7.jar
-bin/dexedLibs/httpmime-4.2.5-b06c8c5ab873dfb400ddaa633a5eb013.jar
-bin/lbm.apk
-bin/res/crunch/drawable-hdpi/ic_launcher.png
-bin/res/crunch/drawable-mdpi/ic_launcher.png
-bin/res/crunch/drawable-xhdpi/ic_launcher.png
-bin/res/crunch/drawable-xxhdpi/ic_launcher.png
-bin/resources.ap_
-*.apk
-bin/dexedLibs/apache-mime4j-422fb493e26337d0697f35805072369d.jar
-bin/dexedLibs/httpclient-4.2.5-1ea8febb805b96c366da5cb78a15ad3d.jar
-bin/dexedLibs/httpcore-4.2.4-299c5b42a0c1131390586542e04435fe.jar
-bin/dexedLibs/httpmime-4.2.5-893618d53d43f2080ad7c47a9d41609b.jar
-bin/dexedLibs/android-support-v4-4eb27ba0380552f119e9520325f31a87.jar
-bin/dexedLibs/android-support-v7-appcompat-11a4b91779d25deef1e447383fa4ad16.jar
-bin/dexedLibs/android-support-v7-appcompat-f401f23e20b2521b3957c8f5a1a0b86f.jar
-bin/dexedLibs/google-play-services-a03417106c0a3100cc8acf5f1b33f3d2.jar
-bin/dexedLibs/google-play-services_lib-92ff8f7b62b62509e75439a04797f626.jar
-gen/com/google/android/gms/R.java
-gen/com/lazooz/lbm/Manifest.java
-project - Copy.properties
-bin/dexedLibs/android-support-v7-appcompat-7e697d4e5beb5090251d049354f61f6a.jar
-bin/dexedLibs/appcompat_v7-600232030e51e39aed4bb8e262443a45.jar
-bin/res/crunch/drawable-hdpi/drawer_shadow.9.png
-bin/res/crunch/drawable-mdpi/ic_drawer.png
-bin/res/crunch/drawable-hdpi/ic_drawer.png
-bin/res/crunch/drawable-mdpi/drawer_shadow.9.png
-bin/res/crunch/drawable-xhdpi/drawer_shadow.9.png
-bin/res/crunch/drawable-xhdpi/ic_drawer.png
-bin/res/crunch/drawable-xxhdpi/drawer_shadow.9.png
-bin/res/crunch/drawable-xxhdpi/ic_drawer.png
-bin/res/crunch/drawable/settings_menu_icon.png
-bin/dexedLibs/libphonenumber-6.2-203cfa33839d8f4f30dbf4921b6e21a6.jar
-bin/dexedLibs/achartengine-1.1.0-b0e1dec6ec74cf8e038561812b3d5e45.jar
-bin/dexedLibs/android-support-v7-appcompat-680ac3d563cd5f97b27b64f01ba50064.jar
-bin/dexedLibs/appcompat_v7_4-4f3aad306c741c59d178cfd52bd7e348.jar
-bin/res/crunch/drawable-hdpi/ic_action_search.png
-bin/res/crunch/drawable-mdpi/ic_action_search.png
-bin/res/crunch/drawable-xhdpi/ic_action_search.png
-bin/dexedLibs/nineoldandroids-2.4.0-37dd71ac5286187e27142654bc957cf6.jar
-bin/dexedLibs/supertooltipslib-7f086566a94a5f22438e6b107d9d684a.jar
-bin/res/crunch/drawable/info_tooltip.png
-gen/com/haarman/supertooltips/R.java
-bin/res/crunch/drawable-hdpi/ic_qmark.png
-bin/res/crunch/drawable-mdpi/ic_qmark.png
-bin/res/crunch/drawable-xhdpi/ic_qmark.png
-bin/res/crunch/drawable-xxhdpi/ic_qmark.png
-bin/dexedLibs/google-play-services-47e91d4a143d8999aed1102738a57047.jar
-bin/dexedLibs/google-play-services_lib-02852733f664c35f48ca515f03fe7ecc.jar
-bin/dexedLibs/android-support-v4-386979463f656d20f2998c65b1a87a13.jar
-bin/dexedLibs/bitcoinj-1052e856292011b37134dd2b26bb521f.jar
-bin/dexedLibs/guava-13.0.1-60a7f7f2f996e9280272a2b2401bfe5d.jar
-bin/dexedLibs/libphonenumber-5.9-7e51ba7cd9ba4b58ec8ed4465da883a4.jar
-bin/dexedLibs/sc-light-jdk15on-1.47.0.2-be441515096d96ee99406a558af6af02.jar
-bin/dexedLibs/slf4j-api-1.6.2-34c3c8990c8ae43aceaec0cb6a8a137a.jar
-bin/dexedLibs/zbar-bc56b2bb4dad51ffbd3c79202e738eda.jar
-bin/dexedLibs/core-923a1316279caee32780f26fdbd81e31.jar
-bin/res/crunch/drawable-xxhdpi/gen_btn.png
-bin/res/crunch/drawable-xxhdpi/gen_btn_press.png
-bin/res/crunch/drawable-xxhdpi/ic_qmark1.png
-bin/res/crunch/drawable-xxhdpi/invite_friends_btn.png
-bin/res/crunch/drawable-xxhdpi/mined_loc_up.png
-bin/res/crunch/drawable-xxhdpi/invite_friends_upper.png
-bin/dexedLibs/blockchainwallet-4bd60d98ec06a8f1d48f8c6ed764a454.jar
-bin/res/crunch/drawable-xxhdpi/progress_3.png
-bin/dexedLibs/maputilslibrary-997a8fb2e9934c7c5a24636adff02066.jar
-bin/res/crunch/drawable-hdpi-v11/ic_stat_notif_logo.png
-bin/res/crunch/drawable-hdpi/ic_action_sent.png
-bin/res/crunch/drawable-hdpi/ic_stat_notif_logo.png
-bin/res/crunch/drawable-mdpi/ic_action_sent.png
-bin/res/crunch/drawable-mdpi-v11/ic_stat_notif_logo.png
-bin/res/crunch/drawable-xhdpi-v11/ic_stat_notif_logo.png
-bin/res/crunch/drawable-xhdpi/ic_action_sent.png
-bin/res/crunch/drawable-xxhdpi-v11/ic_stat_notif_logo.png
-bin/res/crunch/drawable-xhdpi/ic_stat_notif_logo.png
-bin/res/crunch/drawable-mdpi/ic_stat_notif_logo.png
-bin/res/crunch/drawable-xxhdpi/ic_action_sent.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-bin/res/crunch/drawable-xxhdpi/ic_stat_notif_logo.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-gen/com/google/maps/android/R.java
-bin/res/crunch/drawable-xxhdpi/splash.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-bin/res/crunch/drawable-xxhdpi/ic_qmark_black.png
-bin/res/crunch/drawable-xxhdpi/ic_qmark_black1.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-1.key
-playstore.txt
-prod.key
-prod.key.pass
-bin/res/crunch/drawable-xxhdpi/accept_btn.png
-bin/res/crunch/drawable-xxhdpi/accept_btn_press.png
-bin/res/crunch/drawable-xxhdpi/gen_btn_dis.png
-bin/res/crunch/drawable-xxhdpi/splash.png
-bin/*s
-lbm/build/*
+# Created by http://www.gitignore.io
+ 
+### Eclipse ###
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
 local.properties
-mapUtilsLibrary/build/*
-supertooltipslib/build/*
-build/intermediates/model_data.bin
-lbm/lbm.iml
+.settings/
+.loadpath
+ 
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
+ 
+# sbteclipse plugin 
+.target
+ 
+# TeXlipse plugin
+.texlipse
+ 
+ 
+### Gradle ###
+build/
+.idea/
+*.iml
+
+*.apk
