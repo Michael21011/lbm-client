@@ -165,7 +165,7 @@
                 android:id="@+id/FrameLayout03"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="5" >
+                android:layout_weight="0.03" >
 
                 <TextView
                     android:id="@+id/TextView17"
@@ -199,23 +199,33 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_shake_ll"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|center_vertical"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/main_shake_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/main_arrow1"
+                        android:text="Button" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="TRAIN RIDE SHARE"
+                    android:id="@+id/train_ride_share_button"
+                    android:layout_gravity="right|center_vertical" />
+
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/main_shake_ll"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="right|center_vertical"
-                android:orientation="vertical" >
-
-                <ImageButton
-                    android:id="@+id/main_shake_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/main_arrow1"
-                    android:text="Button" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

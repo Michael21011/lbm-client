@@ -36,6 +36,7 @@ import android.provider.Settings;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -52,6 +53,7 @@ public class MainActivity extends MyActionBarActivity  {
 	private TextView mZoozBalTV;
 
 	private ImageButton mAddFriendsBtn;
+    private Button mTrainRideShareBtn;
 	private ImageButton mShakeBtn;
 	private ProgressBar mCriticalMassPB;
 	private LocationManager mLocationManager;
@@ -133,6 +135,21 @@ public class MainActivity extends MyActionBarActivity  {
 		mShakeLL.setOnClickListener(shakeListener);
 		
 		/*************************************************************************/
+        /*************************************************************************/
+
+        mTrainRideShareBtn = (Button)findViewById(R.id.train_ride_share_button);
+
+        View.OnClickListener TrainRideShareListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TrainRideShareActivity.class);
+                startActivity(intent);
+            }
+        };
+        mTrainRideShareBtn.setOnClickListener(TrainRideShareListener);
+       // mShakeLL.setOnClickListener(shakeListener);
+
+        /*************************************************************************/
 		
 		mDistanceBtn = (ImageButton)findViewById(R.id.main_distance_btn);
 		mDistanceLL = (LinearLayout)findViewById(R.id.main_distance_ll);
