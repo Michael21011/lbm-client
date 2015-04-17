@@ -28,66 +28,73 @@
 
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text=""
             android:autoLink="all"
-            android:id="@+id/place_details"
-        android:layout_weight="1" />
+            android:id="@+id/place_details" />
 
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text=""
             android:autoLink="all"
-            android:id="@+id/place_attribution"
-        android:layout_weight="1" />
+            android:id="@+id/place_attribution" />
 
     <AutoCompleteTextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:hint="@string/autocomplete_arrival_station_hint"
             android:id="@+id/autocomplete_places"
-            android:textColor="@android:color/primary_text_light"
-        android:layout_weight="1" />
+            android:textColor="@android:color/primary_text_light" />
 
     <AutoCompleteTextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:hint="@string/autocomplete_destination_hint"
         android:id="@+id/autocomplete_places_dest"
-        android:textColor="@android:color/primary_text_light"
-        android:layout_weight="1" />
+        android:textColor="@android:color/primary_text_light" />
 
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/selected_place"
-        android:layout_weight="1" />
+            android:text="@string/selected_place" />
+
+    <RadioGroup
+        android:id="@+id/status_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        >
+        <RadioButton
+            android:id="@+id/open_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHARE TAXI"
+            />
+        <RadioButton
+            android:id="@+id/close_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHARE CAR"
+            />
+
+    </RadioGroup>
 
     <Button
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="@string/clear_text"
-            android:id="@+id/button_clear"
-        android:layout_weight="1" />
+            android:id="@+id/button_clear" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="SHARE TAXI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find a match"
         android:id="@+id/button"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="SHARE CAR"
-        android:id="@+id/button3"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1" />
+        android:layout_gravity="left" />
 
 </LinearLayout>

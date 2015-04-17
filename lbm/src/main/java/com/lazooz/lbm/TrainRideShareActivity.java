@@ -26,6 +26,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,6 +120,23 @@ public class TrainRideShareActivity extends ActionBarActivity
 
             }
         });
+        final RadioGroup status_group = (RadioGroup) findViewById(R.id.status_group);
+
+        //--    By default if you want open button to be checked, you can do that by using
+        status_group.check(R.id.open_radio);
+
+        status_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                status_group.check(checkedId);
+
+               String radio_status = radioButton.getText().toString().trim();
+                Log.v("radio_text--", radio_status);
+            }
+        });
     }
 
     /**
@@ -129,6 +148,7 @@ public class TrainRideShareActivity extends ActionBarActivity
      * @see com.google.android.gms.location.places.GeoDataApi#getPlaceById(com.google.android.gms.common.api.GoogleApiClient,
      * String...)
      */
+
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
@@ -210,10 +230,11 @@ public class TrainRideShareActivity extends ActionBarActivity
             final Place place = places.get(0);
 
             // Format details of the place for display and show it in a TextView.
+            /*
             mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
                     place.getId(), place.getAddress(), place.getPhoneNumber(),
                     place.getWebsiteUri()));
-
+*/
             Log.i(TAG, "Place details received: " + place.getName());
         }
     };
