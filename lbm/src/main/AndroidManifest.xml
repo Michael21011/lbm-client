@@ -12,7 +12,7 @@
         android:name="com.lazooz.lbm.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-<!--      <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -38,16 +38,14 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     -->
-<!--     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" /> -->
+    <!-- <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" /> -->
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-<!--
+
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    -->
-
-
+<!--     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <application
         android:name=".Analytics"
         android:allowBackup="true"
@@ -311,6 +309,12 @@
             android:name="com.google.android.gms.analytics.globalConfigResource"
             android:resource="@xml/global_tracker" />
 
+        <activity
+            android:name=".ProfileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>
