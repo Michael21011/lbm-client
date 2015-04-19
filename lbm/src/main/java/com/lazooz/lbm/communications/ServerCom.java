@@ -117,6 +117,27 @@ public class ServerCom {
 		
 		this.postRequestToServer(-1, -1, url, params);
 	}
+
+    public void setUsetPublicKey(String UserId, String UserSecret, String SourceLat,String SourceLong,String SourceId,
+                                 String DestLat,String DestLong,String DestId,
+                                 String ShareTaxi,String ShareCar,String Sportteam)
+    {
+        String url = StaticParms.BASE_SERVER_URL + "api_ask_match";
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("user_id", UserId ));
+        params.add(new BasicNameValuePair("user_secret", UserSecret ));
+        params.add(new BasicNameValuePair("source_lat", SourceLat ));
+        params.add(new BasicNameValuePair("source_long", SourceLong ));
+        params.add(new BasicNameValuePair("source_id", SourceId ));
+        params.add(new BasicNameValuePair("dest_lat", DestLat ));
+        params.add(new BasicNameValuePair("dest_long", DestLong ));
+        params.add(new BasicNameValuePair("dest_id", DestId ));
+        params.add(new BasicNameValuePair("share_taxi", ShareTaxi ));
+        params.add(new BasicNameValuePair("share_car", ShareCar ));
+        params.add(new BasicNameValuePair("sportteam", Sportteam ));
+        this.postRequestToServer(-1, -1, url, params);
+    }
 	
 	
 	

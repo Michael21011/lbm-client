@@ -17,7 +17,11 @@
 package com.lazooz.lbm;
 
 import android.content.res.Resources;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
@@ -32,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.android.common.activities.SampleActivityBase;
+import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.logger.Log;
 import com.lazooz.lbm.logger.LogWrapper;
 import com.google.android.gms.common.ConnectionResult;
@@ -43,6 +48,11 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.lazooz.lbm.R.layout.activity_train_rideshare;
 
@@ -63,7 +73,15 @@ public class TrainRideShareActivity extends ActionBarActivity
 
     private TextView mPlaceDetailsText;
 
-    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+    private static String SourcePlaceId = null;
+    private static String DestPlaceId = null;
+    private static String ShareTaxi = null;
+    private static String ShareCar = null;
+
+
+
+
+    private static  LatLngBounds bounds = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
 
     @Override
@@ -103,10 +121,30 @@ public class TrainRideShareActivity extends ActionBarActivity
         // Retrieve the TextView that will display details of the selected place.
         mPlaceDetailsText = (TextView) findViewById(R.id.place_details);
 
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        if (provider == null)
+        {
+            Utils.messageToUser(this, "TrainRideShare", "Your location service is off.Please turn it on");
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        if (location!=null) {
+            bounds = new LatLngBounds.Builder()
+                    .include(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .build();
+        }
+        else
+        {
+            Log.v("location == null","null");
+        }
+
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
         // the entire world.
         mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
-                BOUNDS_GREATER_SYDNEY, null);
+                bounds, null);
         mAutocompleteView.setAdapter(mAdapter);
         mAutocompleteViewDest.setAdapter(mAdapter);
 
@@ -120,10 +158,24 @@ public class TrainRideShareActivity extends ActionBarActivity
 
             }
         });
+
+
+        Button FindMatchButton = (Button) findViewById(R.id.find_match_submit);
+        FindMatchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((SourcePlaceId == null) || (DestPlaceId == null) || (ShareCar == null)) {
+                    Toast.makeText(getApplicationContext(), "Please fill up all form", Toast.LENGTH_SHORT).show();
+                } else {
+                    SubmitMatchRequestToServer(null,null,SourcePlaceId,null,null,DestPlaceId,ShareTaxi,ShareCar,"barcelona");
+                }
+            }
+        });
+
         final RadioGroup status_group = (RadioGroup) findViewById(R.id.status_group);
 
         //--    By default if you want open button to be checked, you can do that by using
-        status_group.check(R.id.open_radio);
+        //status_group.check(R.id.open_radio);
 
         status_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -135,6 +187,16 @@ public class TrainRideShareActivity extends ActionBarActivity
 
                String radio_status = radioButton.getText().toString().trim();
                 Log.v("radio_text--", radio_status);
+                if (radio_status.equalsIgnoreCase("SHARE TAXI"))
+                {
+                    ShareTaxi = "yes";
+                    ShareCar  = "no";
+                }else
+                {
+                    ShareTaxi = "no";
+                    ShareCar  = "yes";
+                }
+
             }
         });
     }
@@ -173,6 +235,7 @@ public class TrainRideShareActivity extends ActionBarActivity
             Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
                     Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
+            SourcePlaceId = item.placeId.toString();
         }
     };
 
@@ -209,6 +272,7 @@ public class TrainRideShareActivity extends ActionBarActivity
             Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
                     Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
+            DestPlaceId = item.placeId.toString();
         }
     };
 
@@ -302,6 +366,86 @@ public class TrainRideShareActivity extends ActionBarActivity
         // Connection to the API client has been suspended. Disable API access in the client.
         mAdapter.setGoogleApiClient(null);
         Log.e(TAG, "GoogleApiClient connection suspended.");
+    }
+
+    protected void SubmitMatchRequestToServer(String SourceLat,String SourceLong,String SourceId,
+                                              String DestLat,String DestLong,String DestId,
+                                              String ShareTaxi,String ShareCar,String Sportteam ) {
+        SubmitMatchRequestToServer submitMatchRequestToServer = new SubmitMatchRequestToServer();
+        submitMatchRequestToServer.execute(SourceLat,SourceLong,SourceId,DestLat,DestLong,DestId,ShareTaxi,ShareCar,Sportteam);
+
+    }
+
+    private class SubmitMatchRequestToServer extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ServerCom bServerCom = new ServerCom(TrainRideShareActivity.this);
+
+            String lSourceLat  = params[0];
+            String lSourceLong = params[1];
+            String lSourceId   = params[2];
+            String lDestLat    = params[3];
+            String lDestLong   = params[4];
+            String lDestId     = params[5];
+            String lShareTaxi  = params[6];
+            String lShareCar   = params[7];
+            String lSportteam  = params[8];
+
+
+
+            JSONObject jsonReturnObj=null;
+            try {
+                MySharedPreferences msp = MySharedPreferences.getInstance();
+                bServerCom.setUsetPublicKey(msp.getUserId(TrainRideShareActivity.this), msp.getUserSecret(TrainRideShareActivity.this),lSourceLat,lSourceLong,lSourceId,lDestLat,lDestLong,lDestId,lShareTaxi,lShareCar,lSportteam);
+                jsonReturnObj = bServerCom.getReturnObject();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+            String serverMessage = "";
+
+            try {
+                if (jsonReturnObj == null)
+                    serverMessage = "ConnectionError";
+                else {
+                    serverMessage = jsonReturnObj.getString("message");
+                    if (serverMessage.equals("success")){
+
+                    }
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                serverMessage = "GeneralError";
+            }
+
+
+            return serverMessage;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (result.equals("success")){
+                 Toast.makeText(TrainRideShareActivity.this, "Your request has been sent to the server. Please wait till we found a match", Toast.LENGTH_LONG).show();
+              //  MySharedPreferences.getInstance().saveKeyPair(MainZoozActivity.this, "", mScannedKey);
+               // UpdateGUI();
+            }
+            else if (result.equals("credentials_not_valid")){
+                Utils.restartApp(TrainRideShareActivity.this);
+            }
+            else
+                Toast.makeText(TrainRideShareActivity.this,"Send request failed.", Toast.LENGTH_LONG).show();
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+
+        }
     }
 
 }
