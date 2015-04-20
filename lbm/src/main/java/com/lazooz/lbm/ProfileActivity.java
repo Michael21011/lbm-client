@@ -55,10 +55,11 @@ public class ProfileActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
-
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         profileImageView= (ImageView)findViewById(R.id.profileImage) ;
         imageFromGallaryBtn = (Button)findViewById(R.id.imageFromGallary);
         imageFromCameraBtn = (Button)findViewById(R.id.imageFromCamara);
@@ -71,6 +72,7 @@ public class ProfileActivity extends Activity {
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
         mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
+
         mSystemUiHider.setup();
         mSystemUiHider
                 .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
@@ -147,6 +149,7 @@ public class ProfileActivity extends Activity {
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
+    */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == REQUEST_IMAGE_FROM_GALARY) {
