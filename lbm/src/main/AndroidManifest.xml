@@ -56,7 +56,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M" />
+            android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw" />
 
         <!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->
         <!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
@@ -65,6 +65,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw"/>
 
         <activity
             android:name=".MainActivity"
@@ -274,6 +277,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".TrainRideShareActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
 
         <service
