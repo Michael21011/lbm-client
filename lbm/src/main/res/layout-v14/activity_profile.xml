@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.lazooz.lbm.ProfileActivity"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/profileImage"
+        android:layout_weight="0.8"
+        android:contentDescription="@string/profile_image" />
+
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_weight=".05"
+        android:contentDescription="@string/user_name"
+        android:hint="@string/user_name" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:layout_weight=".05"
+        android:inputType="text"
+        android:hint="@string/fan_of" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_weight=".09"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="@string/choose_profile_image"
+            android:id="@+id/imageFromGallary"
+            android:layout_weight=".5"
+            android:background="@drawable/wallet_btn" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="@string/take_new_photo"
+            android:id="@+id/imageFromCamara"
+            android:layout_weight=".5"
+            android:background="@drawable/wallet_btn" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -776,6 +776,7 @@ Mining PZ, and to the extent permitted by law, the User agrees not hold any of t
 La’Zooz Parties liable for any tax liability associated with or arising from the Mining or using of PZ.
 
 Altogether we must stress the fact that the effort of making this happen is a joint effort to change the state of transportation in the world and the creation of this network will reward each and every one of us with a transportation web that is more efficient, more fair, and most important – will be owned by the community for the service of the community. Thank you for making your effort at this early stage. Lets change the face of transportation.</string>
+
     <string name="autocomplete_arrival_station_hint">Enter your arrival station</string>
     <string name="autocomplete_destination_hint">Enter your final destination</string>
     <string name="autocomplete_hint">Enter place name or address</string>
@@ -785,6 +786,7 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <!-- getString(String, Object...) does not support HTML tags directly, they need to be encoded first.
     Original string: <b>%1$s</b><br/><i>Place Id: %2$s</i><br/>Address: %3$s<br/>Phone: %4$s<br/>Website: %5$s-->
     <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
+    
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -794,6 +796,5 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <string name="take_new_photo">Take New Photo</string>
     <string name="user_name">Name</string>
     <string name="fan_of">Fan Of</string>
-
 
 </resources>
