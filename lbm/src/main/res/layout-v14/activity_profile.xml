@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/profileImage"
         android:layout_weight="0.8"
-        android:contentDescription="@string/profile_image" />
+        android:contentDescription="@string/profile_image"
+        android:src="@drawable/invite_friends_btn" />
 
 
     <EditText
@@ -47,7 +48,8 @@
             android:text="@string/choose_profile_image"
             android:id="@+id/imageFromGallary"
             android:layout_weight=".5"
-            android:background="@drawable/wallet_btn" />
+            android:background="@drawable/wallet_btn"
+            android:textColor="@color/white" />
 
         <Button
             android:layout_width="fill_parent"
@@ -55,7 +57,8 @@
             android:text="@string/take_new_photo"
             android:id="@+id/imageFromCamara"
             android:layout_weight=".5"
-            android:background="@drawable/wallet_btn" />
+            android:background="@drawable/wallet_btn"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
-        android:minHeight="50dp" >
+        android:minHeight="50dp">
 
         <Button
             android:id="@+id/floating_button_send"
@@ -31,9 +31,11 @@
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@color/blue"
+            android:background="@drawable/wallet_btn"
             android:text="@string/send_invitation"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
     </LinearLayout>
 

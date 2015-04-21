@@ -67,8 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="5dp"
-        >
+        android:layout_margin="5dp">
         <RadioButton
             android:id="@+id/open_radio"
             android:layout_width="wrap_content"
@@ -84,17 +83,32 @@
 
     </RadioGroup>
 
-    <Button
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/clear_text"
-            android:id="@+id/button_clear" />
+            android:text="Find a match"
+            android:id="@+id/find_match_submit"
+            android:layout_gravity="left"
+            android:background="@drawable/wallet_btn"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find a match"
-        android:id="@+id/find_match_submit"
-        android:layout_gravity="left" />
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_text"
+                android:id="@+id/button_clear"
+            android:background="@drawable/wallet_btn"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
 
 </LinearLayout>
