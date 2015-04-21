@@ -118,7 +118,7 @@ public class ServerCom {
 		this.postRequestToServer(-1, -1, url, params);
 	}
 
-    public void setUsetPublicKey(String UserId, String UserSecret, String SourceLat,String SourceLong,String SourceId,
+    public void setMatchRequest(String UserId, String UserSecret, String SourceLat,String SourceLong,String SourceId,
                                  String DestLat,String DestLong,String DestId,
                                  String ShareTaxi,String ShareCar,String Sportteam)
     {
@@ -138,7 +138,24 @@ public class ServerCom {
         params.add(new BasicNameValuePair("sportteam", Sportteam ));
         this.postRequestToServer(-1, -1, url, params);
     }
-	
+
+    public void setUserProfile(String UserId, String UserSecret, String personName ,
+                               String personPhotoUrl,
+                               String personGooglePlusProfile,
+                               String email)
+    {
+        String url = StaticParms.BASE_SERVER_URL + "api_set_user_profile";
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("user_id", UserId ));
+        params.add(new BasicNameValuePair("user_secret", UserSecret ));
+        params.add(new BasicNameValuePair("personName", personName ));
+        params.add(new BasicNameValuePair("personPhotoUrl", personPhotoUrl ));
+        params.add(new BasicNameValuePair("personGooglePlusProfile", personGooglePlusProfile ));
+        params.add(new BasicNameValuePair("email", email ));
+
+        this.postRequestToServer(-1, -1, url, params);
+    }
 	
 	
 	public void setLocationZip(String UserId, String UserSecret, byte[] data)throws Exception

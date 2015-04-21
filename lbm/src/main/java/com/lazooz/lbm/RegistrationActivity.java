@@ -504,7 +504,7 @@ public class RegistrationActivity extends MyActionBarActivity
                 }
 			}
 			else if (result.equals("error_cell_not_valid")){
-				Utils.messageToUser(RegistrationActivity.this, "Input Error",getString(R.string.send_validation_code_fail));
+				Utils.messageToUser(RegistrationActivity.this, "Input Error",getString(R.string.send_validation_code_fail),RegistrationActivity.this);
 				//Toast.makeText(RegistrationActivity.this, "Invalid phone number", Toast.LENGTH_LONG).show();				
 			}
 
@@ -652,7 +652,7 @@ public class RegistrationActivity extends MyActionBarActivity
 		    {
 		    	 alertDialog.show();//show dialog
 		    }
-		   
+
 			
 		}
 		else {

@@ -44,8 +44,11 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-<!--     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <!-- <android:uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <application
         android:name=".Analytics"
         android:allowBackup="true"
@@ -53,11 +56,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <uses-library android:name="com.google.android.maps" />
-
+<!--
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw" />
-
+-->
         <!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->
         <!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
         <!-- AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M   production -->
@@ -67,8 +70,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw"/>
-
+            android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -323,6 +325,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_profile"
             android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name=".ProfileGoogleActivity"
+            android:label="@string/title_activity_profile_google" >
         </activity>
     </application>
 

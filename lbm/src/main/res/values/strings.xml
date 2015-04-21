@@ -786,7 +786,7 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <!-- getString(String, Object...) does not support HTML tags directly, they need to be encoded first.
     Original string: <b>%1$s</b><br/><i>Place Id: %2$s</i><br/>Address: %3$s<br/>Phone: %4$s<br/>Website: %5$s-->
     <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
-    
+
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -796,5 +796,14 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <string name="take_new_photo">Take New Photo</string>
     <string name="user_name">Name</string>
     <string name="fan_of">Fan Of</string>
+    <string name="title_activity_profile__google_">Profile_Google_Activity</string>
+    <string name="title_activity_profile_google">ProfileGoogleActivity</string>
+
+
+
+
+    <!-- Button text -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
 
 </resources>

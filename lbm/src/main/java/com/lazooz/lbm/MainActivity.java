@@ -313,7 +313,7 @@ public class MainActivity extends MyActionBarActivity  {
 		if (notifList != null){
 			for (int i = 0; i< notifList.getNotifications().size(); i++){
 				UserNotification notif = notifList.getNotifications().get(i);
-				notif.displayPopup(this);				
+				notif.displayPopup(this,MainActivity.this);
 			}
 		}
 	}

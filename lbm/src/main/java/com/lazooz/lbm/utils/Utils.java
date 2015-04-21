@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -20,6 +21,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
+import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.R;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.preference.MySharedPreferences;
@@ -29,6 +31,8 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -41,26 +45,39 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Utils {
+public class Utils extends Fragment {
 
 
 
 	static boolean SpeakerWasOn;
 	static AudioManager audioManager;
+    static boolean AcceptMatch =false;
+    static  private ImageView imgProfilePic;
+    static private TextView txtName, txtEmail;
+    static private LinearLayout llProfileLayout;
+    // Profile pic image size in pixels
+    private static final int PROFILE_PIC_SIZE = 400;
 	
 	public static String getNowTimeInGMT(){
 		String outputText = "";
@@ -140,7 +157,9 @@ public class Utils {
 	    return td;
 	}
 	
-	public static void messageToUser(Context context, String title, String message){
+	public static boolean messageToUser(Context context, String title, String message,Activity activity){
+        if (title.contains("Match"))
+          return MatchMessageToUser(context, title, message,activity);
 		try {
 			AlertDialog ad = new AlertDialog.Builder(context).create();
 			ad.setTitle(title);
@@ -154,7 +173,100 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+        return  true;
 	}
+
+    /**
+     * Background Async task to load user profile picture from url
+     * */
+    private static class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public LoadProfileImage(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+    private  static boolean MatchMessageToUser(Context context, String title, String message,Activity activity){
+        boolean Accept = false;
+
+
+        String ProfileArray[] = message.split(" ");
+        String personPhotoUrl =ProfileArray[4];
+
+        personPhotoUrl = personPhotoUrl.replace("\\/","/");
+
+        //activity.setContentView(R.layout.match_dialog);
+        imgProfilePic = new ImageView(context);
+
+
+
+
+
+        txtName = (TextView) activity.findViewById(R.id.txtName);
+        txtEmail = (TextView) activity.findViewById(R.id.txtEmail);
+        llProfileLayout = (LinearLayout) activity.findViewById(R.id.llProfile);
+
+
+
+        try {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            LayoutInflater inflater = activity.getLayoutInflater();
+            builder.setView(inflater.inflate(R.layout.match_dialog, null))
+                    .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            AcceptMatch = true;
+                        }
+                    })
+                    .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+
+          //  txtName.setText(ProfileArray[1]+" "+ProfileArray[2]);
+          //  txtEmail.setText(ProfileArray[7]);
+
+
+            // by default the profile url gives 50x50 px image only
+            // we can replace the value with whatever dimension we want by
+            // replacing sz=X
+            personPhotoUrl = personPhotoUrl.substring(0,
+                    personPhotoUrl.length() - 2)
+                    + PROFILE_PIC_SIZE;
+
+            //new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
+            builder.setTitle(title);
+            //builder.setView(imgProfilePic);
+
+            builder.setMessage(ProfileArray[1]+" "+ProfileArray[2]);
+            builder.setCancelable(false);
+            builder.create();
+            builder.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  AcceptMatch;
+    }
 	
 	public static String booleanToYesNo(boolean value){
 		return (value) ? "yes" : "no";
@@ -340,6 +452,8 @@ public class Utils {
 	public static void sendNotifications(Context cntxt, int icon, String tickerText, 
 			String notifTitle, String notifText, Intent notifIntent, boolean withSound){
 		final int MY_NOTIFICATION_ID = 1;
+        if (notifTitle.contains("Match"))
+            notifText = "*";
 		NotificationManager notificationManager;
 		Notification myNotification;
 		notificationManager =(NotificationManager)cntxt.getSystemService(Context.NOTIFICATION_SERVICE);

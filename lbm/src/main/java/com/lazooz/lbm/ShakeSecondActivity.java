@@ -81,7 +81,7 @@ public class ShakeSecondActivity extends ActionBarActivity {
         String provider = locationManager.getBestProvider(criteria, true);
         if (provider == null)
         {
-        	Utils.messageToUser(this, "Shake", "Your location service is off.Please turn it on");
+        	Utils.messageToUser(this, "Shake", "Your location service is off.Please turn it on",ShakeSecondActivity.this);
         	return;
         }
         Location location = locationManager.getLastKnownLocation(provider);
@@ -102,7 +102,7 @@ public class ShakeSecondActivity extends ActionBarActivity {
 		
 		getUsersLocationNearMeAsync();
 		
-		Utils.messageToUser(this, "Shake", "Shaking with others is not supported yet.");
+		Utils.messageToUser(this, "Shake", "Shaking with others is not supported yet.",ShakeSecondActivity.this);
 		
 	}
 	

@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.android.common.activities.SampleActivityBase;
+import com.lazooz.lbm.businessClasses.UserNotification;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.logger.Log;
 import com.lazooz.lbm.logger.LogWrapper;
@@ -126,7 +127,7 @@ public class TrainRideShareActivity extends ActionBarActivity
         String provider = locationManager.getBestProvider(criteria, true);
         if (provider == null)
         {
-            Utils.messageToUser(this, "TrainRideShare", "Your location service is off.Please turn it on");
+            Utils.messageToUser(this, "TrainRideShare", "Your location service is off.Please turn it on",TrainRideShareActivity.this);
             return;
         }
         Location location = locationManager.getLastKnownLocation(provider);
@@ -399,7 +400,7 @@ public class TrainRideShareActivity extends ActionBarActivity
             JSONObject jsonReturnObj=null;
             try {
                 MySharedPreferences msp = MySharedPreferences.getInstance();
-                bServerCom.setUsetPublicKey(msp.getUserId(TrainRideShareActivity.this), msp.getUserSecret(TrainRideShareActivity.this),lSourceLat,lSourceLong,lSourceId,lDestLat,lDestLong,lDestId,lShareTaxi,lShareCar,lSportteam);
+                bServerCom.setMatchRequest(msp.getUserId(TrainRideShareActivity.this), msp.getUserSecret(TrainRideShareActivity.this),lSourceLat,lSourceLong,lSourceId,lDestLat,lDestLong,lDestId,lShareTaxi,lShareCar,lSportteam);
                 jsonReturnObj = bServerCom.getReturnObject();
             } catch (Exception e1) {
                 e1.printStackTrace();

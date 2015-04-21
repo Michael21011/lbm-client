@@ -303,7 +303,7 @@ public class MainZoozActivity extends ActionBarActivity {
 				mScannedKey = intent.getStringExtra("SCAN_RESULT");
 				
 				if (!isValidAddress(mScannedKey)){
-					Utils.messageToUser(this, getString(R.string.scan), getString(R.string.scan_qr_msg));
+					Utils.messageToUser(this, getString(R.string.scan), getString(R.string.scan_qr_msg),MainZoozActivity.this);
 					return;
 				}
 				

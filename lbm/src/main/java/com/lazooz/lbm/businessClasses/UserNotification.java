@@ -3,6 +3,7 @@ package com.lazooz.lbm.businessClasses;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -60,8 +61,8 @@ public class UserNotification {
 		Utils.sendNotifications(context, R.drawable.ic_stat_notif_logo, "Message from La'zooz", mTitle, mBody, notifIntent, true);
 	}
 
-	public void displayPopup(Context context) {
-		Utils.messageToUser(context, mTitle, mBody);
+	public void displayPopup(Context context,Activity activity) {
+		Utils.messageToUser(context, mTitle, mBody,activity);
 	}
 
 	
