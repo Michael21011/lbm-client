@@ -22,7 +22,9 @@ import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
 import com.lazooz.lbm.MainActivity;
+import com.lazooz.lbm.ProfileGoogleActivity;
 import com.lazooz.lbm.R;
+import com.lazooz.lbm.RegistrationActivity;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
@@ -31,6 +33,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.Notification;
@@ -62,6 +65,9 @@ import android.telephony.gsm.GsmCellLocation;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -191,7 +197,9 @@ public class Utils extends Fragment {
             Bitmap mIcon11 = null;
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                mIcon11 = BitmapFactory.decodeStream(in,null,options);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -199,26 +207,36 @@ public class Utils extends Fragment {
             return mIcon11;
         }
 
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap result)
+        {
             bmImage.setImageBitmap(result);
+
+
         }
     }
-    private  static boolean MatchMessageToUser(Context context, String title, String message,Activity activity){
-        boolean Accept = false;
 
+    private static boolean MatchMessageToUser(Context context, String title, String message, Activity activity){
+
+
+        Intent intent;
+        intent = new Intent(context, ProfileGoogleActivity.class);
+        intent.putExtra("WITHOUT_LOGIN", true);
+        intent.putExtra("MESSAGE",message);
+        context.startActivity(intent);
+
+        return true;
+        /*
+        boolean Accept = false;
 
         String ProfileArray[] = message.split(" ");
         String personPhotoUrl =ProfileArray[4];
 
-        personPhotoUrl = personPhotoUrl.replace("\\/","/");
+        //String email = splitMessage[8];
+
+       // personPhotoUrl = personPhotoUrl.replace("\\/","/");
 
         //activity.setContentView(R.layout.match_dialog);
-        imgProfilePic = new ImageView(context);
-
-
-
-
-
+        imgProfilePic = (ImageView)activity.findViewById(R.id.imgProfilePic);
         txtName = (TextView) activity.findViewById(R.id.txtName);
         txtEmail = (TextView) activity.findViewById(R.id.txtEmail);
         llProfileLayout = (LinearLayout) activity.findViewById(R.id.llProfile);
@@ -242,8 +260,8 @@ public class Utils extends Fragment {
                         }
                     });
 
-          //  txtName.setText(ProfileArray[1]+" "+ProfileArray[2]);
-          //  txtEmail.setText(ProfileArray[7]);
+            //  txtName.setText(ProfileArray[1]+" "+ProfileArray[2]);
+            //  txtEmail.setText(ProfileArray[7]);
 
 
             // by default the profile url gives 50x50 px image only
@@ -253,7 +271,7 @@ public class Utils extends Fragment {
                     personPhotoUrl.length() - 2)
                     + PROFILE_PIC_SIZE;
 
-            //new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
+            new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
             builder.setTitle(title);
             //builder.setView(imgProfilePic);
 
@@ -266,6 +284,8 @@ public class Utils extends Fragment {
             e.printStackTrace();
         }
         return  AcceptMatch;
+        */
+
     }
 	
 	public static String booleanToYesNo(boolean value){

@@ -72,6 +72,8 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private LinearLayout llProfileLayout;
     // Profile pic image size in pixels
     private static final int PROFILE_PIC_SIZE = 400;
+    private  static boolean mWithoutLogin;
+    private  static String mMessage;
 
     /**
      * Called when the activity is starting. Restores the activity state.
@@ -82,20 +84,40 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
-        setContentView(R.layout.activity_profile__google);
+        mWithoutLogin = getIntent().getBooleanExtra("WITHOUT_LOGIN", false);
+        mMessage = getIntent().getStringExtra("MESSAGE");
+        if (mWithoutLogin == false) {
+            setContentView(R.layout.activity_profile__google);
+            btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
+            btnSignOut = (Button) findViewById(R.id.btn_sign_out);
+            btnRevokeAccess = (Button) findViewById(R.id.btn_revoke_access);
 
-        btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
-        btnSignOut = (Button) findViewById(R.id.btn_sign_out);
-        btnRevokeAccess = (Button) findViewById(R.id.btn_revoke_access);
+        }
+        else
+            setContentView(R.layout.match_dialog);
+
+
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
         txtName = (TextView) findViewById(R.id.txtName);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
 
+
+
         // Button click listeners
-        btnSignIn.setOnClickListener( this);
-        btnSignOut.setOnClickListener(this);
-        btnRevokeAccess.setOnClickListener(this);
+        if (mWithoutLogin == false) {
+            btnSignIn.setOnClickListener(this);
+            btnSignOut.setOnClickListener(this);
+            btnRevokeAccess.setOnClickListener(this);
+        }
+        else {
+            //llProfileLayout.setVisibility(View.VISIBLE);
+            getProfileInformationWithoutLogin();
+
+            // Update the UI after signin
+            //updateUI(true);
+
+        }
     }
 
     /**
@@ -108,16 +130,18 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(Plus.API)
-                    .addScope(Plus.SCOPE_PLUS_LOGIN)
-                            // Optionally, add additional APIs and scopes if required.
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .build();
+        if (mWithoutLogin == false) {
+            if (mGoogleApiClient == null) {
+                mGoogleApiClient = new GoogleApiClient.Builder(this)
+                        .addApi(Plus.API)
+                        .addScope(Plus.SCOPE_PLUS_LOGIN)
+                                // Optionally, add additional APIs and scopes if required.
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this)
+                        .build();
+            }
+            mGoogleApiClient.connect();
         }
-        mGoogleApiClient.connect();
     }
 
     /**
@@ -126,8 +150,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
      */
     @Override
     protected void onStop() {
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
+        if (mWithoutLogin == false) {
+            if (mGoogleApiClient != null) {
+                mGoogleApiClient.disconnect();
+            }
         }
         super.onStop();
     }
@@ -137,8 +163,12 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_IN_RESOLUTION, mIsInResolution);
+        if (mWithoutLogin == false)
+        {
+            super.onSaveInstanceState(outState);
+
+            outState.putBoolean(KEY_IN_RESOLUTION, mIsInResolution);
+        }
     }
 
     /**
@@ -146,11 +176,13 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_RESOLUTION:
-                retryConnecting();
-                break;
+        if (mWithoutLogin == false) {
+            super.onActivityResult(requestCode, resultCode, data);
+            switch (requestCode) {
+                case REQUEST_CODE_RESOLUTION:
+                    retryConnecting();
+                    break;
+            }
         }
     }
 
@@ -200,7 +232,9 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     @Override
     public void onConnectionSuspended(int cause) {
         Log.i(TAG, "GoogleApiClient connection suspended");
-        retryConnecting();
+        if (mWithoutLogin == false) {
+            retryConnecting();
+        }
     }
 
     /**
@@ -236,6 +270,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             retryConnecting();
         }
     }
+
     /**
             * Fetching user's information name, email, profile pic
             * */
@@ -276,11 +311,62 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         }
     }
 
+    private void getProfileInformationWithoutLogin() {
+        try {
+            String splitMessage[] = mMessage.split(" ");
+            String personName = splitMessage[1]+" "+splitMessage[2];
+            String personPhotoUrl = splitMessage[4];
+            String personGooglePlusProfile = splitMessage[6];
+            String email = splitMessage[8];
+                Log.e(TAG, "Name: " + personName + ", plusProfile: "
+                        + personGooglePlusProfile + ", email: " + email
+                        + ", Image: " + personPhotoUrl);
+
+                txtName.setText(personName);
+                txtEmail.setText(email);
+
+                // by default the profile url gives 50x50 px image only
+                // we can replace the value with whatever dimension we want by
+                // replacing sz=X
+                personPhotoUrl = personPhotoUrl.substring(0,
+                        personPhotoUrl.length() - 2)
+                        + PROFILE_PIC_SIZE;
+
+                new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
+                //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onResult(People.LoadPeopleResult loadPeopleResult) {
 
     }
 
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
     /**
      * Background Async task to load user profile picture from url
      * */
@@ -296,7 +382,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             Bitmap mIcon11 = null;
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                mIcon11 = BitmapFactory.decodeStream(in,null,options);
+
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();

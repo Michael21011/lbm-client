@@ -72,13 +72,13 @@
             android:id="@+id/open_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SHARE TAXI"
+            android:text="DRIVER"
             />
         <RadioButton
             android:id="@+id/close_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SHARE CAR"
+            android:text="RIDER"
             />
 
     </RadioGroup>
