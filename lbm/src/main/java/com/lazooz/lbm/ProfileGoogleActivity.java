@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,14 +28,23 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.lazooz.lbm.chat.ui.activities.*;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
+import com.quickblox.auth.QBAuth;
+import com.quickblox.auth.model.QBSession;
+import com.quickblox.chat.QBChatService;
+import com.quickblox.core.QBEntityCallbackImpl;
+import com.quickblox.core.QBSettings;
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class ProfileGoogleActivity extends Activity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<People.LoadPeopleResult> {
@@ -74,7 +84,13 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private static final int PROFILE_PIC_SIZE = 400;
     private  static boolean mWithoutLogin;
     private  static String mMessage;
+    private Button AcceptBtn;
+    private Button RejectBtn;
 
+    private static String personName;
+    private static String personPhotoUrl;
+    private static String personGooglePlusProfile;
+    private static String email ;
     /**
      * Called when the activity is starting. Restores the activity state.
      */
@@ -113,10 +129,26 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         else {
             //llProfileLayout.setVisibility(View.VISIBLE);
             getProfileInformationWithoutLogin();
+            AcceptBtn = (Button)findViewById(R.id.btn_accept);
+            AcceptBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        String mMessageArray[] =  mMessage.split(" ");
+                        Integer OpponentId = Integer.valueOf(mMessageArray[10]);
+                        Intent intent = new Intent(ProfileGoogleActivity.this, com.lazooz.lbm.chat.ui.activities.SplashActivity.class);
+                    String ChatLogin = MySharedPreferences.getInstance().getUserProfile(ProfileGoogleActivity.this,"ChatLogin");
+                    intent.putExtra("USER_LOGIN",ChatLogin);
+                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+"*"+mMessageArray[2]);
 
+                    intent.putExtra("PASSWORD","LAZOOZ10");
+
+                    intent.putExtra("OPPONENTID",OpponentId);
+                    startActivity(intent);
+                        finish();
+                    }
+            });
             // Update the UI after signin
             //updateUI(true);
-
         }
     }
 
@@ -280,10 +312,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 Person currentPerson = Plus.PeopleApi
                         .getCurrentPerson(mGoogleApiClient);
-                String personName = currentPerson.getDisplayName();
-                String personPhotoUrl = currentPerson.getImage().getUrl();
-                String personGooglePlusProfile = currentPerson.getUrl();
-                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                 personName = currentPerson.getDisplayName();
+                 personPhotoUrl = currentPerson.getImage().getUrl();
+                 personGooglePlusProfile = currentPerson.getUrl();
+                 email = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
                 Log.e(TAG, "Name: " + personName + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + email
@@ -300,7 +332,11 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                         + PROFILE_PIC_SIZE;
 
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
-                SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
+                String personNameArray[] = personName.split(" ");
+                MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
+                signUpQuickBlox(personNameArray[0]+"*"+personNameArray[1],"LAZOOZ10");
+                //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
+                //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
 
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -311,13 +347,70 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         }
     }
 
+    private void signUpQuickBlox(final String UserLogin, final String Password)
+    {
+        final String APP_ID = "22467";
+        final String AUTH_KEY = "Bd7VTXM7R8rj93X";
+        final String AUTH_SECRET = "qukUw5ksyj46qVN";
+
+        QBChatService chatService;
+
+        QBSettings.getInstance().fastConfigInit(APP_ID, AUTH_KEY, AUTH_SECRET);
+        if (!QBChatService.isInitialized()) {
+            QBChatService.init(this);
+        }
+        chatService = QBChatService.getInstance();
+
+        QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
+            @Override
+            public void onSuccess(QBSession qbSession, Bundle bundle) {
+                SignUpUser(UserLogin, Password);
+
+            }
+
+            @Override
+            public void onError(List<String> errors) {
+
+            }
+        });
+    }
+
+    private void SignUpUser(String name ,String Password) {
+        QBUser qbUser = new QBUser();
+        qbUser.setLogin(name);
+        qbUser.setPassword(Password);
+        QBUsers.signUpSignInTask(qbUser, new QBEntityCallbackImpl<QBUser>() {
+            @Override
+            public void onSuccess(QBUser qbUser, Bundle bundle) {
+
+                Integer ChatId = qbUser.getId();
+
+                SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email,ChatId.toString());
+
+                //System.out.println("signUpSignInTask ok");
+                //Toast.makeText(ProfileGoogleActivity.this, "", Toast.LENGTH_LONG).show();
+                // finish();
+            }
+
+            @Override
+            public void onError(List<String> strings) {
+                //progressDialog.hide();
+                //DialogUtils.showLong(context, strings.get(0));
+                Toast.makeText(ProfileGoogleActivity.this, "fail to sign to QuickBlox chat", Toast.LENGTH_LONG).show();
+                System.out.println("signUpSignInTask fail");
+                finish();
+            }
+        });
+    }
+
     private void getProfileInformationWithoutLogin() {
         try {
             String splitMessage[] = mMessage.split(" ");
-            String personName = splitMessage[1]+" "+splitMessage[2];
-            String personPhotoUrl = splitMessage[4];
-            String personGooglePlusProfile = splitMessage[6];
-            String email = splitMessage[8];
+            personName = splitMessage[1]+" "+splitMessage[2];
+             personPhotoUrl = splitMessage[4];
+             personGooglePlusProfile = splitMessage[6];
+             email = splitMessage[8];
+
                 Log.e(TAG, "Name: " + personName + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + email
                         + ", Image: " + personPhotoUrl);
@@ -477,9 +570,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     protected void SubmitProfileToServer(String personName ,
                                          String personPhotoUrl,
                                          String personGooglePlusProfil,
-                                         String email  ) {
+                                         String email,
+                                         String ChatId) {
         SubmitProfileToServer submitProfileToServer = new SubmitProfileToServer();
-        submitProfileToServer.execute(personName,personPhotoUrl,personGooglePlusProfil,email);
+        submitProfileToServer.execute(personName,personPhotoUrl,personGooglePlusProfil,email,ChatId);
 
     }
 
@@ -495,13 +589,14 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             String personPhotoUrl = params[1];
             String personGooglePlusProfile   = params[2];
             String email    = params[3];
+            String chatId    = params[4];
 
 
 
             JSONObject jsonReturnObj=null;
             try {
                 MySharedPreferences msp = MySharedPreferences.getInstance();
-                bServerCom.setUserProfile(msp.getUserId(ProfileGoogleActivity.this), msp.getUserSecret(ProfileGoogleActivity.this),personName,personPhotoUrl,personGooglePlusProfile,email);
+                bServerCom.setUserProfile(msp.getUserId(ProfileGoogleActivity.this), msp.getUserSecret(ProfileGoogleActivity.this),personName,personPhotoUrl,personGooglePlusProfile,email,chatId);
                 jsonReturnObj = bServerCom.getReturnObject();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -533,8 +628,11 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
             if (result.equals("success")){
                 Toast.makeText(ProfileGoogleActivity.this, "Your profile has been sent to the server...", Toast.LENGTH_LONG).show();
-                //  MySharedPreferences.getInstance().saveKeyPair(MainZoozActivity.this, "", mScannedKey);
-                // UpdateGUI();
+                /*
+                String personNameArray[] = personName.split(" ");
+
+                MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
+                */
             }
             else if (result.equals("credentials_not_valid")){
                 Utils.restartApp(ProfileGoogleActivity.this);

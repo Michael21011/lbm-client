@@ -12,6 +12,7 @@ import com.lazooz.lbm.CongratulationsRegActivity;
 import com.lazooz.lbm.IntroActivity;
 import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.MapShowLocationActivity;
+import com.lazooz.lbm.ProfileGoogleActivity;
 import com.lazooz.lbm.RegistrationActivity;
 import com.lazooz.lbm.businessClasses.Contact;
 import com.lazooz.lbm.businessClasses.LocationData;
@@ -811,6 +812,20 @@ public class MySharedPreferences {
 		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);
 		return spData.edit().putBoolean("ChargerConnectivityMode", mode).commit();
 	}
+
+    public boolean setUserProfile(Context context, String Set,String ChatLogin) {
+        SharedPreferences spData = context.getSharedPreferences("User_Profile",Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = spData.edit();
+        editor.putString("SET", Set);
+        editor.putString("ChatLogin",ChatLogin);
+        return  editor.commit();
+
+    }
+
+    public String getUserProfile(Context context,String What) {
+        SharedPreferences spData = context.getSharedPreferences("User_Profile",Context.MODE_MULTI_PROCESS);
+        return spData.getString(What, "");
+    }
 
 	public boolean getMiningEnabledMode(Context context) {
 		SharedPreferences spData = context.getSharedPreferences("Settings",Context.MODE_MULTI_PROCESS);

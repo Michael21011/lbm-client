@@ -142,7 +142,8 @@ public class ServerCom {
     public void setUserProfile(String UserId, String UserSecret, String personName ,
                                String personPhotoUrl,
                                String personGooglePlusProfile,
-                               String email)
+                               String email,
+                               String chatId)
     {
         String url = StaticParms.BASE_SERVER_URL + "api_set_user_profile";
 
@@ -153,6 +154,7 @@ public class ServerCom {
         params.add(new BasicNameValuePair("personPhotoUrl", personPhotoUrl ));
         params.add(new BasicNameValuePair("personGooglePlusProfile", personGooglePlusProfile ));
         params.add(new BasicNameValuePair("email", email ));
+        params.add(new BasicNameValuePair("chatid", chatId ));
 
         this.postRequestToServer(-1, -1, url, params);
     }

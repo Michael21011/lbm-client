@@ -16,6 +16,9 @@
 
 package com.lazooz.lbm;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
@@ -96,6 +99,13 @@ public class TrainRideShareActivity extends ActionBarActivity
         Log.i(TAG, "Ready");
 
         Log.i(TAG, " onCreate 1" );
+
+        if (!MySharedPreferences.getInstance().getUserProfile(this,"SET").equalsIgnoreCase("DONE"))
+        {
+            showDialogForProfile(this);
+
+        }
+
         // Set up the Google API Client if it has not been initialised yet.
         if (mGoogleApiClient == null) {
             rebuildGoogleApiClient();
@@ -210,8 +220,36 @@ public class TrainRideShareActivity extends ActionBarActivity
      *
      * @see com.google.android.gms.location.places.GeoDataApi#getPlaceById(com.google.android.gms.common.api.GoogleApiClient,
      * String...)
+     * @param trainRideShareActivity
      */
+    private boolean showDialogForProfile(final TrainRideShareActivity trainRideShareActivity)
+    {
+        try {
+            AlertDialog ad = new AlertDialog.Builder(this).create();
+            ad.setTitle("Personal Profile Missing");
+            ad.setMessage("Please fill up personal profile");
+            ad.setButton(DialogInterface.BUTTON_POSITIVE, this.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    Intent intent;
+                    intent = new Intent(trainRideShareActivity, ProfileGoogleActivity.class);
+                    startActivity(intent);
 
+                }
+            });
+            ad.setButton(DialogInterface.BUTTON_NEGATIVE,"later", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    finish();
+                }
+            });
+            ad.setCanceledOnTouchOutside(false);
+            ad.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  true;
+    }
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
@@ -373,7 +411,7 @@ public class TrainRideShareActivity extends ActionBarActivity
                                               String DestLat,String DestLong,String DestId,
                                               String ShareTaxi,String ShareCar,String Sportteam ) {
         SubmitMatchRequestToServer submitMatchRequestToServer = new SubmitMatchRequestToServer();
-        submitMatchRequestToServer.execute(SourceLat,SourceLong,SourceId,DestLat,DestLong,DestId,ShareTaxi,ShareCar,Sportteam);
+        submitMatchRequestToServer.execute(SourceLat, SourceLong, SourceId, DestLat, DestLong, DestId, ShareTaxi, ShareCar, Sportteam);
 
     }
 

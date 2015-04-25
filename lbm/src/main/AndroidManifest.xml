@@ -50,7 +50,7 @@
 
     <!-- <android:uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <application
-        android:name=".Analytics"
+        android:name=".chat.ApplicationSingleton"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -286,6 +286,24 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".chat.ui.activities.ChatActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name=".chat.ui.activities.SplashActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".chat.ui.activities.DialogsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".LbmService"
