@@ -810,5 +810,7 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <string name="train_ride_share">TRAIN RIDE SHARE</string>
     <string name="users">Users</string>
     <string name="profile">Profile</string>
+    <string name="init_lazooz_chat">Initializing La`Zooz Chat</string>
+
 
 </resources>

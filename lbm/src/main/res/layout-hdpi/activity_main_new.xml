@@ -163,7 +163,7 @@
 
             <FrameLayout
                 android:id="@+id/FrameLayout03"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.03" >
 
@@ -216,7 +216,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/main_arrow1"
-                        android:text="Button" />
+                        android:text="Button"
+                        android:layout_gravity="right" />
 
                 </LinearLayout>
 
@@ -229,7 +230,10 @@
                     android:background="@drawable/wallet_btn"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginRight="50dp" />
+                    android:layout_marginRight="50dp"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:textColor="@color/white" />
 
             </FrameLayout>
 

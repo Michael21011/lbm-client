@@ -40,12 +40,17 @@
         android:id="@+id/btn_accept"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="accept"/>
+        android:text="accept"
+        android:background="@drawable/wallet_btn"
+        android:textColor="@color/white" />
     <Button
         android:id="@+id/btn_reject"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="reject"/>
+        android:text="reject"
+        android:background="@drawable/wallet_btn"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white" />
 
 
 </LinearLayout>

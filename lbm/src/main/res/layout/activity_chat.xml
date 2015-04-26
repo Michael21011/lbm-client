@@ -26,7 +26,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="Send" />
+            android:text="Send"
+            android:background="@drawable/wallet_btn"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white" />
 
         <ListView
             android:id="@+id/messagesContainer"
