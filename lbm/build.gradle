@@ -30,7 +30,6 @@ android {
 dependencies {
     compile project(':supertooltipslib')
     compile project(':mapUtilsLibrary')
-    compile project(':pull-to-refresh')
     compile files('libs/achartengine-1.1.0.jar')
     compile files('libs/apache-mime4j.jar')
     compile files('libs/blockchainwallet.jar')
@@ -42,6 +41,7 @@ dependencies {
     compile files('libs/sc-light-jdk15on-1.47.0.2.jar')
     compile files('libs/quickblox-android-sdk-core-2.2.1.jar')
     compile files('libs/quickblox-android-sdk-chat-2.2.1.jar')
+    compile project(':pull-to-refresh')
     compile 'com.android.support:support-v4:22.1.0'
     compile 'com.google.guava:guava:13.0.1'
     compile 'com.android.support:appcompat-v7:22.1.0'
