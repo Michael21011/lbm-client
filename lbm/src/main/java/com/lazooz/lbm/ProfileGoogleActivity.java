@@ -130,22 +130,33 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             //llProfileLayout.setVisibility(View.VISIBLE);
             getProfileInformationWithoutLogin();
             AcceptBtn = (Button)findViewById(R.id.btn_accept);
+            AcceptBtn.setVisibility(View.GONE);
             AcceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        String mMessageArray[] =  mMessage.split(" ");
-                        Integer OpponentId = Integer.valueOf(mMessageArray[10]);
-                        Intent intent = new Intent(ProfileGoogleActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
+
+                    String mMessageArray[] =  mMessage.split(" ");
+                    Integer OpponentId = Integer.valueOf(mMessageArray[10]);
+                    Intent intent = new Intent(ProfileGoogleActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
                     String ChatLogin = MySharedPreferences.getInstance().getUserProfile(ProfileGoogleActivity.this,"ChatLogin");
                     intent.putExtra("USER_LOGIN",ChatLogin);
-                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+"-"+mMessageArray[2]);
-
+                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+mMessageArray[2]);
                     intent.putExtra("PASSWORD","LAZOOZ10");
-
                     intent.putExtra("OPPONENTID",OpponentId);
                     startActivity(intent);
                         finish();
                     }
+            });
+            RejectBtn = (Button)findViewById(R.id.btn_reject);
+            RejectBtn.setVisibility(View.GONE);
+            RejectBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(ProfileGoogleActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             });
             // Update the UI after signin
             //updateUI(true);
@@ -334,7 +345,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
                 String personNameArray[] = personName.split(" ");
                 MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                signUpQuickBlox(personNameArray[0]+"-"+personNameArray[1],"LAZOOZ10");
+                signUpQuickBlox(personNameArray[0]+personNameArray[1],"LAZOOZ10");
                 //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
                 //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
 
@@ -438,28 +449,6 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
     }
 
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
     /**
      * Background Async task to load user profile picture from url
      * */
@@ -488,6 +477,11 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+            if (mWithoutLogin) {
+                AcceptBtn.setVisibility(View.VISIBLE);
+                RejectBtn.setVisibility(View.VISIBLE);
+            }
+
         }
     }
     /**
