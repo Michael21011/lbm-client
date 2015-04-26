@@ -1,6 +1,7 @@
 package com.lazooz.lbm.chat;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.quickblox.chat.model.QBDialog;
 import com.quickblox.users.model.QBUser;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApplicationSingleton extends Application {
+public class ApplicationSingleton extends MultiDexApplication {
 
     private QBUser currentUser;
 
