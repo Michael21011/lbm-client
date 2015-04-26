@@ -470,6 +470,9 @@ public class TrainRideShareActivity extends ActionBarActivity
 
             if (result.equals("success")){
                  Toast.makeText(TrainRideShareActivity.this, "Your request has been sent to the server. Please wait till we found a match", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(TrainRideShareActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
               //  MySharedPreferences.getInstance().saveKeyPair(MainZoozActivity.this, "", mScannedKey);
                // UpdateGUI();
             }

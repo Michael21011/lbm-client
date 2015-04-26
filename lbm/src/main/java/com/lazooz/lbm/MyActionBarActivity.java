@@ -72,7 +72,7 @@ public class MyActionBarActivity extends ActionBarActivity {
 
         if (!MySharedPreferences.getInstance().getRegisterState(this).equalsIgnoreCase("DONE"))
             mDrawerItems.add(new DrawerItem(getString(R.string.drawer_entry_registration),0));
-        mDrawerItems.add(new DrawerItem("profile",0));
+        mDrawerItems.add(new DrawerItem(getString(R.string.profile),0));
 
 
 		setContentView(layoutID);
@@ -205,7 +205,7 @@ public class MyActionBarActivity extends ActionBarActivity {
             intent.putExtra("FROM_MENU_MODE", true);
             startActivity(intent);
         }
-        else if (di.getText().equals("profile")){
+        else if (di.getText().equals(getString(R.string.profile))){
             Intent intent = new Intent(this, ProfileGoogleActivity.class);
             //intent.putExtra("FROM_MENU_MODE", true);
             startActivity(intent);

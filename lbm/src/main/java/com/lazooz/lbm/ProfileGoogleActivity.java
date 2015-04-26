@@ -135,10 +135,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 public void onClick(View v) {
                         String mMessageArray[] =  mMessage.split(" ");
                         Integer OpponentId = Integer.valueOf(mMessageArray[10]);
-                        Intent intent = new Intent(ProfileGoogleActivity.this, com.lazooz.lbm.chat.ui.activities.SplashActivity.class);
+                        Intent intent = new Intent(ProfileGoogleActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
                     String ChatLogin = MySharedPreferences.getInstance().getUserProfile(ProfileGoogleActivity.this,"ChatLogin");
                     intent.putExtra("USER_LOGIN",ChatLogin);
-                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+"*"+mMessageArray[2]);
+                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+"-"+mMessageArray[2]);
 
                     intent.putExtra("PASSWORD","LAZOOZ10");
 
@@ -334,7 +334,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
                 String personNameArray[] = personName.split(" ");
                 MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                signUpQuickBlox(personNameArray[0]+"*"+personNameArray[1],"LAZOOZ10");
+                signUpQuickBlox(personNameArray[0]+"-"+personNameArray[1],"LAZOOZ10");
                 //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
                 //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
 

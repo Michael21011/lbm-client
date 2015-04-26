@@ -18,7 +18,7 @@ import org.jivesoftware.smack.SmackException;
 
 import java.util.List;
 
-public class SplashActivity extends Activity {
+public class SplashChatActivity extends Activity {
 
     private static final String APP_ID = "22467";
     private static final String AUTH_KEY = "Bd7VTXM7R8rj93X";
@@ -77,7 +77,7 @@ public class SplashActivity extends Activity {
 
             @Override
             public void onError(List<String> errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SplashChatActivity.this);
                 dialog.setMessage("create session errors: " + errors).create().show();
             }
         });
@@ -99,7 +99,7 @@ public class SplashActivity extends Activity {
 
                 // go to Dialogs screen
                 //
-                Intent intent = new Intent(SplashActivity.this, DialogsActivity.class);
+                Intent intent = new Intent(SplashChatActivity.this, DialogsActivity.class);
                 intent.putExtra("OPPONENTID",OpponentId);
                 intent.putExtra("OPPONENT_LOGIN",OpponentLogin);
                 startActivity(intent);
@@ -108,7 +108,7 @@ public class SplashActivity extends Activity {
 
             @Override
             public void onError(List errors) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SplashChatActivity.this);
                 dialog.setMessage("chat login errors: " + errors).create().show();
             }
         });

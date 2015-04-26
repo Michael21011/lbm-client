@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.R;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatMessage;
@@ -51,6 +52,7 @@ public class ChatActivity extends Activity {
     private ChatManager chat;
     private ChatAdapter adapter;
     private QBDialog dialog;
+    private QBChatService chatService;
 
     private ArrayList<QBChatMessage> history;
 
@@ -74,7 +76,13 @@ public class ChatActivity extends Activity {
         } catch (XMPPException e) {
             Log.e(TAG, "failed to release chat", e);
         }
-        super.onBackPressed();
+        LogoutFromChat();
+
+        Intent intent = new Intent(ChatActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        //super.onBackPressed();
+
     }
 
     private void initViews() {
@@ -175,6 +183,29 @@ public class ChatActivity extends Activity {
         });
     }
 
+    private void LogoutFromChat()
+    {
+        chatService = QBChatService.getInstance();
+        boolean isLoggedIn = chatService.isLoggedIn();
+        if(!isLoggedIn){
+            return;
+        }
+
+        chatService.logout(new QBEntityCallbackImpl() {
+
+            @Override
+            public void onSuccess() {
+                // success
+
+                chatService.destroy();
+            }
+
+            @Override
+            public void onError(final List list) {
+
+            }
+        });
+    }
     private void loadChatHistory(){
         QBRequestGetBuilder customObjectRequestBuilder = new QBRequestGetBuilder();
         customObjectRequestBuilder.setPagesLimit(100);
