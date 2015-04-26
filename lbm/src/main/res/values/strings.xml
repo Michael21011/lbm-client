@@ -805,5 +805,9 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
+    <string name="trainriders">Train Riders</string>
+    <string name="usersaround">USERS NEARBY</string>
+    <string name="train_ride_share">TRAIN RIDE SHARE</string>
+    <string name="users">Users</string>
 
 </resources>

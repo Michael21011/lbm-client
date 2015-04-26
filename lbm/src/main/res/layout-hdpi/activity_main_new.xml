@@ -171,7 +171,7 @@
                     android:id="@+id/TextView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/times_shaken"
+                    android:text="@string/usersaround"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/lazooz_main_title_txt" />
 
@@ -179,7 +179,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="5dp" >
+                    android:layout_marginBottom="5dp"
+                    android:baselineAligned="true">
 
                     <TextView
                         android:id="@+id/main_shake_tv"
@@ -195,9 +196,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="@string/shakes"
+                        android:text="@string/users"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/lazooz_main_txt" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -207,7 +209,7 @@
                     android:layout_weight="1"
                     android:gravity="center|center_vertical"
                     android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="right|top">
 
                     <ImageButton
                         android:id="@+id/main_shake_btn"
@@ -215,14 +217,19 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/main_arrow1"
                         android:text="Button" />
+
                 </LinearLayout>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="TRAIN RIDE SHARE"
+                    android:text="@string/train_ride_share"
                     android:id="@+id/train_ride_share_button"
-                    android:layout_gravity="right|center_vertical" />
+                    android:layout_gravity="top|center_horizontal|right"
+                    android:background="@drawable/wallet_btn"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="50dp" />
 
             </FrameLayout>
 
