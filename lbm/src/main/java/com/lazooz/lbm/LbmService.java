@@ -123,8 +123,11 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    //Toast.makeText(this, "onStartCommand", Toast.LENGTH_LONG).show();
-		
+
+        startService(new Intent(this, LbmService2.class));
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
+
+
 		
 		//Utils.activateSavingLogcatToFile(this, false);
 
