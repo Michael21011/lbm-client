@@ -23,8 +23,12 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
@@ -39,6 +43,7 @@ import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
+import android.support.v4.app.Fragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +83,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private SignInButton btnSignIn;
     private Button btnSignOut, btnRevokeAccess;
     private ImageView imgProfilePic;
-    private TextView txtName, txtEmail;
+    private TextView txtName, txtEmail,txtDestPlace;
     private LinearLayout llProfileLayout;
     // Profile pic image size in pixels
     private static final int PROFILE_PIC_SIZE = 400;
@@ -91,6 +96,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private static String personPhotoUrl;
     private static String personGooglePlusProfile;
     private static String email ;
+    private static String destination_place_id ;
     /**
      * Called when the activity is starting. Restores the activity state.
      */
@@ -102,7 +108,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         }
         mWithoutLogin = getIntent().getBooleanExtra("WITHOUT_LOGIN", false);
         mMessage = getIntent().getStringExtra("MESSAGE");
-        if (mWithoutLogin == false) {
+        if (!mWithoutLogin) {
             setContentView(R.layout.activity_profile__google);
             btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
             btnSignOut = (Button) findViewById(R.id.btn_sign_out);
@@ -116,6 +122,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
         txtName = (TextView) findViewById(R.id.txtName);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
 
 
@@ -173,7 +180,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        if (mWithoutLogin == false) {
+        if (!mWithoutLogin) {
             if (mGoogleApiClient == null) {
                 mGoogleApiClient = new GoogleApiClient.Builder(this)
                         .addApi(Plus.API)
@@ -183,8 +190,24 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                         .addOnConnectionFailedListener(this)
                         .build();
             }
-            mGoogleApiClient.connect();
+            //mGoogleApiClient.connect();
         }
+        else {
+            if (mGoogleApiClient == null) {
+                rebuildGoogleApiClient();
+            }
+        }
+        mGoogleApiClient.connect();
+    }
+
+    protected synchronized void rebuildGoogleApiClient() {
+        // When we build the GoogleApiClient we specify where connected and connection failed
+        // callbacks should be returned, which Google APIs our app uses and which OAuth 2.0
+        // scopes our app requests.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
     }
 
     /**
@@ -244,12 +267,13 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         Log.i(TAG, "GoogleApiClient connected");
         mSignInClicked = false;
         Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
+        if (mWithoutLogin == false) {
+            // Get user's information
+            getProfileInformation();
 
-        // Get user's information
-        getProfileInformation();
-
-        // Update the UI after signin
-        updateUI(true);
+            // Update the UI after signin
+            updateUI(true);
+        }
     }
     /**
      * Updating the UI, showing/hiding buttons and profile layout
@@ -418,16 +442,28 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         try {
             String splitMessage[] = mMessage.split(" ");
             personName = splitMessage[1]+" "+splitMessage[2];
-             personPhotoUrl = splitMessage[4];
-             personGooglePlusProfile = splitMessage[6];
-             email = splitMessage[8];
+            personPhotoUrl = splitMessage[4];
+            personGooglePlusProfile = splitMessage[6];
+            email = splitMessage[8];
+            destination_place_id = splitMessage[12];
 
                 Log.e(TAG, "Name: " + personName + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + email
-                        + ", Image: " + personPhotoUrl);
+                        + ", Image: " + personPhotoUrl +",DestinationID: "+destination_place_id);
 
                 txtName.setText(personName);
                 txtEmail.setText(email);
+
+                 /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+              details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, destination_place_id);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+
+
 
                 // by default the profile url gives 50x50 px image only
                 // we can replace the value with whatever dimension we want by
@@ -436,6 +472,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                         personPhotoUrl.length() - 2)
                         + PROFILE_PIC_SIZE;
 
+
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
                 //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
 
@@ -443,6 +480,35 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                com.lazooz.lbm.logger.Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+
+                return;
+            }
+            // Get the Place object from the buffer.
+            final Place place = places.get(0);
+
+            // Format details of the place for display and show it in a TextView.
+            /*
+            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
+                    place.getId(), place.getAddress(), place.getPhoneNumber(),
+                    place.getWebsiteUri()));
+*/
+            txtDestPlace.setText(place.getName() + " " + place.getAddress());
+            com.lazooz.lbm.logger.Log.i(TAG, "Place details received: " + place.getName());
+        }
+    };
 
     @Override
     public void onResult(People.LoadPeopleResult loadPeopleResult) {
