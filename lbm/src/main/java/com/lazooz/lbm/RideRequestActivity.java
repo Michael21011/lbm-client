@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,10 +52,10 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.List;
 
-public class ProfileGoogleActivity extends Activity implements View.OnClickListener,
+public class RideRequestActivity extends ActionBarActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<People.LoadPeopleResult> {
 
-    private static final String TAG = "ProfileGoogleActivity";
+    private static final String TAG = "RideRequestActivity";
 
     private static final String KEY_IN_RESOLUTION = "is_in_resolution";
 
@@ -76,7 +77,6 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private boolean mIntentInProgress;
     private static final int RC_SIGN_IN = 0;
 
-    private boolean mSignInClicked;
 
     private ConnectionResult mConnectionResult;
 
@@ -87,8 +87,9 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private LinearLayout llProfileLayout;
     // Profile pic image size in pixels
     private static final int PROFILE_PIC_SIZE = 400;
-    private  static boolean mWithoutLogin;
     private  static String mMessage;
+    private Button AcceptBtn;
+    private Button RejectBtn;
 
     private static String personName;
     private static String personPhotoUrl;
@@ -104,27 +105,59 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
+
         mMessage = getIntent().getStringExtra("MESSAGE");
 
-            setContentView(R.layout.activity_profile__google);
-            btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
-            btnSignOut = (Button) findViewById(R.id.btn_sign_out);
-            btnRevokeAccess = (Button) findViewById(R.id.btn_revoke_access);
-
-
+        setContentView(R.layout.riderequest);
 
 
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
         txtName = (TextView) findViewById(R.id.txtName);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
-       // txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
+        // txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
 
 
-            btnSignIn.setOnClickListener(this);
-            btnSignOut.setOnClickListener(this);
-            btnRevokeAccess.setOnClickListener(this);
-    }
+
+            //llProfileLayout.setVisibility(View.VISIBLE);
+
+            AcceptBtn = (Button)findViewById(R.id.btn_accept);
+            AcceptBtn.setVisibility(View.GONE);
+            AcceptBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String mMessageArray[] =  mMessage.split(" ");
+                    Integer OpponentId = Integer.valueOf(mMessageArray[10]);
+                    Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
+                    String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this,"ChatLogin");
+                    intent.putExtra("USER_LOGIN",ChatLogin);
+                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+mMessageArray[2]);
+                    intent.putExtra("PASSWORD","LAZOOZ10");
+                    intent.putExtra("OPPONENTID",OpponentId);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            RejectBtn = (Button)findViewById(R.id.btn_reject);
+            RejectBtn.setVisibility(View.GONE);
+            RejectBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        if (mGoogleApiClient == null) {
+            rebuildGoogleApiClient();
+        }
+        mGoogleApiClient.connect();
+            // Update the UI after signin
+            //updateUI(true);
+        }
+
 
     /**
      * Called when the Activity is made visible.
@@ -138,18 +171,19 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         super.onStart();
         System.out.println("Profile Google OnStart");
 
-            if (mGoogleApiClient == null) {
-                mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .addApi(Plus.API)
-                        .addScope(Plus.SCOPE_PLUS_LOGIN)
-                                // Optionally, add additional APIs and scopes if required.
-                        .addConnectionCallbacks(this)
-                        .addOnConnectionFailedListener(this)
-                        .build();
-            }
-            mGoogleApiClient.connect();
-
     }
+
+    protected synchronized void rebuildGoogleApiClient() {
+        // When we build the GoogleApiClient we specify where connected and connection failed
+        // callbacks should be returned, which Google APIs our app uses and which OAuth 2.0
+        // scopes our app requests.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addConnectionCallbacks(this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+    }
+
     /**
      * Called when activity gets invisible. Connection to Play Services needs to
      * be disconnected as soon as an activity is invisible.
@@ -169,9 +203,6 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-            super.onSaveInstanceState(outState);
-
-            outState.putBoolean(KEY_IN_RESOLUTION, mIsInResolution);
 
     }
 
@@ -186,8 +217,8 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 case REQUEST_CODE_RESOLUTION:
                     retryConnecting();
                     break;
+            }
 
-                    }
     }
 
     private void retryConnecting() {
@@ -203,14 +234,9 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "GoogleApiClient connected");
-        mSignInClicked = false;
+
         Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
-
-            // Get user's information
-            getProfileInformation();
-
-            // Update the UI after signin
-            updateUI(true);
+        getProfileInformationWithoutLogin();
 
     }
     /**
@@ -276,50 +302,6 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         }
     }
 
-    /**
-            * Fetching user's information name, email, profile pic
-            * */
-    private void getProfileInformation() {
-        try {
-            Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(this);
-            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-                Person currentPerson = Plus.PeopleApi
-                        .getCurrentPerson(mGoogleApiClient);
-                 personName = currentPerson.getDisplayName();
-                 personPhotoUrl = currentPerson.getImage().getUrl();
-                 personGooglePlusProfile = currentPerson.getUrl();
-                 email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-                Log.e(TAG, "Name: " + personName + ", plusProfile: "
-                        + personGooglePlusProfile + ", email: " + email
-                        + ", Image: " + personPhotoUrl);
-
-                txtName.setText(personName);
-                txtEmail.setText(email);
-
-                // by default the profile url gives 50x50 px image only
-                // we can replace the value with whatever dimension we want by
-                // replacing sz=X
-                personPhotoUrl = personPhotoUrl.substring(0,
-                        personPhotoUrl.length() - 2)
-                        + PROFILE_PIC_SIZE;
-
-                new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
-                String personNameArray[] = personName.split(" ");
-                MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                signUpQuickBlox(personNameArray[0]+personNameArray[1],"LAZOOZ10");
-                //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
-
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Person information is null", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void signUpQuickBlox(final String UserLogin, final String Password)
     {
         final String APP_ID = "22467";
@@ -369,13 +351,84 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             public void onError(List<String> strings) {
                 //progressDialog.hide();
                 //DialogUtils.showLong(context, strings.get(0));
-                Toast.makeText(ProfileGoogleActivity.this, "fail to sign to QuickBlox chat", Toast.LENGTH_LONG).show();
+                Toast.makeText(RideRequestActivity.this, "fail to sign to QuickBlox chat", Toast.LENGTH_LONG).show();
                 System.out.println("signUpSignInTask fail");
                 finish();
             }
         });
     }
 
+    private void getProfileInformationWithoutLogin() {
+        try {
+            String splitMessage[] = mMessage.split(" ");
+            personName = splitMessage[1]+" "+splitMessage[2];
+            personPhotoUrl = splitMessage[4];
+            personGooglePlusProfile = splitMessage[6];
+            email = splitMessage[8];
+            destination_place_id = splitMessage[12];
+
+            Log.e(TAG, "Name: " + personName + ", plusProfile: "
+                    + personGooglePlusProfile + ", email: " + email
+                    + ", Image: " + personPhotoUrl +",DestinationID: "+destination_place_id);
+
+            txtName.setText(personName);
+            //  txtEmail.setText(email);
+
+                 /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+              details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, destination_place_id);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+
+
+
+            // by default the profile url gives 50x50 px image only
+            // we can replace the value with whatever dimension we want by
+            // replacing sz=X
+            personPhotoUrl = personPhotoUrl.substring(0,
+                    personPhotoUrl.length() - 2)
+                    + PROFILE_PIC_SIZE;
+
+
+            new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
+            //SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                com.lazooz.lbm.logger.Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+
+                return;
+            }
+            // Get the Place object from the buffer.
+            final Place place = places.get(0);
+
+            // Format details of the place for display and show it in a TextView.
+            /*
+            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
+                    place.getId(), place.getAddress(), place.getPhoneNumber(),
+                    place.getWebsiteUri()));
+*/
+            txtEmail.setText(place.getName() + " " + place.getAddress());
+            com.lazooz.lbm.logger.Log.i(TAG, "Place details received: " + place.getName());
+        }
+    };
 
     @Override
     public void onResult(People.LoadPeopleResult loadPeopleResult) {
@@ -411,6 +464,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
 
+                AcceptBtn.setVisibility(View.VISIBLE);
+                RejectBtn.setVisibility(View.VISIBLE);
+
+
         }
     }
     /**
@@ -418,6 +475,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
      * */
     @Override
     public void onClick(View v) {
+        /*
         switch (v.getId()) {
             case R.id.btn_sign_in:
                 // Signin button clicked
@@ -432,63 +490,8 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 revokeGplusAccess();
                 break;
         }
+        */
     }
-
-    /**
-     * Sign-in into google
-     * */
-    private void signInWithGplus() {
-        if (!mGoogleApiClient.isConnecting()) {
-            mSignInClicked = true;
-            resolveSignInError();
-        }
-    }
-
-    /**
-     * Sign-out from google
-     * */
-    private void signOutFromGplus() {
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-            mGoogleApiClient.connect();
-            updateUI(false);
-        }
-    }
-
-    /**
-     * Revoking access from google
-     * */
-    private void revokeGplusAccess() {
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient)
-                    .setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status arg0) {
-                            Log.e(TAG, "User access revoked!");
-                            mGoogleApiClient.connect();
-                            updateUI(false);
-                        }
-
-                    });
-        }
-    }
-    /**
-     * Method to resolve any signin errors
-     * */
-    private void resolveSignInError() {
-        if (mConnectionResult.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
-            } catch (SendIntentException e) {
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
-            }
-        }
-    }
-
 
     protected void SubmitProfileToServer(String personName ,
                                          String personPhotoUrl,
@@ -506,7 +509,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         @Override
         protected String doInBackground(String... params) {
 
-            ServerCom bServerCom = new ServerCom(ProfileGoogleActivity.this);
+            ServerCom bServerCom = new ServerCom(RideRequestActivity.this);
 
             String personName  = params[0];
             String personPhotoUrl = params[1];
@@ -519,7 +522,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             JSONObject jsonReturnObj=null;
             try {
                 MySharedPreferences msp = MySharedPreferences.getInstance();
-                bServerCom.setUserProfile(msp.getUserId(ProfileGoogleActivity.this), msp.getUserSecret(ProfileGoogleActivity.this),personName,personPhotoUrl,personGooglePlusProfile,email,chatId);
+                bServerCom.setUserProfile(msp.getUserId(RideRequestActivity.this), msp.getUserSecret(RideRequestActivity.this),personName,personPhotoUrl,personGooglePlusProfile,email,chatId);
                 jsonReturnObj = bServerCom.getReturnObject();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -549,19 +552,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         @Override
         protected void onPostExecute(String result) {
 
-            if (result.equals("success")){
-                Toast.makeText(ProfileGoogleActivity.this, "Your profile has been sent to the server...", Toast.LENGTH_LONG).show();
-                /*
-                String personNameArray[] = personName.split(" ");
 
-                MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                */
-            }
-            else if (result.equals("credentials_not_valid")){
-                Utils.restartApp(ProfileGoogleActivity.this);
-            }
-            else
-                Toast.makeText(ProfileGoogleActivity.this,"Send profile failed.", Toast.LENGTH_LONG).show();
         }
 
 

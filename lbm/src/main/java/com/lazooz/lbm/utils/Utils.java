@@ -25,6 +25,7 @@ import com.lazooz.lbm.MainActivity;
 import com.lazooz.lbm.ProfileGoogleActivity;
 import com.lazooz.lbm.R;
 import com.lazooz.lbm.RegistrationActivity;
+import com.lazooz.lbm.RideRequestActivity;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
@@ -164,7 +165,7 @@ public class Utils extends Fragment {
 	}
 	
 	public static boolean messageToUser(Context context, String title, String message,Activity activity){
-        if (title.contains("Match"))
+        if (title.contains("Ride Request"))
           return MatchMessageToUser(context, title, message,activity);
 		try {
 			AlertDialog ad = new AlertDialog.Builder(context).create();
@@ -219,8 +220,7 @@ public class Utils extends Fragment {
 
 
         Intent intent;
-        intent = new Intent(context, ProfileGoogleActivity.class);
-        intent.putExtra("WITHOUT_LOGIN", true);
+        intent = new Intent(context, RideRequestActivity.class);
         intent.putExtra("MESSAGE",message);
         context.startActivity(intent);
 

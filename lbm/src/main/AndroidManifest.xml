@@ -349,6 +349,10 @@
             android:name=".ProfileGoogleActivity"
             android:label="@string/title_activity_profile_google" >
         </activity>
+        <activity
+            android:name=".RideRequestActivity"
+            android:label="@string/title_activity_ride_request" >
+        </activity>
     </application>
 
 </manifest>
