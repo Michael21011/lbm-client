@@ -110,6 +110,8 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
             btnSignOut = (Button) findViewById(R.id.btn_sign_out);
             btnRevokeAccess = (Button) findViewById(R.id.btn_revoke_access);
+            btnSignIn.setVisibility(View.GONE);
+
 
 
 

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,13 +32,19 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.plus.People;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
-import com.lazooz.lbm.chat.ui.activities.*;
+
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
-import com.lazooz.lbm.utils.Utils;
+
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.model.QBSession;
 import com.quickblox.chat.QBChatService;
@@ -44,7 +52,6 @@ import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
-import android.support.v4.app.Fragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +92,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail,txtDestPlace;
     private LinearLayout llProfileLayout;
+    private GoogleMap map;
     // Profile pic image size in pixels
     private static final int PROFILE_PIC_SIZE = 400;
     private  static String mMessage;
@@ -117,9 +125,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         // txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_to_rider);
+        map = mapFragment.getMap();
 
 
-            //llProfileLayout.setVisibility(View.VISIBLE);
+        //llProfileLayout.setVisibility(View.VISIBLE);
 
             AcceptBtn = (Button)findViewById(R.id.btn_accept);
             AcceptBtn.setVisibility(View.GONE);
@@ -154,11 +164,70 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             rebuildGoogleApiClient();
         }
         mGoogleApiClient.connect();
+        //ShowUsOnMap();
             // Update the UI after signin
             //updateUI(true);
         }
 
+    private void ShowUsOnMap()
+    {
+        String splitMessage[] = mMessage.split(" ");
 
+        double User1Lat = Double.valueOf(splitMessage[14]).doubleValue();
+        double User1Lo = Double.valueOf(splitMessage[15]).doubleValue();
+
+        double User2Lat = Double.valueOf(splitMessage[16]).doubleValue();
+        double User2Lo = Double.valueOf(splitMessage[17]).doubleValue();
+
+
+
+
+        map.setMyLocationEnabled(true);
+
+
+        Location location = new Location("dummy");
+        location.setLatitude(User1Lat);
+        location.setLongitude(User1Lo);
+
+        setMapInitLocation(location);
+
+
+
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(User1Lat, User1Lo))
+                .title("You")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(User2Lat, User2Lo))
+                .title("Other"));
+
+    }
+
+    private void setMapInitLocation(Location location){
+        if (location != null){
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+            map.getUiSettings().setZoomControlsEnabled(true);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 14));
+
+        }
+
+    }
+
+
+    private void setMapLocation(Location location) {
+        if (location != null) {
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+
+            CameraUpdate center=
+                    CameraUpdateFactory.newLatLng(ll);
+            CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+            map.moveCamera(center);
+            map.animateCamera(zoom);
+            map.getUiSettings().setZoomControlsEnabled(true);
+
+        }
+    }
     /**
      * Called when the Activity is made visible.
      * A connection to Play Services need to be initiated as
@@ -170,6 +239,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     protected void onStart() {
         super.onStart();
         System.out.println("Profile Google OnStart");
+
+    }
+
+    private void ShowOnMap()
+    {
 
     }
 
@@ -451,7 +525,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
+                options.inSampleSize = 4;
                 mIcon11 = BitmapFactory.decodeStream(in,null,options);
 
             } catch (Exception e) {
@@ -462,10 +536,13 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         }
 
         protected void onPostExecute(Bitmap result) {
+
             bmImage.setImageBitmap(result);
+
 
                 AcceptBtn.setVisibility(View.VISIBLE);
                 RejectBtn.setVisibility(View.VISIBLE);
+            ShowUsOnMap();
 
 
         }
