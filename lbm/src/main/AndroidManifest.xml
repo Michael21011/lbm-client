@@ -288,6 +288,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".RideShareEnterRequestActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".chat.ui.activities.ChatActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
