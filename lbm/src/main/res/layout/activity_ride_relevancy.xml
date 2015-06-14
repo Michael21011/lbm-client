@@ -4,20 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ProfileGoogleActivity" >
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:id="@+id/map_to_rider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textSize="20dp"
-        android:text="@string/riderequest"/>
+    >
+
+
 
     <ImageView
         android:id="@+id/imgProfilePic"
@@ -39,35 +28,33 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:textSize="20dp"
-        android:text="@string/want_to_ride"/>
-
+        android:text="@string/wants_to_come_and_pick_you_up"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:text="@string/is_it_still_relevant"/>
     <TextView
         android:id="@+id/txtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:textSize="18dp" />
-    <!--
-            <TextView
-                android:id="@+id/txtDestPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="18dp" />
-    -->
+
 
     <Button
         android:id="@+id/btn_accept"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="accept"
+        android:text="@string/still_relevant"
         android:background="@drawable/wallet_btn"
         android:textColor="@color/white" />
     <Button
         android:id="@+id/btn_reject"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="reject"
+        android:text="@string/no_need"
         android:background="@drawable/wallet_btn"
         android:layout_marginTop="10dp"
         android:textColor="@color/white" />
