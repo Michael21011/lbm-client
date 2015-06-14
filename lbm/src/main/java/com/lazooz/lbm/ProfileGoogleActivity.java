@@ -371,7 +371,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 //DialogUtils.showLong(context, strings.get(0));
                 Toast.makeText(ProfileGoogleActivity.this, "fail to sign to QuickBlox chat", Toast.LENGTH_LONG).show();
                 System.out.println("signUpSignInTask fail");
-                finish();
+                //finish();
             }
         });
     }

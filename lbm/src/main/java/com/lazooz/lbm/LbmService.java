@@ -89,7 +89,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private String mPrevPotentialZoozBalance = "0.0";
 	private Runnable runnable;
 	
-	private Handler handler; 
+	private Handler handler;
+	private boolean ScheduleAlt = false;
+
 	
 	
 	public LbmService() {
@@ -174,17 +176,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			      /* do what you need to do */
 				  checkEveryLongPeriod();
 			      /* and here comes the "trick" */
-			      handler.postDelayed(this, 1000*60);
+			      handler.postDelayed(this, 1000*30);
 			   }
 			};
 			
 		handler = new Handler();
-		handler.postDelayed(runnable, 1000*60);
-		
-		
-		
-		
-		
+		handler.postDelayed(runnable, 1000*30);
+
 		startOnDayScheduler();
 		
 		listenToContactsChanges();
@@ -270,8 +268,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	//	MySharedPreferences msp = MySharedPreferences.getInstance();
 		
 	//	Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
-		
-		sendDataToServerAsync();
+		if (ScheduleAlt) /*SendData each 60 seconds*/ {
+			sendDataToServerAsync();
+			ScheduleAlt = false;
+		}
+		else
+		  ScheduleAlt = true;
+		/*Is Alive each 30 seconds*/
 		isLiveAsync();
 		try {
 			if ((Integer.parseInt(mPotentialZoozBalance)-Integer.parseInt(mPrevPotentialZoozBalance))>=1)
@@ -281,7 +284,6 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			}
 		} catch (Exception e) {
 		}
-		
 	}
 	
 		
