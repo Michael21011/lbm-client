@@ -71,15 +71,13 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
 
     private PlaceAutocompleteAdapter mAdapter;
 
-    private AutoCompleteTextView mAutocompleteView;
+
     private AutoCompleteTextView mAutocompleteViewDest;
 
     private TextView mPlaceDetailsText;
 
-    private static String SourcePlaceId = null;
     private static String DestPlaceId = null;
-    private static String ShareTaxi = null;
-    private static String ShareCar = null;
+
 
 
 
@@ -115,15 +113,10 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
         setContentView(activity_ride_share_request);
         Log.i(TAG, " onCreate 3" );
 
-        // Retrieve the AutoCompleteTextView that will display Place suggestions.
-        mAutocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         mAutocompleteViewDest = (AutoCompleteTextView)
                 findViewById(R.id.autocomplete_places_dest);
-
-        // Register a listener that receives callbacks when a suggestion has been selected
-        mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
         // Register a listener that receives callbacks when a suggestion has been selected
         mAutocompleteViewDest.setOnItemClickListener(mAutocompleteDestClickListener);
@@ -155,58 +148,20 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
         // the entire world.
         mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
                 bounds, null);
-        mAutocompleteView.setAdapter(mAdapter);
+
         mAutocompleteViewDest.setAdapter(mAdapter);
 
-        // Set up the 'clear text' button that clears the text in the autocomplete view
-        Button clearButton = (Button) findViewById(R.id.button_clear);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAutocompleteView.setText("");
-                mAutocompleteViewDest.setText("");
-
-            }
-        });
 
 
         Button FindMatchButton = (Button) findViewById(R.id.find_match_submit);
         FindMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((SourcePlaceId == null) || (DestPlaceId == null) || (ShareCar == null)) {
-                    Toast.makeText(getApplicationContext(), "Please fill up all form", Toast.LENGTH_SHORT).show();
+                if (DestPlaceId == null) {
+                    Toast.makeText(getApplicationContext(), "Please enter your destination", Toast.LENGTH_SHORT).show();
                 } else {
-                    SubmitMatchRequestToServer(null,null,SourcePlaceId,null,null,DestPlaceId,ShareTaxi,ShareCar,"barcelona");
+                    SubmitMatchRequestToServer(null,null,null,null,null,DestPlaceId,null,null,"barcelona");
                 }
-            }
-        });
-
-        final RadioGroup status_group = (RadioGroup) findViewById(R.id.status_group);
-
-        //--    By default if you want open button to be checked, you can do that by using
-        //status_group.check(R.id.open_radio);
-
-        status_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                RadioButton radioButton = (RadioButton) findViewById(checkedId);
-                status_group.check(checkedId);
-
-                String radio_status = radioButton.getText().toString().trim();
-                Log.v("radio_text--", radio_status);
-                if (radio_status.equalsIgnoreCase("SHARE TAXI"))
-                {
-                    ShareTaxi = "yes";
-                    ShareCar  = "no";
-                }else
-                {
-                    ShareTaxi = "no";
-                    ShareCar  = "yes";
-                }
-
             }
         });
     }
@@ -249,33 +204,6 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
         }
         return  true;
     }
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /*
-             Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a PlaceAutocomplete object from which we
-             read the place ID.
-              */
-            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
-            final String placeId = String.valueOf(item.placeId);
-            Log.i(TAG, "Autocomplete item selected: " + item.description);
-
-            /*
-             Issue a request to the Places Geo Data API to retrieve a Place object with additional
-              details about the place.
-              */
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
-            Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
-                    Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
-            SourcePlaceId = item.placeId.toString();
-        }
-    };
 
     /**
      * Listener that handles selections from suggestions from the AutoCompleteTextView that

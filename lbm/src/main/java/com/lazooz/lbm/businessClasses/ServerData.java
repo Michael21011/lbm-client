@@ -11,6 +11,7 @@ public class ServerData {
 	private String mPotZoozBalance;
 	private boolean mIsDistanceAchievement;
 	private long mTimeStamp;
+	private String mUsersAroundMe;
 	
 	public ServerData() {
 		// TODO Auto-generated constructor stub
@@ -26,6 +27,14 @@ public class ServerData {
 
 	public void setDistance(String distance) {
 		mDistance = distance;
+	}
+
+	public void setUsersAroundMe(String usersAroundMe) {
+		mUsersAroundMe = usersAroundMe;
+	}
+
+	public String getUsersAroundMe() {
+		return mUsersAroundMe;
 	}
 
 	public String getZoozBalance() {

@@ -323,6 +323,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		private int mNotifNum;
 		private int mSrvrMinBuildNum;
 		private int mSrvrCurrentBuildNum;
+		private String  mSrvrUsersAroundMe;
+
 
 
 		@Override
@@ -352,7 +354,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						mNotifNum = jsonReturnObj.getInt("current_notification_num");
 						mSrvrMinBuildNum = jsonReturnObj.getInt("min_build_num");
 						mSrvrCurrentBuildNum = jsonReturnObj.getInt("current_build_num");
+						mSrvrUsersAroundMe =  jsonReturnObj.getString("usersAroundMe");
 						MySharedPreferences.getInstance().saveBuildNum(LbmService.this, mSrvrCurrentBuildNum, mSrvrMinBuildNum);
+						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, null, null, null, null, mSrvrUsersAroundMe);
+						System.out.println("mSrvrUsersAroundMe: "+ mSrvrUsersAroundMe);
 					}
 				}
 			} 
@@ -521,11 +526,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						String zoozBalance = jsonReturnObj.getString("zooz");
 						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
 						String distance = jsonReturnObj.getString("distance");
-						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
+						String usersAroundMe = jsonReturnObj.getString("UsersAroundMe");
+						String  isDistanceAchievementStr = jsonReturnObj.getString("is_distance_achievement");
+						boolean isDistanceAchievement = Utils.yesNoToBoolean(isDistanceAchievementStr);
+
 						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
 
 						mPotentialZoozBalance = potentialZoozBalance;
-						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievement);
+						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievementStr,usersAroundMe);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
 						}

@@ -177,7 +177,7 @@ public class MySharedPreferences {
 	}
 
     public void saveRegisterOk(Context context, String RegisterOk) {
-        SharedPreferences spData = context.getSharedPreferences("RegData",Context.MODE_MULTI_PROCESS);
+        SharedPreferences spData = context.getSharedPreferences("RegData", Context.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = spData.edit();
 
         editor.putString("regstate", RegisterOk);
@@ -286,7 +286,7 @@ public class MySharedPreferences {
 	}
 	
 	public JSONArray getLocationDataList(Context context){
-		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		SharedPreferences spData = context.getSharedPreferences("LocationData", Context.MODE_MULTI_PROCESS);
 		boolean dataExist = false;
 	
 		int writeCursor = spData.getInt("WriteCursor", 0);
@@ -410,7 +410,7 @@ public class MySharedPreferences {
 	}
 	
 	public String getDefaultFriendsMessage(Context context){
-		SharedPreferences spData = context.getSharedPreferences("FriendsMessage",Context.MODE_MULTI_PROCESS);
+		SharedPreferences spData = context.getSharedPreferences("FriendsMessage", Context.MODE_MULTI_PROCESS);
 		return spData.getString("Message", "");
 	}
 	
@@ -455,6 +455,8 @@ public class MySharedPreferences {
 		sd.setDistance(spData.getString("Distance", "0.0"));
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
 		sd.setTimeStamp(spData.getLong("TimeStamp", 0));
+		sd.setUsersAroundMe(spData.getString("UsersAroundMe", "0"));
+
 		return sd;
 	}
 	
@@ -517,16 +519,30 @@ public class MySharedPreferences {
 		return spData.getInt("CriticalMass", 0);
 	}
 
-	public void saveDataFromServerService(Context context, String zoozBalance, String potentialZoozBalance, String distance, boolean isDistanceAchievement) {
+	public void saveDataFromServerService(Context context, String zoozBalance, String potentialZoozBalance, String distance, String isDistanceAchievement,String UsersAroundMe) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
-		editor.putString("ZoozBalance", zoozBalance);
-		editor.putString("PotentialZoozBalance", potentialZoozBalance);
-		editor.putString("Distance", distance);
-		editor.putBoolean("IsDistanceAchievement", isDistanceAchievement);
+		if (zoozBalance != null)
+		 editor.putString("ZoozBalance", zoozBalance);
+		if (potentialZoozBalance != null)
+		 editor.putString("PotentialZoozBalance", potentialZoozBalance);
+		if (distance != null)
+		 editor.putString("Distance", distance);
+		if (isDistanceAchievement != null) {
+			if (isDistanceAchievement.contentEquals("yes"))
+				editor.putBoolean("IsDistanceAchievement", true);
+			else
+				editor.putBoolean("IsDistanceAchievement", false);
+
+		}
 		editor.putLong("TimeStamp", System.currentTimeMillis());
+		if (UsersAroundMe !=null) {
+			editor.putString("UsersAroundMe", UsersAroundMe);
+		}
 		editor.commit();
 	}
+
+
 	
 	public void saveContactsWithInstalledApp(Context context, JSONArray contacts) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);

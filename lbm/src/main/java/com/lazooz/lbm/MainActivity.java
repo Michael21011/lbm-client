@@ -467,14 +467,15 @@ public class MainActivity extends MyActionBarActivity  {
 		//mDistanceTV.setText(sd.getDistance());
 		float pzb = Float.valueOf(sd.getPotentialZoozBalance());
 		mZoozBalTV.setText(String.format("%.2f", pzb));
-		
-		
+
+		mShakeTV.setText(sd.getUsersAroundMe());
+
 		int numInvitedContacts = msp.getNumInvitedContacts(this);
 		int numShakedUsers = msp.getNumShakedUsers(this);
 		int criticalMass = msp.getCriticalMass(this);
 		
 		mFriendsTV.setText(numInvitedContacts+"");
-		mShakeTV.setText(numShakedUsers +"");		
+		//mShakeTV.setText(numShakedUsers +"");
 		mCriticalMassPB.setProgress(criticalMass);
 		mCriticalMassPB.setMax(100);
 		/*
