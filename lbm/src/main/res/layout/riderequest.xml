@@ -13,6 +13,7 @@
         class="com.google.android.gms.maps.SupportMapFragment" />
 
     <TextView
+        android:id="@+id/ride_request_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -42,6 +43,7 @@
         android:padding="5dp"
         android:textSize="20dp" />
     <TextView
+        android:id="@+id/want_to_ride_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"

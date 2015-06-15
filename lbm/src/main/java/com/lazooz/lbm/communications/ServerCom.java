@@ -139,7 +139,20 @@ public class ServerCom {
         this.postRequestToServer(-1, -1, url, params);
     }
 
-    public void setUserProfile(String UserId, String UserSecret, String personName ,
+	public void setAcceptMatchRequest(String UserId, String UserSecret,String MatchRequestId,String Accept)
+	{
+		String url = StaticParms.BASE_SERVER_URL + "api_ask_match";
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("user_id", UserId ));
+		params.add(new BasicNameValuePair("user_secret", UserSecret ));
+		params.add(new BasicNameValuePair("match_request_id", MatchRequestId ));
+		params.add(new BasicNameValuePair("accept", Accept ));
+		this.postRequestToServer(-1, -1, url, params);
+	}
+
+
+	public void setUserProfile(String UserId, String UserSecret, String personName ,
                                String personPhotoUrl,
                                String personGooglePlusProfile,
                                String email,

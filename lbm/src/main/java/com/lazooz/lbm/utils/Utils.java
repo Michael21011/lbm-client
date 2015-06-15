@@ -165,8 +165,11 @@ public class Utils extends Fragment {
 	}
 	
 	public static boolean messageToUser(Context context, String title, String message,Activity activity){
-        if (title.contains("Ride Request"))
-          return MatchMessageToUser(context, title, message,activity);
+
+        if (title.contains("Ride Request")) {
+			activity.finish();
+			return MatchMessageToUser(context, title, message, activity);
+		}
 		try {
 			AlertDialog ad = new AlertDialog.Builder(context).create();
 			ad.setTitle(title);
@@ -221,7 +224,7 @@ public class Utils extends Fragment {
 
         Intent intent;
         intent = new Intent(context, RideRequestActivity.class);
-        intent.putExtra("MESSAGE",message);
+        intent.putExtra("MESSAGE", message);
         context.startActivity(intent);
 
         return true;
@@ -472,7 +475,7 @@ public class Utils extends Fragment {
 	public static void sendNotifications(Context cntxt, int icon, String tickerText, 
 			String notifTitle, String notifText, Intent notifIntent, boolean withSound){
 		final int MY_NOTIFICATION_ID = 1;
-        if (notifTitle.contains("Match"))
+        if (notifTitle.contains("Ride Request"))
             notifText = "*";
 		NotificationManager notificationManager;
 		Notification myNotification;
@@ -481,7 +484,7 @@ public class Utils extends Fragment {
 		Context context = cntxt.getApplicationContext();
 		String notificationTitle = notifTitle;
 		String notificationText = notifText;
-		PendingIntent pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, PendingIntent.FLAG_ONE_SHOT);
 		if (withSound)
 			myNotification.defaults |= Notification.DEFAULT_SOUND;
 		myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -500,7 +503,7 @@ public class Utils extends Fragment {
 		//Intent myIntent = new Intent();
 		PendingIntent pendingIntent = null;
 		if (notifIntent != null){
-			pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+			pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent,PendingIntent.FLAG_ONE_SHOT);
 		}
 		myNotification.flags |= Notification.FLAG_ONGOING_EVENT;
 		//myNotification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
@@ -521,7 +524,7 @@ public class Utils extends Fragment {
 		//Intent myIntent = new Intent();
 		PendingIntent pendingIntent = null;
 		if (notifIntent != null){
-			pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+			pendingIntent  = PendingIntent.getActivity(cntxt, 0, notifIntent, PendingIntent.FLAG_ONE_SHOT);
 		}
 		myNotification.flags |= Notification.FLAG_ONGOING_EVENT;
 		//myNotification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;

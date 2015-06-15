@@ -90,7 +90,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private SignInButton btnSignIn;
     private Button btnSignOut, btnRevokeAccess;
     private ImageView imgProfilePic;
-    private TextView txtName, txtEmail,txtDestPlace;
+    private TextView txtName, txtEmail,txtDestPlace,RideRequestText,WantToRideText;
     private LinearLayout llProfileLayout;
     private GoogleMap map;
     // Profile pic image size in pixels
@@ -104,6 +104,15 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private static String personGooglePlusProfile;
     private static String email ;
     private static String destination_place_id ;
+
+    private static double User1Lat;
+    private static double User1Lo ;
+
+    private static double User2Lat;
+    private static double User2Lo ;
+    private static String MatchRequestId;
+    private static String TypeActivity;
+
     /**
      * Called when the activity is starting. Restores the activity state.
      */
@@ -115,6 +124,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         }
 
         mMessage = getIntent().getStringExtra("MESSAGE");
+        ParseMessage();
 
         setContentView(R.layout.riderequest);
 
@@ -124,12 +134,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         // txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_to_rider);
-        map = mapFragment.getMap();
-
-
-        //llProfileLayout.setVisibility(View.VISIBLE);
+        RideRequestText = (TextView) findViewById(R.id.ride_request_text);
+        WantToRideText = (TextView) findViewById(R.id.want_to_ride_text);
 
             AcceptBtn = (Button)findViewById(R.id.btn_accept);
             AcceptBtn.setVisibility(View.GONE);
@@ -137,7 +143,10 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 @Override
                 public void onClick(View v) {
 
+                    SendAcceptMatchToServer(MatchRequestId,"yes");
+                    /*
                     String mMessageArray[] =  mMessage.split(" ");
+
                     Integer OpponentId = Integer.valueOf(mMessageArray[10]);
                     Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
                     String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this,"ChatLogin");
@@ -146,7 +155,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                     intent.putExtra("PASSWORD","LAZOOZ10");
                     intent.putExtra("OPPONENTID",OpponentId);
                     startActivity(intent);
+
                     finish();
+                    */
                 }
             });
             RejectBtn = (Button)findViewById(R.id.btn_reject);
@@ -160,27 +171,46 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                     finish();
                 }
             });
+        if (TypeActivity.contains("match_accept")) {
+            RideRequestText.setVisibility(View.GONE);
+            WantToRideText.setText("Want to come and pick you up");
+            AcceptBtn.setText("Still relevant");
+            RejectBtn.setText("No need");
+
+        }
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_to_rider);
+        map = mapFragment.getMap();
         if (mGoogleApiClient == null) {
             rebuildGoogleApiClient();
         }
         mGoogleApiClient.connect();
-        //ShowUsOnMap();
+        ShowUsOnMap();
             // Update the UI after signin
             //updateUI(true);
         }
 
-    private void ShowUsOnMap()
+    private void ParseMessage()
     {
+
         String splitMessage[] = mMessage.split(" ");
 
-        double User1Lat = Double.valueOf(splitMessage[14]).doubleValue();
-        double User1Lo = Double.valueOf(splitMessage[15]).doubleValue();
+        personName = splitMessage[1]+" "+splitMessage[2];
+        personPhotoUrl = splitMessage[4];
+        personGooglePlusProfile = splitMessage[6];
+        email = splitMessage[8];
+        destination_place_id = splitMessage[12];
 
-        double User2Lat = Double.valueOf(splitMessage[16]).doubleValue();
-        double User2Lo = Double.valueOf(splitMessage[17]).doubleValue();
+        User1Lat = Double.valueOf(splitMessage[14]).doubleValue();
+        User1Lo = Double.valueOf(splitMessage[15]).doubleValue();
 
-
-
+        User2Lat = Double.valueOf(splitMessage[16]).doubleValue();
+        User2Lo = Double.valueOf(splitMessage[17]).doubleValue();
+        MatchRequestId = splitMessage[19];
+        TypeActivity   = splitMessage[21];
+    }
+    private void ShowUsOnMap()
+    {
 
         map.setMyLocationEnabled(true);
 
@@ -213,21 +243,6 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         }
 
     }
-
-
-    private void setMapLocation(Location location) {
-        if (location != null) {
-            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-
-            CameraUpdate center=
-                    CameraUpdateFactory.newLatLng(ll);
-            CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
-            map.moveCamera(center);
-            map.animateCamera(zoom);
-            map.getUiSettings().setZoomControlsEnabled(true);
-
-        }
-    }
     /**
      * Called when the Activity is made visible.
      * A connection to Play Services need to be initiated as
@@ -238,7 +253,6 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("Profile Google OnStart");
 
     }
 
@@ -434,12 +448,6 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
     private void getProfileInformationWithoutLogin() {
         try {
-            String splitMessage[] = mMessage.split(" ");
-            personName = splitMessage[1]+" "+splitMessage[2];
-            personPhotoUrl = splitMessage[4];
-            personGooglePlusProfile = splitMessage[6];
-            email = splitMessage[8];
-            destination_place_id = splitMessage[12];
 
             Log.e(TAG, "Name: " + personName + ", plusProfile: "
                     + personGooglePlusProfile + ", email: " + email
@@ -452,9 +460,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
              Issue a request to the Places Geo Data API to retrieve a Place object with additional
               details about the place.
               */
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, destination_place_id);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+            if (TypeActivity.contains("match_request")) {
+                PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                        .getPlaceById(mGoogleApiClient, destination_place_id);
+                placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+            }
 
 
 
@@ -542,7 +552,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
                 AcceptBtn.setVisibility(View.VISIBLE);
                 RejectBtn.setVisibility(View.VISIBLE);
-            ShowUsOnMap();
+
+            //ShowUsOnMap();
 
 
         }
@@ -630,6 +641,66 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         protected void onPostExecute(String result) {
 
 
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+    }
+
+    protected void SendAcceptMatchToServer(String MatchRequestId,String Accept) {
+        SendAcceptMatchToServer sendAcceptMatchToServer = new SendAcceptMatchToServer();
+        sendAcceptMatchToServer.execute(MatchRequestId,Accept);
+
+    }
+
+    private class SendAcceptMatchToServer extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ServerCom bServerCom = new ServerCom(RideRequestActivity.this);
+
+            String MatchRequestId = params[0];
+            String Accept = params[1];
+
+            JSONObject jsonReturnObj=null;
+            try {
+                MySharedPreferences msp = MySharedPreferences.getInstance();
+                bServerCom.setAcceptMatchRequest(msp.getUserId(RideRequestActivity.this), msp.getUserSecret(RideRequestActivity.this), MatchRequestId,Accept);
+                jsonReturnObj = bServerCom.getReturnObject();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+            String serverMessage = "";
+
+            try {
+                if (jsonReturnObj == null)
+                    serverMessage = "ConnectionError";
+                else {
+                    serverMessage = jsonReturnObj.getString("message");
+                    if (serverMessage.equals("success")){
+
+                    }
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                serverMessage = "GeneralError";
+            }
+
+
+            return serverMessage;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            finish();
         }
 
 
