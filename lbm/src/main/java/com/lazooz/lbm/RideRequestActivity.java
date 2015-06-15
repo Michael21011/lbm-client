@@ -12,12 +12,14 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.plus.People;
 
+import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
@@ -90,7 +93,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private SignInButton btnSignIn;
     private Button btnSignOut, btnRevokeAccess;
     private ImageView imgProfilePic;
-    private TextView txtName, txtEmail,txtDestPlace,RideRequestText,WantToRideText;
+    private TextView txtName, txtEmail,txtDestPlace,RideRequestText,WantToRideText,MatchAcceptedText;
     private LinearLayout llProfileLayout;
     private GoogleMap map;
     // Profile pic image size in pixels
@@ -112,7 +115,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private static double User2Lo ;
     private static String MatchRequestId;
     private static String TypeActivity;
-
+    private ProgressBar mProgressBar;
+    private Runnable runnable;
+    private Handler handler;
+    private int MatchWaitTimeCounter;
+    private boolean reject = false;
     /**
      * Called when the activity is starting. Restores the activity state.
      */
@@ -136,6 +143,12 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
         RideRequestText = (TextView) findViewById(R.id.ride_request_text);
         WantToRideText = (TextView) findViewById(R.id.want_to_ride_text);
+        MatchAcceptedText = (TextView) findViewById(R.id.match_accepted_text);
+        MatchAcceptedText.setVisibility(View.GONE);
+        mProgressBar = (ProgressBar)findViewById(R.id.ride_progress);
+
+        mProgressBar.setVisibility(View.GONE);
+
 
             AcceptBtn = (Button)findViewById(R.id.btn_accept);
             AcceptBtn.setVisibility(View.GONE);
@@ -144,6 +157,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 public void onClick(View v) {
 
                     SendAcceptMatchToServer(MatchRequestId,"yes");
+                    MySharedPreferences msp = MySharedPreferences.getInstance();
+                    msp.saveMatchRequestId(RideRequestActivity.this,MatchRequestId);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    AcceptBtn.setVisibility(View.GONE);
+
                     /*
                     String mMessageArray[] =  mMessage.split(" ");
 
@@ -165,10 +183,18 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             RejectBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (TypeActivity.contains("match_accept")) {
 
-                    Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                        reject =  true;
+                        SendAcceptMatchToServer(MatchRequestId,"no");
+
+                    }
+                    else {
+                        Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 }
             });
         if (TypeActivity.contains("match_accept")) {
@@ -186,10 +212,51 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         }
         mGoogleApiClient.connect();
         ShowUsOnMap();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+			      /* do what you need to do */
+                 if (CheckIfMatchAccepted() == false)
+
+			      /* and here comes the "trick" */
+                  handler.postDelayed(this, 1000*10);
+            }
+        };
+
+        handler = new Handler();
+        MatchWaitTimeCounter = 0;
+        handler.postDelayed(runnable, 1000 * 10);
             // Update the UI after signin
             //updateUI(true);
         }
 
+    private boolean CheckIfMatchAccepted()
+    {
+
+        MySharedPreferences msp = MySharedPreferences.getInstance();
+        ServerData sd = msp.getServerData(this);
+        if (MatchWaitTimeCounter++ == 30) /* 6*5=30 5 minutes*/
+        {
+            mProgressBar.setVisibility(View.GONE);
+            MatchAcceptedText.setVisibility(View.VISIBLE);
+            MatchAcceptedText.setText("5 minutes pass...try again");
+            return true;
+
+        }
+        if (sd.getMatchAccepted().contains("yes")) {
+            mProgressBar.setVisibility(View.GONE);
+            MatchAcceptedText.setVisibility(View.VISIBLE);
+            MatchAcceptedText.setText("Match accepted");
+            return true;
+        }
+        if (sd.getMatchAccepted().contains("no")) {
+            mProgressBar.setVisibility(View.GONE);
+            MatchAcceptedText.setVisibility(View.VISIBLE);
+            MatchAcceptedText.setText("Match rejected");
+            return  true;
+        }
+        return false;
+    }
     private void ParseMessage()
     {
 
@@ -610,7 +677,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             JSONObject jsonReturnObj=null;
             try {
                 MySharedPreferences msp = MySharedPreferences.getInstance();
-                bServerCom.setUserProfile(msp.getUserId(RideRequestActivity.this), msp.getUserSecret(RideRequestActivity.this),personName,personPhotoUrl,personGooglePlusProfile,email,chatId);
+                bServerCom.setUserProfile(msp.getUserId(RideRequestActivity.this), msp.getUserSecret(RideRequestActivity.this), personName, personPhotoUrl, personGooglePlusProfile, email, chatId);
                 jsonReturnObj = bServerCom.getReturnObject();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -670,7 +737,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             JSONObject jsonReturnObj=null;
             try {
                 MySharedPreferences msp = MySharedPreferences.getInstance();
-                bServerCom.setAcceptMatchRequest(msp.getUserId(RideRequestActivity.this), msp.getUserSecret(RideRequestActivity.this), MatchRequestId,Accept);
+                bServerCom.setAcceptMatchRequest(msp.getUserId(RideRequestActivity.this), msp.getUserSecret(RideRequestActivity.this), MatchRequestId, Accept);
                 jsonReturnObj = bServerCom.getReturnObject();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -700,7 +767,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         @Override
         protected void onPostExecute(String result) {
 
-            finish();
+            if (reject) {
+                Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
 
@@ -709,6 +780,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         }
     }
+
 
 
 }

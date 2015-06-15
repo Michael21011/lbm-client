@@ -12,6 +12,10 @@ public class ServerData {
 	private boolean mIsDistanceAchievement;
 	private long mTimeStamp;
 	private String mUsersAroundMe;
+	private String mMatchAccepted;
+	private String mMatchRequestId;
+
+
 	
 	public ServerData() {
 		// TODO Auto-generated constructor stub
@@ -36,6 +40,23 @@ public class ServerData {
 	public String getUsersAroundMe() {
 		return mUsersAroundMe;
 	}
+
+	public void setMatchAccepted(String MatchAccepted) {
+		mMatchAccepted = MatchAccepted;
+	}
+
+	public String getMatchAccepted() {
+		return mMatchAccepted;
+	}
+
+	public void setMatchRequestId(String MatchRequestId) {
+		mMatchRequestId = MatchRequestId;
+	}
+
+	public String getMatchRequestId() {
+		return mMatchRequestId;
+	}
+
 
 	public String getZoozBalance() {
 		return mZoozBalance;

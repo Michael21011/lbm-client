@@ -12,11 +12,13 @@ import java.util.TimerTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbill.DNS.NULLRecord;
 
 
 //import com.google.android.gms.internal.mf;
 import com.lazooz.lbm.businessClasses.BluetoothData;
 import com.lazooz.lbm.businessClasses.LocationData;
+import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.businessClasses.StatsDataMinersDistDayList;
 import com.lazooz.lbm.businessClasses.TelephonyData;
 import com.lazooz.lbm.businessClasses.TelephonyDataTracker;
@@ -240,7 +242,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , 24*60*60*1000, pintent);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 24 * 60 * 60 * 1000, pintent);
 
 		
 	}
@@ -294,20 +296,24 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 			JSONObject jObj = new JSONObject();
 			try {
-				jObj.put("lat", location.getLatitude());
-				jObj.put("long", location.getLongitude());
+				if (location != null) {
+					jObj.put("lat", location.getLatitude());
+					jObj.put("long", location.getLongitude());
 
-				if (location.hasAccuracy())
-					jObj.put("location_accuracy", location.getAccuracy());
-				
-				if (location.hasSpeed())
-					jObj.put("location_speed", location.getSpeed());		
-				
+					if (location.hasAccuracy())
+						jObj.put("location_accuracy", location.getAccuracy());
+
+					if (location.hasSpeed())
+						jObj.put("location_speed", location.getSpeed());
+				}
+
 				jString = jObj.toString();
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+
 			
 			
 			
@@ -326,6 +332,8 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		private int mSrvrMinBuildNum;
 		private int mSrvrCurrentBuildNum;
 		private String  mSrvrUsersAroundMe;
+		private String  mMatchAccepted;
+
 
 
 
@@ -338,8 +346,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
         	JSONObject jsonReturnObj=null;
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
-				String publicKey = MySharedPreferences.getInstance().getPublicKey(LbmService.this); 
-				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), locationString, publicKey);
+				String publicKey = MySharedPreferences.getInstance().getPublicKey(LbmService.this);
+				String MatchRequestId = MySharedPreferences.getInstance().getMatchRequestId(LbmService.this);
+				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), locationString, publicKey,MatchRequestId);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -356,9 +365,19 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						mNotifNum = jsonReturnObj.getInt("current_notification_num");
 						mSrvrMinBuildNum = jsonReturnObj.getInt("min_build_num");
 						mSrvrCurrentBuildNum = jsonReturnObj.getInt("current_build_num");
-						mSrvrUsersAroundMe =  jsonReturnObj.getString("usersAroundMe");
+						if (jsonReturnObj.isNull("usersAroundMe"))
+							mSrvrUsersAroundMe = null;
+						else
+							mSrvrUsersAroundMe = jsonReturnObj.getString("usersAroundMe");
+
+						if (jsonReturnObj.isNull("MatchAccepted"))
+							mMatchAccepted = null;
+						else
+							mMatchAccepted = jsonReturnObj.getString("MatchAccepted");
+						System.out.println("mMatchAccepted = " + mMatchAccepted);
+
 						MySharedPreferences.getInstance().saveBuildNum(LbmService.this, mSrvrCurrentBuildNum, mSrvrMinBuildNum);
-						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, null, null, null, null, mSrvrUsersAroundMe);
+						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, null, null, null, null, mSrvrUsersAroundMe,mMatchAccepted);
 						System.out.println("mSrvrUsersAroundMe: "+ mSrvrUsersAroundMe);
 					}
 				}
@@ -528,14 +547,28 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						String zoozBalance = jsonReturnObj.getString("zooz");
 						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
 						String distance = jsonReturnObj.getString("distance");
-						String usersAroundMe = jsonReturnObj.getString("UsersAroundMe");
+						String usersAroundMe;
+						if (jsonReturnObj.isNull("usersAroundMe"))
+							usersAroundMe = null;
+						else
+							usersAroundMe = jsonReturnObj.getString("usersAroundMe");
+						String mMatchAccepted;
+
+						if (jsonReturnObj.isNull("MatchAccepted"))
+							mMatchAccepted = null;
+						else
+							mMatchAccepted = jsonReturnObj.getString("MatchAccepted");
+
+
+
+
 						String  isDistanceAchievementStr = jsonReturnObj.getString("is_distance_achievement");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(isDistanceAchievementStr);
 
 						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
 
 						mPotentialZoozBalance = potentialZoozBalance;
-						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievementStr,usersAroundMe);
+						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievementStr,usersAroundMe,mMatchAccepted);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
 						}

@@ -353,7 +353,7 @@ public class MySharedPreferences {
 	}
 	
 	public void clearRecommendUsers(Context context) {
-		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser", Context.MODE_MULTI_PROCESS);
 		spData.edit().clear().commit();
 	}
 
@@ -438,7 +438,17 @@ public class MySharedPreferences {
 		
 		return jsArray;
 	}
-	
+
+	public void saveMatchRequestId(Context context, String requestId) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
+		spData.edit().putString("match_request_id", requestId).commit();
+	}
+
+	public String getMatchRequestId(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("ServerData", Context.MODE_MULTI_PROCESS);
+		return spData.getString("match_request_id", "");
+	}
+
 	public boolean isDistanceAchievement(Context context){
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		
@@ -456,7 +466,7 @@ public class MySharedPreferences {
 		sd.setIsDistanceAchievement(spData.getBoolean("IsDistanceAchievement", false));
 		sd.setTimeStamp(spData.getLong("TimeStamp", 0));
 		sd.setUsersAroundMe(spData.getString("UsersAroundMe", "0"));
-
+		sd.setMatchAccepted(spData.getString("MatchAccepted", "NA"));
 		return sd;
 	}
 	
@@ -519,7 +529,8 @@ public class MySharedPreferences {
 		return spData.getInt("CriticalMass", 0);
 	}
 
-	public void saveDataFromServerService(Context context, String zoozBalance, String potentialZoozBalance, String distance, String isDistanceAchievement,String UsersAroundMe) {
+	public void saveDataFromServerService(Context context, String zoozBalance, String potentialZoozBalance, String distance,
+										  String isDistanceAchievement,String UsersAroundMe,String MatchAccepted) {
 		SharedPreferences spData = context.getSharedPreferences("ServerData",Context.MODE_MULTI_PROCESS);
 		Editor editor = spData.edit();
 		if (zoozBalance != null)
@@ -538,6 +549,9 @@ public class MySharedPreferences {
 		editor.putLong("TimeStamp", System.currentTimeMillis());
 		if (UsersAroundMe !=null) {
 			editor.putString("UsersAroundMe", UsersAroundMe);
+		}
+		if (MatchAccepted !=null) {
+			editor.putString("MatchAccepted", MatchAccepted);
 		}
 		editor.commit();
 	}
