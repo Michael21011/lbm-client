@@ -28,13 +28,32 @@
         android:layout_weight="1"
         android:adjustViewBounds="false" />
         -->
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imgProfilePic"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        app:border_width="2dp"
-        app:border_color="#FF000000"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imgProfilePic"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            app:border_width="2dp"
+            app:border_color="#FF000000"/>
+        <ProgressBar
+        android:id="@+id/ride_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="90dp" />
+        <TextView
+            android:id="@+id/match_accepted_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="90dp" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/txtName"
