@@ -46,6 +46,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+
 public class MainActivity extends MyActionBarActivity  {
 	
 	private Timer ShortPeriodTimer;
@@ -222,9 +224,9 @@ public class MainActivity extends MyActionBarActivity  {
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN);
 		
 		//getUserKeyDataAsync();
-		
-		
-		
+
+
+		FacebookSdk.sdkInitialize(getApplicationContext());
 	}
 
 

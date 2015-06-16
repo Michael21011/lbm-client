@@ -1,3 +1,3 @@
-include ':mapUtilsLibrary',':pull-to-refresh'
+include ':mapUtilsLibrary', ':pull-to-refresh', ':facebook'
 include ':supertooltipslib'
 include ':lbm'

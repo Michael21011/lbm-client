@@ -5,11 +5,15 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +21,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.ProfilePictureView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -49,6 +62,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class ProfileGoogleActivity extends Activity implements View.OnClickListener,
@@ -82,6 +97,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
     private SignInButton btnSignIn;
     private Button btnSignOut, btnRevokeAccess;
+    private LoginButton btnFbLogin;
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail,txtDestPlace;
     private LinearLayout llProfileLayout;
@@ -95,26 +111,67 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     private static String personGooglePlusProfile;
     private static String email ;
     private static String destination_place_id ;
+    private ProfilePictureView profilePictureView;
+
+    CallbackManager callbackManager;
     /**
      * Called when the activity is starting. Restores the activity state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
         mMessage = getIntent().getStringExtra("MESSAGE");
 
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.lazooz.lbm",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            int i = 0;
+            i++;
+
+        } catch (NoSuchAlgorithmException e) {
+            int i = 0;
+            i++;
+
+        }
             setContentView(R.layout.activity_profile__google);
             btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
             btnSignOut = (Button) findViewById(R.id.btn_sign_out);
             btnRevokeAccess = (Button) findViewById(R.id.btn_revoke_access);
             btnSignIn.setVisibility(View.GONE);
+            btnFbLogin =  (LoginButton) findViewById(R.id.login_button);
+            callbackManager = CallbackManager.Factory.create();
 
+            btnFbLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    // App code
+                    updateFaceBookUI();
+                }
 
+                @Override
+                public void onCancel() {
+                    // App code
+                }
 
+                @Override
+                public void onError(FacebookException exception) {
+                    // App code
+                }
+            });
 
+        profilePictureView = (ProfilePictureView) findViewById(R.id.profilePicture);
 
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
         txtName = (TextView) findViewById(R.id.txtName);
@@ -127,6 +184,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             btnSignOut.setOnClickListener(this);
             btnRevokeAccess.setOnClickListener(this);
     }
+
 
     /**
      * Called when the Activity is made visible.
@@ -184,7 +242,9 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
             super.onActivityResult(requestCode, resultCode, data);
-            switch (requestCode) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
                 case REQUEST_CODE_RESOLUTION:
                     retryConnecting();
                     break;
@@ -230,8 +290,18 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             btnRevokeAccess.setVisibility(View.GONE);
             llProfileLayout.setVisibility(View.GONE);
         }
+
     }
 
+    private void updateFaceBookUI() {
+        boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
+        Profile profile = Profile.getCurrentProfile();
+        if (enableButtons && profile != null) {
+            profilePictureView.setProfileId(profile.getId());
+        } else {
+            profilePictureView.setProfileId(null);
+        }
+    }
 
     /**
      * Called when {@code mGoogleApiClient} connection is suspended.
