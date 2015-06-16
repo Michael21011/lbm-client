@@ -17,7 +17,7 @@
     <string name="recommendation_pre_code_template_eng">token:</string>
     <string name="recommendation_input_msg_title">Recommendation</string>
     <string name="recommendation_input_msg_body">Please enter a personal recommendation note.</string>
-    <string name="recommendation_default">This is a link to social app I installed. This application builds a \'ride sharing\' network which will be owned by the community. After you install this app it will start mining Potential Zooz tokens for you while you drive with your phone\'s GPS on. When the network will be established you can use these tokens to pay for movement. Check it out!</string>
+    <string name="recommendation_default">This is a link to social app I installed. This application builds a \'ride sharing\' network which will be owned by the community. After you install this app it will start mining Road Zooz tokens for you while you drive with your phone\'s GPS on. When the network will be established you can use these tokens to pay for movement. Check it out!</string>
     <string name="recommendation_default_start">Hello there, </string>
     <string name="invitation_sent">Invitation sent</string>
     <string name="drawer_entry_me">Me</string>
@@ -651,17 +651,17 @@
         <item>Åland Islands</item>
     </string-array>
 
-    <string name="intro_text" formatted="false">Hello, I am La\'Zooz %v%.\r\n\r\nBy running and sharing this app with others,you are taking part in the establishment of the first\n  Collaborative Transportation Web.\n\rYour contribution will be rewarded with Potential Zooz tokens, to be traded for movement once the network is established.</string>
+    <string name="intro_text" formatted="false">Hello, I am La\'Zooz %v%.\r\n\r\nBy running and sharing this app with others,you are taking part in the establishment of the first\n  Collaborative Transportation Web.\n\rYour contribution will be rewarded with Road Zooz tokens, to be traded for movement once the network is established.</string>
     <string name="disclaimer_title">La\'Zooz DISCLAIMER</string>
     <string name="disclaimer_text">* You need to scroll the text before you can press \'I accept the terms\'.
 
-This is a Beta version of La\'Zooz mobile App. Any information shown by this App might not be accurate .This version of the app mines Unverified Potential Zooz ,Verification of these Unverified Potential Zooz could be proved to be impossible and therefore your Unverified Potential Zooz balance may change or be reset at any time.An abuse of the system can cause your Potential Zooz balance to be erased.Potential Zooz may not be usable at all.The Collaborative Transportation Web may never be established.</string>
-    <string name="second_step_screen_text">Your movement is a building block for this network, and you will be rewarded with Potential Zooz for this contribution.
+This is a Beta version of La\'Zooz mobile App. Any information shown by this App might not be accurate .This version of the app mines Unverified Road Zooz ,Verification of these Unverified Road Zooz could be proved to be impossible and therefore your Unverified Road Zooz balance may change or be reset at any time.An abuse of the system can cause your Road Zooz balance to be erased.Road Zooz may not be usable at all.The Collaborative Transportation Web may never be established.</string>
+    <string name="second_step_screen_text">Your movement is a building block for this network, and you will be rewarded with Road Zooz for this contribution.
 
-Each travel with La\'Zooz app and GPS active will mine for you some Potential Zooz tokens.
-Adding any friend to the network will entitle you some Potential Zooz tokens.</string>
-    <string name="tool_tip_reg1">At this stage you are mining a Potential Zooz tokens,  Once the transportation network will be established in you geographic location and the authentication of your data is completed. you would be able to trade those tokens for movement. Some of your Potential Zooz will be converted into Zooz as a reward for using the transportation network. This procedure is made to incentivize using the system for its purpose and avoid an abuse of the system.</string>
-    <string name="invitation_code_option">Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend will be credited with 10 potential Zooz.</string>
+Each travel with La\'Zooz app and GPS active will mine for you some Road Zooz tokens.
+Adding any friend to the network will entitle you some Roaa Zooz tokens.</string>
+    <string name="tool_tip_reg1">At this stage you are mining a Road Zooz tokens,  Once the transportation network will be established in you geographic location and the authentication of your data is completed. you would be able to trade those tokens for movement. Some of your Road Zooz will be converted into Zooz as a reward for using the transportation network. This procedure is made to incentivize using the system for its purpose and avoid an abuse of the system.</string>
+    <string name="invitation_code_option">Optional, If you got an invitation code, please enter it.\nBy entering the invitaion code your friend will be credited with 10 Road Zooz.</string>
     <string name="Phone_number_verification">Phone number verification</string>
     <string name="register_with">Register with: </string>
     <string name="approve">Approve</string>
@@ -680,12 +680,12 @@ Adding any friend to the network will entitle you some Potential Zooz tokens.</s
 But it is also fun :)
 
 In this step you are prompt to interact with other users by meeting with them and shaking your phones together.
-For each shake with a new user you will mine a number of Potential Zooz tokens.</string>
+For each shake with a new user you will mine a number of Road Zooz tokens.</string>
     <string name="find_lazooz_users">Find La\'Zooz users</string>
     <string name="next">Next</string>
     <string name="whats_next">What\'s Next?</string>
-    <string name="registration_1">You can now start receiving Potential Zooz for your contribution</string>
-    <string name="registration_2">Potential Zooz are digital tokens that are currently stored on our servers. 
+    <string name="registration_1">You can now start receiving Road Zooz for your contribution</string>
+    <string name="registration_2">Road Zooz are digital tokens that are currently stored on our servers.
 After testing phase they will be stored onto a secured public ledger.</string>
     <string name="registration_3">Enter your mobile phone number to create a wallet, a validation code will be sent to you via SMS.</string>
     <string name="registration_4">Register</string>
@@ -705,12 +705,12 @@ After testing phase they will be stored onto a secured public ledger.</string>
     <string name="mined_km">MINED KILOMETERS</string>
     <string name="km">Km</string>
     <string name="invited_freinds">INVITED FRIENDS</string>
-    <string name="potential_zooz">POTENTIAL ZOOZ</string>
+    <string name="potential_zooz">ROAD ZOOZ</string>
     <string name="shakes">shakes</string>
     <string name="critical_mass">CRITICAL MASS</string>
     <string name="times_shaken">TIMES SHAKEN</string>
     <string name="friends">friends</string>
-    <string name="pz">pz</string>
+    <string name="pz">rz</string>
     <string name="me_shakes">Shakes</string>
     <string name="me_invited_freinds">Invited Friends</string>
     <string name="me_mined_km">Mined Km</string>
@@ -728,7 +728,7 @@ After testing phase they will be stored onto a secured public ledger.</string>
     <string name="total_community_mined_km_history">Total Community Mined Km History</string>
     <string name="tap_here_to_invite_a_friend">Tap here to invite a friend</string>
     <string name="gotit">Got it!</string>
-    <string name="potential_zooz_balance">Potential Zooz Balance</string>
+    <string name="potential_zooz_balance">Road Zooz Balance</string>
     <string name="zooz_balance">Zooz Balance</string>
     <string name="zooz_address">Zooz address</string>
     <string name="private_key">Private Key</string>
@@ -752,14 +752,14 @@ After testing phase they will be stored onto a secured public ledger.</string>
     <string name="share_def_text">Hi,\nJoin La\`Zooz .\nDownload from here:\n</string>
     <string name="legal_and_privacy">Terms and Conditions for the La’Zooz Mining Application
 
-The following Terms and Conditions (“Terms”) govern the Mining of Potential Zooz (“PZ”), by users (“Users” or “Miners” collectively, and “User” or “Miner” individually) of the La’Zooz mining application, (“La’Zooz”). La’Zooz is being developed primarily by a volunteer contributor team, and will continue to be developed on a volunteer basis by some developers as well as under a more formalized contracting or employment relationship for other developers. The group of developers and other personnel that is now, or will be, employed by, or contracted with La’Zooz is termed the “La’Zooz Team”.
+The following Terms and Conditions (“Terms”) govern the Mining of Road Zooz (“PZ”), by users (“Users” or “Miners” collectively, and “User” or “Miner” individually) of the La’Zooz mining application, (“La’Zooz”). La’Zooz is being developed primarily by a volunteer contributor team, and will continue to be developed on a volunteer basis by some developers as well as under a more formalized contracting or employment relationship for other developers. The group of developers and other personnel that is now, or will be, employed by, or contracted with La’Zooz is termed the “La’Zooz Team”.
 
 This document is not a solicitation for investment and does not pertain in any way to an offering of securities in any jurisdiction.
 
 Individuals, businesses, and other organizations should carefully weigh the risks, costs, and benefits of mining PZ early in this Beta stage of the La’Zooz mining application versus waiting to the full production stage of the application to be published.
 IMPORTANT
 Ownership of PZ carries no rights express or implied. Users or Miners should have no expectation of influence over governance of La’Zooz. By Mining PZ, you expressly acknowledge and represent that you have carefully reviewed the Terms, and fully understand the risks, costs, and benefits of Mining PZ and agree to be bound by these Terms. As set forth further below, you further represent and warrant that, to the extent permitted by law, you are authorized to mine PZ in your relevant jurisdiction, are of a legal age to be bound by these Terms, and will not hold La’Zooz, its parent and affiliates, and the officers, directors, agents, joint ventures, employees and suppliers of La’Zooz or our parent or affiliates, now or in the future and any other member of the La’Zooz Team (collectively the “La’Zooz Parties”) liable for any losses or any special, incidental, or consequential damages arising out of, or in any way connected to the La’Zooz mining application ot to the mining of PZ .
-USERS SHOULD NOTICE THAT SOME OR ALL OF THE POTENTIAL ZOOZ THEY WILL COLLECT AT THIS STAGE MAY NOT BE VALIDATED!
+USERS SHOULD NOTICE THAT SOME OR ALL OF THE ROAD ZOOZ THEY WILL COLLECT AT THIS STAGE MAY NOT BE VALIDATED!
 
 Privacy
 As we all know personal data is sensible and everyone want to take care of it. La’Zooz mining application is in its BETA stage and therefore data is being stored on La’Zooz servers in order to develop Proof of Movement algorithms. We are doing our best to keep our servers safe and secured but users should take into account that security vulnerabilities are being discovered from time to time and our servers are subjected to these vulnerabilities like any other servers.
@@ -771,8 +771,8 @@ Digital currencies are working their way through the dungeons of global and loca
 User understands, that while the La’Zooz Team will make reasonable efforts to complete the
 La’Zooz mining app, it is possible that an official completed version of the La’Zooz Decentralized Collaborative Transportation Web or any other implementation of La’Zooz may not be released and there may never be an operational La’Zooz application.
 
-La’Zooz makes no representations concerning the tax implications of the mining of PZ or the possession or use of PZ. The User bears the sole responsibility to determine if the mining of PZ or the potential appreciation or depreciation in the value of PZ over time has tax implications for the User in the User’s home jurisdiction.
-Mining PZ, and to the extent permitted by law, the User agrees not hold any of the
+La’Zooz makes no representations concerning the tax implications of the mining of RZ or the possession or use of RZ. The User bears the sole responsibility to determine if the mining of RZ or the potential appreciation or depreciation in the value of RZ over time has tax implications for the User in the User’s home jurisdiction.
+Mining RZ, and to the extent permitted by law, the User agrees not hold any of the
 La’Zooz Parties liable for any tax liability associated with or arising from the Mining or using of PZ.
 
 Altogether we must stress the fact that the effort of making this happen is a joint effort to change the state of transportation in the world and the creation of this network will reward each and every one of us with a transportation web that is more efficient, more fair, and most important – will be owned by the community for the service of the community. Thank you for making your effort at this early stage. Lets change the face of transportation.</string>

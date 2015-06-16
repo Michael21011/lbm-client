@@ -63,6 +63,9 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -171,15 +174,20 @@ public class Utils extends Fragment {
 			return MatchMessageToUser(context, title, message, activity);
 		}
 		try {
+            final SpannableString s = new SpannableString(message);
+            Linkify.addLinks(s, Linkify.ALL);
 			AlertDialog ad = new AlertDialog.Builder(context).create();
 			ad.setTitle(title);
-			ad.setMessage(message);
+			ad.setMessage(s);
+
+
 			ad.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface arg0, int arg1) {}
 			});
 			ad.setCanceledOnTouchOutside(false);
 			ad.show();
+            ((TextView)ad.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
