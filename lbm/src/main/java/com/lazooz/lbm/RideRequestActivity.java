@@ -1,6 +1,7 @@
 package com.lazooz.lbm;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -90,10 +91,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
     private ConnectionResult mConnectionResult;
 
-    private SignInButton btnSignIn;
-    private Button btnSignOut, btnRevokeAccess;
     private ImageView imgProfilePic;
-    private TextView txtName, txtEmail,txtDestPlace,RideRequestText,WantToRideText,MatchAcceptedText;
+    private TextView txtName, txtEmail,txtDestPlace,
+                      RideRequestText,WantToRideText,MatchAcceptedText,DurationText;
     private LinearLayout llProfileLayout;
     private GoogleMap map;
     // Profile pic image size in pixels
@@ -114,7 +114,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private static double User2Lat;
     private static double User2Lo ;
     private static String MatchRequestId;
-    private static String TypeActivity;
+    private static String TypeActivity,Duration;
     private ProgressBar mProgressBar;
     private Runnable runnable;
     private Handler handler;
@@ -146,6 +146,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         MatchAcceptedText = (TextView) findViewById(R.id.match_accepted_text);
         MatchAcceptedText.setVisibility(View.GONE);
         mProgressBar = (ProgressBar)findViewById(R.id.ride_progress);
+        DurationText = (TextView)findViewById(R.id.duration);
+
+        DurationText.setText(Duration);
 
         mProgressBar.setVisibility(View.GONE);
 
@@ -156,11 +159,12 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 @Override
                 public void onClick(View v) {
 
-                    SendAcceptMatchToServer(MatchRequestId,"yes");
+                    SendAcceptMatchToServer(MatchRequestId, "yes");
                     MySharedPreferences msp = MySharedPreferences.getInstance();
                     msp.saveMatchRequestId(RideRequestActivity.this,MatchRequestId);
                     mProgressBar.setVisibility(View.VISIBLE);
                     AcceptBtn.setVisibility(View.GONE);
+                    DurationText.setVisibility(View.GONE);
 
                     /*
                     String mMessageArray[] =  mMessage.split(" ");
@@ -239,6 +243,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
+            DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("5 minutes pass...try again");
             return true;
 
@@ -246,13 +251,17 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         if (sd.getMatchAccepted().contains("yes")) {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
+            DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match accepted");
+            msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
             return true;
         }
         if (sd.getMatchAccepted().contains("no")) {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
+            DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match rejected");
+            msp.saveDataFromServerService( this, null, null, null, null,null, "NA");
             return  true;
         }
         return false;
@@ -260,21 +269,30 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private void ParseMessage()
     {
 
-        String splitMessage[] = mMessage.split(" ");
+        try {
 
-        personName = splitMessage[1]+" "+splitMessage[2];
-        personPhotoUrl = splitMessage[4];
-        personGooglePlusProfile = splitMessage[6];
-        email = splitMessage[8];
-        destination_place_id = splitMessage[12];
+            JSONObject jsonMessage = new JSONObject(mMessage);
 
-        User1Lat = Double.valueOf(splitMessage[14]).doubleValue();
-        User1Lo = Double.valueOf(splitMessage[15]).doubleValue();
+        personName = jsonMessage.getString("NAME");
+        personPhotoUrl = jsonMessage.getString("PHOTO");
+        personGooglePlusProfile = jsonMessage.getString("GOOGLE_PROFILE");
+        email = jsonMessage.getString("EMAIL");
+        destination_place_id = jsonMessage.getString("DESTINATION_ID");
+        User1Lat = jsonMessage.getDouble("LOC_1_LAT");
+        User1Lo =  jsonMessage.getDouble("LOC_1_LON");
+        User2Lat = jsonMessage.getDouble("LOC_2_LAT");
+        User2Lo = jsonMessage.getDouble("LOC_2_LON");
+        MatchRequestId = jsonMessage.getString("MATCH_REQ_ID");
+        TypeActivity = jsonMessage.getString("TYPE");
+        Duration     = jsonMessage.getString("DURATION");
 
-        User2Lat = Double.valueOf(splitMessage[16]).doubleValue();
-        User2Lo = Double.valueOf(splitMessage[17]).doubleValue();
-        MatchRequestId = splitMessage[19];
-        TypeActivity   = splitMessage[21];
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
     private void ShowUsOnMap()
     {
@@ -395,24 +413,6 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
     }
     /**
-     * Updating the UI, showing/hiding buttons and profile layout
-     * */
-    private void updateUI(boolean isSignedIn) {
-        if (isSignedIn) {
-            btnSignIn.setVisibility(View.GONE);
-            btnSignOut.setVisibility(View.VISIBLE);
-            btnRevokeAccess.setVisibility(View.VISIBLE);
-            llProfileLayout.setVisibility(View.VISIBLE);
-        } else {
-            btnSignIn.setVisibility(View.VISIBLE);
-            btnSignOut.setVisibility(View.GONE);
-            btnRevokeAccess.setVisibility(View.GONE);
-            llProfileLayout.setVisibility(View.GONE);
-        }
-    }
-
-
-    /**
      * Called when {@code mGoogleApiClient} connection is suspended.
      */
     @Override
@@ -422,7 +422,6 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             retryConnecting();
 
     }
-
     /**
      * Called when {@code mGoogleApiClient} is trying to connect but failed.
      * Handle {@code result.getResolution()} if there is a resolution
