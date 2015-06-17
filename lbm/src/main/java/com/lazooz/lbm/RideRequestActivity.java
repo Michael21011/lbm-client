@@ -144,7 +144,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         mMessage = getIntent().getStringExtra("MESSAGE");
         ParseMessage();
 
-        setContentView(R.layout.riderequest);
+        setContentView(R.layout.activity_riderequest);
 
 
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);

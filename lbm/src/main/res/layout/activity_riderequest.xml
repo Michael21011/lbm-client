@@ -7,6 +7,21 @@
     android:weightSum="3"
     android:background="@drawable/main_background"
     tools:context=".ProfileGoogleActivity" >
+
+    <ProgressBar
+        android:id="@+id/wait_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="90dp"
+        android:layout_marginTop="90dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/map_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <fragment
         android:id="@+id/map_to_rider"
         android:layout_width="wrap_content"
@@ -132,6 +147,6 @@
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
-
+    </LinearLayout>
 
 </LinearLayout>
