@@ -5,12 +5,28 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".ProfileGoogleActivity" >
+
+    <ProgressBar
+        android:id="@+id/wait_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="90dp"
+        android:layout_marginTop="90dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/map_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <fragment
         android:id="@+id/map_to_rider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
         class="com.google.android.gms.maps.SupportMapFragment" />
+
 
     <TextView
         android:id="@+id/ride_request_text"
@@ -19,6 +35,7 @@
         android:padding="5dp"
         android:textSize="20dp"
         android:text="@string/riderequest"/>
+
    <!--
     <ImageView
         android:id="@+id/imgProfilePic"
@@ -105,6 +122,7 @@
         android:background="@drawable/wallet_btn"
         android:layout_marginTop="10dp"
         android:textColor="@color/white" />
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.lazooz.lbm;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -43,6 +45,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.plus.People;
 
 import com.lazooz.lbm.businessClasses.ServerData;
@@ -57,10 +61,12 @@ import com.quickblox.core.QBSettings;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RideRequestActivity extends ActionBarActivity implements View.OnClickListener,
@@ -95,7 +101,10 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private TextView txtName, txtEmail,txtDestPlace,
                       RideRequestText,WantToRideText,MatchAcceptedText,DurationText;
     private LinearLayout llProfileLayout;
+    private LinearLayout maplayout;
     private GoogleMap map;
+    private Fragment mapF;
+
     // Profile pic image size in pixels
     private static final int PROFILE_PIC_SIZE = 400;
     private  static String mMessage;
@@ -115,11 +124,13 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private static double User2Lo ;
     private static String MatchRequestId;
     private static String TypeActivity,Duration;
-    private ProgressBar mProgressBar;
+    private static String Direction;
+    private ProgressBar mProgressBar,mProgressBar1;
     private Runnable runnable;
     private Handler handler;
     private int MatchWaitTimeCounter;
     private boolean reject = false;
+
     /**
      * Called when the activity is starting. Restores the activity state.
      */
@@ -146,11 +157,20 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         MatchAcceptedText = (TextView) findViewById(R.id.match_accepted_text);
         MatchAcceptedText.setVisibility(View.GONE);
         mProgressBar = (ProgressBar)findViewById(R.id.ride_progress);
+        mProgressBar1 = (ProgressBar)findViewById(R.id.wait_progress);
         DurationText = (TextView)findViewById(R.id.duration);
-
+        maplayout = (LinearLayout) findViewById(R.id.map_layout);
         DurationText.setText(Duration);
 
-        mProgressBar.setVisibility(View.GONE);
+        maplayout.setVisibility(View.GONE);
+        RideRequestText.setVisibility(View.GONE);
+        txtName.setVisibility(View.GONE);
+        txtEmail.setVisibility(View.GONE);
+        WantToRideText.setVisibility(View.GONE);
+
+
+
+       // mProgressBar.setVisibility(View.GONE);
 
 
             AcceptBtn = (Button)findViewById(R.id.btn_accept);
@@ -210,7 +230,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_to_rider);
+
         map = mapFragment.getMap();
+
         if (mGoogleApiClient == null) {
             rebuildGoogleApiClient();
         }
@@ -233,7 +255,64 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             // Update the UI after signin
             //updateUI(true);
         }
+    private List<LatLng> decodePoly(String encoded) {
 
+        List<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng( (((double) lat / 1E5)),
+                    (((double) lng / 1E5) ));
+            poly.add(p);
+        }
+
+        return poly;
+    }
+    public void drawPath(String  result) {
+
+        try {
+            //Tranform the string into a json object
+            final JSONObject json = new JSONObject(result);
+            JSONArray routeArray = json.getJSONArray("routes");
+            JSONObject routes = routeArray.getJSONObject(0);
+            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+            String encodedString = overviewPolylines.getString("points");
+            List<LatLng> list = decodePoly(encodedString);
+
+            for(int z = 0; z<list.size()-1;z++){
+                LatLng src= list.get(z);
+                LatLng dest= list.get(z+1);
+                Polyline line = map.addPolyline(new PolylineOptions()
+                        .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
+                        .width(3)
+                        .color(Color.GREEN).geodesic(true));
+            }
+
+        }
+        catch (JSONException e) {
+
+        }
+    }
     private boolean CheckIfMatchAccepted()
     {
 
@@ -285,6 +364,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         MatchRequestId = jsonMessage.getString("MATCH_REQ_ID");
         TypeActivity = jsonMessage.getString("TYPE");
         Duration     = jsonMessage.getString("DURATION");
+            Direction     = jsonMessage.getString("DIRECTION");
+
 
 
 
@@ -306,7 +387,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         setMapInitLocation(location);
 
-
+        drawPath(Direction);
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User1Lat, User1Lo))
@@ -316,6 +397,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User2Lat, User2Lo))
                 .title("Other"));
+
 
     }
 
@@ -614,10 +696,16 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         protected void onPostExecute(Bitmap result) {
 
             bmImage.setImageBitmap(result);
-
-
                 AcceptBtn.setVisibility(View.VISIBLE);
                 RejectBtn.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
+                RideRequestText.setVisibility(View.VISIBLE);
+
+                txtName.setVisibility(View.VISIBLE);
+                txtEmail.setVisibility(View.VISIBLE);
+                WantToRideText.setVisibility(View.VISIBLE);
+            maplayout.setVisibility(View.VISIBLE);
+            mProgressBar1.setVisibility(View.GONE);
 
             //ShowUsOnMap();
 
