@@ -66,12 +66,16 @@
         <!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
         <!-- AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M   production -->
 
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw" />
+            android:value="AIzaSyDDPCfVBotqpcCXW5D9M8xntNu1eoKKrmo" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -359,6 +363,11 @@
             android:name=".RideRequestActivity"
             android:label="@string/title_activity_ride_request" >
         </activity>
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
