@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -36,16 +35,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.lazooz.lbm.chat.ui.activities.*;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.Utils;
@@ -56,7 +50,6 @@ import com.quickblox.core.QBEntityCallbackImpl;
 import com.quickblox.core.QBSettings;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
-import android.support.v4.app.Fragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -175,7 +168,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
         txtName = (TextView) findViewById(R.id.txtName);
-        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtEmail = (TextView) findViewById(R.id.requestdest);
        // txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
 

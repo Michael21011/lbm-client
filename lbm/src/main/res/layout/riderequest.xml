@@ -93,7 +93,7 @@
         android:text="@string/want_to_ride"/>
 
     <TextView
-        android:id="@+id/txtEmail"
+        android:id="@+id/requestdest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"

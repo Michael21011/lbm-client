@@ -1,8 +1,6 @@
 package com.lazooz.lbm;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -10,9 +8,7 @@ import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,21 +24,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -149,10 +141,10 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         imgProfilePic = (ImageView) findViewById(R.id.imgProfilePic);
         txtName = (TextView) findViewById(R.id.txtName);
-        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtEmail = (TextView) findViewById(R.id.requestdest);
         // txtDestPlace = (TextView) findViewById(R.id.txtDestPlace);
         llProfileLayout = (LinearLayout) findViewById(R.id.llProfile);
-        RideRequestText = (TextView) findViewById(R.id.ride_request_text);
+
         WantToRideText = (TextView) findViewById(R.id.want_to_ride_text);
         MatchAcceptedText = (TextView) findViewById(R.id.match_accepted_text);
         MatchAcceptedText.setVisibility(View.GONE);
@@ -163,7 +155,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         DurationText.setText(Duration);
 
         maplayout.setVisibility(View.GONE);
-        RideRequestText.setVisibility(View.GONE);
+
         txtName.setVisibility(View.GONE);
         txtEmail.setVisibility(View.GONE);
         WantToRideText.setVisibility(View.GONE);
@@ -222,7 +214,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 }
             });
         if (TypeActivity.contains("match_accept")) {
-            RideRequestText.setVisibility(View.GONE);
+
             WantToRideText.setText("Want to come and pick you up");
             AcceptBtn.setText("Still relevant");
             RejectBtn.setText("No need");
@@ -699,7 +691,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 AcceptBtn.setVisibility(View.VISIBLE);
                 RejectBtn.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
-                RideRequestText.setVisibility(View.VISIBLE);
+
 
                 txtName.setVisibility(View.VISIBLE);
                 txtEmail.setVisibility(View.VISIBLE);
