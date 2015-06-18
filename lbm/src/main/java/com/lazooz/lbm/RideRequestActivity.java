@@ -396,7 +396,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User2Lat, User2Lo))
-                .title("Other"));
+                .title(personName));
 
 
     }
