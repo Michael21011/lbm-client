@@ -305,10 +305,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 					if (location.hasSpeed())
 						jObj.put("location_speed", location.getSpeed());
+					jString = jObj.toString();
 				}
 
-				jString = jObj.toString();
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
