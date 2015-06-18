@@ -313,6 +313,30 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         }
     }
+
+    private static Location midPoint(double lat1,double lon1,double lat2,double lon2){
+
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        //convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        lon1 = Math.toRadians(lon1);
+
+        double Bx = Math.cos(lat2) * Math.cos(dLon);
+        double By = Math.cos(lat2) * Math.sin(dLon);
+        double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
+        double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
+
+        Location midpoint = new Location("dummy");
+        midpoint.setLatitude(lat3);
+        midpoint.setLatitude(lon3);
+
+
+        //print out in degrees
+        System.out.println(Math.toDegrees(lat3) + " " + Math.toDegrees(lon3));
+        return midpoint;
+    }
     private boolean CheckIfMatchAccepted()
     {
 
@@ -382,8 +406,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
 
         Location location = new Location("dummy");
-        location.setLatitude(User1Lat);
-        location.setLongitude(User1Lo);
+        location  = midPoint(User1Lat,User1Lo,User2Lat,User2Lo);
 
         setMapInitLocation(location);
 
