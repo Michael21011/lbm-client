@@ -307,15 +307,23 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						jObj.put("location_speed", location.getSpeed());
 					jString = jObj.toString();
 				}
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+
+			
+			
+			
 		}
 
 		IsLive isLive = new IsLive();
 		isLive.execute(jString);
 	}
+	
+	
+
 
 	private class IsLive extends AsyncTask<String, Void, String> {
 

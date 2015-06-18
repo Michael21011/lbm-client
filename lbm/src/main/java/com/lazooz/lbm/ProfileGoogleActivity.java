@@ -371,7 +371,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
                 String personNameArray[] = personName.split(" ");
-                MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
+                MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this, "DONE", personNameArray[0] + "*" + personNameArray[1]);
                 //signUpQuickBlox(personNameArray[0]+personNameArray[1],"LAZOOZ10");
                 //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
                 SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email,"dummy");

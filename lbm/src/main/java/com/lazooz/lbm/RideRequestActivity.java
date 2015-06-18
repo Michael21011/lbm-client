@@ -213,6 +213,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
                 }
             });
+
         if (TypeActivity.contains("match_accept")) {
 
             WantToRideText.setText("Want to come and pick you up");
@@ -321,8 +322,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
 
         Location midpoint = new Location("dummy");
-        midpoint.setLatitude(lat3);
-        midpoint.setLatitude(lon3);
+        midpoint.setLatitude(Math.toDegrees(lat3));
+        midpoint.setLongitude(Math.toDegrees(lon3));
 
 
         //print out in degrees
