@@ -294,6 +294,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		if (isNetworkEnabled){
 			Location location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			if (location == null)
+			{
+				boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+				if (isGPSEnabled)
+					location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			}
+
 			JSONObject jObj = new JSONObject();
 			try {
 				if (location != null) {

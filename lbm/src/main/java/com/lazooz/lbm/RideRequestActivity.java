@@ -297,8 +297,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 LatLng dest= list.get(z+1);
                 Polyline line = map.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
-                        .width(3)
-                        .color(Color.GREEN).geodesic(true));
+                        .width(4)
+
+                        .color(0xf59120).geodesic(true));
             }
 
         }
