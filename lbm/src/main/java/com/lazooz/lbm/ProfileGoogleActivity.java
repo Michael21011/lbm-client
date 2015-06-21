@@ -372,9 +372,10 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
                 String personNameArray[] = personName.split(" ");
                 MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this, "DONE", personNameArray[0] + "*" + personNameArray[1]);
-                //signUpQuickBlox(personNameArray[0]+personNameArray[1],"LAZOOZ10");
+                String ChatLoginName[] = personName.split(" ");
+                signUpQuickBlox(ChatLoginName[0]+"*"+ChatLoginName[1], "LAZOOZ10");
                 //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email,"dummy");
+               // SubmitProfileToServer(personName, personPhotoUrl, personGooglePlusProfile, email, "dummy");
 
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -417,6 +418,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
         QBUser qbUser = new QBUser();
         qbUser.setLogin(name);
         qbUser.setPassword(Password);
+
         QBUsers.signUpSignInTask(qbUser, new QBEntityCallbackImpl<QBUser>() {
             @Override
             public void onSuccess(QBUser qbUser, Bundle bundle) {
@@ -425,8 +427,8 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
                 SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email,ChatId.toString());
 
-                //System.out.println("signUpSignInTask ok");
-                //Toast.makeText(ProfileGoogleActivity.this, "", Toast.LENGTH_LONG).show();
+                System.out.println("signUpSignInTask ok");
+                Toast.makeText(ProfileGoogleActivity.this, "", Toast.LENGTH_LONG).show();
                 // finish();
             }
 
@@ -434,8 +436,9 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
             public void onError(List<String> strings) {
                 //progressDialog.hide();
                 //DialogUtils.showLong(context, strings.get(0));
-                Toast.makeText(ProfileGoogleActivity.this, "fail to sign to QuickBlox chat", Toast.LENGTH_LONG).show();
-                System.out.println("signUpSignInTask fail");
+                Toast.makeText(ProfileGoogleActivity.this, "fail to sign to QuickBlox chat " +strings.get(0), Toast.LENGTH_LONG).show();
+                System.out.println("signUpSignInTask fail" +strings.get(0) );
+                SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email,"dummy");
                 //finish();
             }
         });
