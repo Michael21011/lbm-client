@@ -1,6 +1,8 @@
 package com.lazooz.lbm;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -42,6 +44,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.plus.People;
 
 import com.lazooz.lbm.businessClasses.ServerData;
+import com.lazooz.lbm.chat.ui.activities.SplashChatActivity;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
@@ -108,6 +111,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private static String personGooglePlusProfile;
     private static String email ;
     private static String destination_place_id ;
+    private static String OponnedID;
 
     private static double User1Lat;
     private static double User1Lo ;
@@ -122,6 +126,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private Handler handler;
     private int MatchWaitTimeCounter;
     private boolean reject = false;
+    private LinearLayout ChatLayout;
 
     /**
      * Called when the activity is starting. Restores the activity state.
@@ -152,6 +157,10 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         mProgressBar1 = (ProgressBar)findViewById(R.id.wait_progress);
         DurationText = (TextView)findViewById(R.id.duration);
         maplayout = (LinearLayout) findViewById(R.id.map_layout);
+/*
+        ChatLayout = (LinearLayout) findViewById(R.id.chatlayout);
+        ChatLayout.setVisibility(GO);
+        */
         DurationText.setText(Duration);
 
         maplayout.setVisibility(View.GONE);
@@ -245,6 +254,37 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         handler = new Handler();
         MatchWaitTimeCounter = 0;
         handler.postDelayed(runnable, 1000 * 10);
+        imgProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                System.out.println("image clicked...");//check logcat
+                 /*
+                String LoginName[] =  personName.split(" ");
+                Integer OpponentId = Integer.valueOf(OponnedID);
+                //Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
+                String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this, "ChatLogin");
+                // get fragment manager
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.chat_place, new SplashChatActivity());
+                ft.commit();
+                SplashChatActivity SC = (SplashChatActivity) getFragmentManager()
+                        .findFragmentById(R.id.chat_place);
+                SC.setParams(OpponentId, ChatLogin, "LAZOOZ10", LoginName[0] + "*" + LoginName[1]);
+                */
+                /*
+                intent.putExtra("USER_LOGIN",ChatLogin);
+                intent.putExtra("OPPONENT_LOGIN",LoginName[0]+"*"+LoginName[1]);
+                intent.putExtra("PASSWORD","LAZOOZ10");
+                intent.putExtra("OPPONENTID",OpponentId);
+                startActivity(intent);
+                finish();
+                */
+
+
+
+            }
+        });
             // Update the UI after signin
             //updateUI(true);
         }
@@ -299,7 +339,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
                         .width(4)
 
-                        .color(0xf59120).geodesic(true));
+                        .color(Color.GREEN).geodesic(true));
             }
 
         }
@@ -383,6 +423,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         TypeActivity = jsonMessage.getString("TYPE");
         Duration     = jsonMessage.getString("DURATION");
             Direction     = jsonMessage.getString("DIRECTION");
+            OponnedID     = jsonMessage.getString("OPPONENTID");
+
 
 
 
@@ -408,21 +450,21 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User1Lat, User1Lo))
-                .title("You")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                .title("You"))
+                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.thumb_marker));
+
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User2Lat, User2Lo))
-                .title(personName));
-
-
+                .title(personName))
+              .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.car_marker));
     }
 
     private void setMapInitLocation(Location location){
         if (location != null){
             LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
             map.getUiSettings().setZoomControlsEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 14));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 12));
 
         }
 
