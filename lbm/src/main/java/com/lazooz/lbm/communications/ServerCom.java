@@ -502,10 +502,9 @@ public class ServerCom {
   	      
           Log.e("server","postRequestToServerResponse: " + page);
 
-  	      
+		  JSONObject object = (JSONObject) new JSONTokener(page).nextValue();
 
-  	    	 JSONObject object = (JSONObject) new JSONTokener(page).nextValue();
-  	    	 
+
   	    	 this.returnObject = object;
   	    	 
 
