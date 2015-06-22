@@ -168,75 +168,6 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         };
 
         Count.start();
-        DurationText.setText(Duration);
-
-        maplayout.setVisibility(View.GONE);
-
-        txtName.setVisibility(View.GONE);
-        txtEmail.setVisibility(View.GONE);
-        WantToRideText.setVisibility(View.GONE);
-
-
-
-       // mProgressBar.setVisibility(View.GONE);
-
-
-            AcceptBtn = (Button)findViewById(R.id.btn_accept);
-            AcceptBtn.setVisibility(View.GONE);
-            AcceptBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    SendAcceptMatchToServer(MatchRequestId, "yes");
-                    MySharedPreferences msp = MySharedPreferences.getInstance();
-                    msp.saveMatchRequestId(RideOnTheWayActivity.this,MatchRequestId);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    AcceptBtn.setVisibility(View.GONE);
-                    DurationText.setVisibility(View.GONE);
-
-                    /*
-                    String mMessageArray[] =  mMessage.split(" ");
-
-                    Integer OpponentId = Integer.valueOf(mMessageArray[10]);
-                    Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
-                    String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this,"ChatLogin");
-                    intent.putExtra("USER_LOGIN",ChatLogin);
-                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+mMessageArray[2]);
-                    intent.putExtra("PASSWORD","LAZOOZ10");
-                    intent.putExtra("OPPONENTID",OpponentId);
-                    startActivity(intent);
-
-                    finish();
-                    */
-                }
-            });
-            RejectBtn = (Button)findViewById(R.id.btn_reject);
-            RejectBtn.setVisibility(View.GONE);
-            RejectBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TypeActivity.contains("match_accept")) {
-
-                        reject =  true;
-                        SendAcceptMatchToServer(MatchRequestId,"no");
-
-                    }
-                    else {
-                        Intent intent = new Intent(RideOnTheWayActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                }
-            });
-
-        if (TypeActivity.contains("match_accept")) {
-
-            WantToRideText.setText("Want to come and pick you up");
-            AcceptBtn.setText("Still relevant");
-            RejectBtn.setText("No need");
-
-        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_to_rider);
 
@@ -247,16 +178,7 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         }
         mGoogleApiClient.connect();
         ShowUsOnMap();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-			      /* do what you need to do */
-                 if (CheckIfMatchAccepted() == false)
 
-			      /* and here comes the "trick" */
-                  handler.postDelayed(this, 1000*10);
-            }
-        };
 
         handler = new Handler();
         MatchWaitTimeCounter = 0;
@@ -378,38 +300,7 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         System.out.println(Math.toDegrees(lat3) + " " + Math.toDegrees(lon3));
         return midpoint;
     }
-    private boolean CheckIfMatchAccepted()
-    {
 
-        MySharedPreferences msp = MySharedPreferences.getInstance();
-        ServerData sd = msp.getServerData(this);
-        if (MatchWaitTimeCounter++ == 30) /* 6*5=30 5 minutes*/
-        {
-            mProgressBar.setVisibility(View.GONE);
-            MatchAcceptedText.setVisibility(View.VISIBLE);
-            DurationText.setVisibility(View.GONE);
-            MatchAcceptedText.setText("5 minutes pass...try again");
-            return true;
-
-        }
-        if (sd.getMatchAccepted().contains("yes")) {
-            mProgressBar.setVisibility(View.GONE);
-            MatchAcceptedText.setVisibility(View.VISIBLE);
-            DurationText.setVisibility(View.GONE);
-            MatchAcceptedText.setText("Match accepted");
-            msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
-            return true;
-        }
-        if (sd.getMatchAccepted().contains("no")) {
-            mProgressBar.setVisibility(View.GONE);
-            MatchAcceptedText.setVisibility(View.VISIBLE);
-            DurationText.setVisibility(View.GONE);
-            MatchAcceptedText.setText("Match rejected");
-            msp.saveDataFromServerService( this, null, null, null, null,null, "NA");
-            return  true;
-        }
-        return false;
-    }
     private void ParseMessage()
     {
 
