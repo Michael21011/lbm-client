@@ -1,0 +1,95 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lazooz.lbm.IntroActivity"
+    tools:ignore="MergeRootFrame" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight=".2"
+
+            android:background="@color/lazooz_mined_km_dark_blue"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imgProfilePic"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".3"
+
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+
+                app:border_width="0dp"
+
+                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.7">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight=".5"
+                    android:paddingLeft="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="5dp"
+                    android:textSize="20dp"
+                    android:id="@+id/txtName"
+                    android:textColor="@color/white"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight=".5"
+                    android:paddingLeft="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="5dp"
+                    android:textSize="20dp"
+                    android:text="@string/will_be_here_in"
+                    android:textColor="@color/white"
+                    />
+                </LinearLayout>
+        </LinearLayout>
+
+
+        <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight=".8">
+            <fragment
+                android:id="@+id/map_to_rider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                class="com.google.android.gms.maps.SupportMapFragment"
+                tools:layout="@layout/abc_screen_simple" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rideontheway"
+                android:src="@drawable/traffic_light_red"
+                android:contentDescription="@string/red_traffic_light" />
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="75dp"
+                android:text="10:00"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:id="@+id/arrive_countdown"
+                android:layout_marginLeft="205dp"/>
+        </FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>
