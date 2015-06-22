@@ -116,6 +116,7 @@ public class SMSReceiver extends BroadcastReceiver {
 				SMS s = new SMS(body, date, addr);
 				smsList.addSMS(s);
 			  }
+			cur.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
