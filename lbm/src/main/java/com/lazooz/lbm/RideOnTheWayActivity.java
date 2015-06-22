@@ -96,13 +96,10 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
     private LinearLayout llProfileLayout;
     private LinearLayout maplayout;
     private GoogleMap map;
-    private Fragment mapF;
 
     // Profile pic image size in pixels
     private static final int PROFILE_PIC_SIZE = 400;
     private  static String mMessage;
-    private Button AcceptBtn;
-    private Button RejectBtn;
 
     private static String personName;
     private static String personPhotoUrl;
@@ -125,6 +122,7 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
     private int MatchWaitTimeCounter;
     private boolean reject = false;
     private LinearLayout ChatLayout;
+    private static Integer DurationValue;
 
     /**
      * Called when the activity is starting. Restores the activity state.
@@ -150,19 +148,19 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
 
         final TextView textic = (TextView) findViewById(R.id.arrive_countdown);
         final ImageView trafficLight =(ImageView)findViewById(R.id.rideontheway);
-        CountDownTimer Count = new CountDownTimer(30000, 1000) {
+        CountDownTimer Count = new CountDownTimer(DurationValue, 1000) {
             public void onTick(long millisUntilFinished) {
                 String timeLeft = String.format("%d:%d",
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
                 );
-                textic.setText("" +  millisUntilFinished / 1000/60);
+                textic.setText(timeLeft/* millisUntilFinished / 1000/60*/);
             }
 
             public void onFinish() {
                 textic.setText("");
-                int id = getResources().getIdentifier("@drawable/traffic_light_red" , null, null);
+                int id = getResources().getIdentifier("traffic_light_green" , "drawable", getPackageName());
                 trafficLight.setImageResource(id);
             }
         };
@@ -173,10 +171,13 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
 
         map = mapFragment.getMap();
 
+        getProfileInformationWithoutLogin();
+        /*
         if (mGoogleApiClient == null) {
             rebuildGoogleApiClient();
         }
         mGoogleApiClient.connect();
+        */
         ShowUsOnMap();
 
 
@@ -322,6 +323,20 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         Duration     = jsonMessage.getString("DURATION");
             Direction     = jsonMessage.getString("DIRECTION");
             OponnedID     = jsonMessage.getString("OPPONENTID");
+
+            if (Direction.equals("0")==false) {
+                final JSONObject json = new JSONObject(Direction);
+                JSONArray routeArray = json.getJSONArray("routes");
+                JSONObject routes = routeArray.getJSONObject(0);
+                JSONArray legsArray = routes.getJSONArray("legs");
+                JSONObject legs = legsArray.getJSONObject(0);
+                JSONObject duration = legs.getJSONObject("duration");
+                DurationValue = duration.getInt("value");
+            }
+            else
+                DurationValue = 30*1000;
+
+
 
 
 
@@ -653,18 +668,8 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         protected void onPostExecute(Bitmap result) {
 
             bmImage.setImageBitmap(result);
-                AcceptBtn.setVisibility(View.VISIBLE);
-                RejectBtn.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.GONE);
+            txtName.setVisibility(View.VISIBLE);
 
-
-                txtName.setVisibility(View.VISIBLE);
-                txtEmail.setVisibility(View.VISIBLE);
-                WantToRideText.setVisibility(View.VISIBLE);
-            maplayout.setVisibility(View.VISIBLE);
-            mProgressBar1.setVisibility(View.GONE);
-
-            //ShowUsOnMap();
 
 
         }

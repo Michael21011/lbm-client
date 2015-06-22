@@ -179,29 +179,17 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             AcceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TypeActivity.contains("match_accept")) {
-                        SendAcceptMatchToServer(MatchRequestId, "yes");
-                    }
+
                     MySharedPreferences msp = MySharedPreferences.getInstance();
                     msp.saveMatchRequestId(RideRequestActivity.this,MatchRequestId);
                     mProgressBar.setVisibility(View.VISIBLE);
                     AcceptBtn.setVisibility(View.GONE);
                     DurationText.setVisibility(View.GONE);
+                    if (TypeActivity.contains("match_accept")) {
+                        RejectBtn.setVisibility(View.GONE);
+                        SendAcceptMatchToServer(MatchRequestId, "yes");
+                    }
 
-                    /*
-                    String mMessageArray[] =  mMessage.split(" ");
-
-                    Integer OpponentId = Integer.valueOf(mMessageArray[10]);
-                    Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
-                    String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this,"ChatLogin");
-                    intent.putExtra("USER_LOGIN",ChatLogin);
-                    intent.putExtra("OPPONENT_LOGIN",mMessageArray[1]+mMessageArray[2]);
-                    intent.putExtra("PASSWORD","LAZOOZ10");
-                    intent.putExtra("OPPONENTID",OpponentId);
-                    startActivity(intent);
-
-                    finish();
-                    */
                 }
             });
             RejectBtn = (Button)findViewById(R.id.btn_reject);
@@ -922,6 +910,14 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
             if (reject) {
                 Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            if (TypeActivity.contains("match_accept")) {
+                SendAcceptMatchToServer(MatchRequestId, "yes");
+                Intent intent;
+                intent = new Intent(RideRequestActivity.this, RideOnTheWayActivity.class);
+                intent.putExtra("MESSAGE", mMessage);
                 startActivity(intent);
                 finish();
             }

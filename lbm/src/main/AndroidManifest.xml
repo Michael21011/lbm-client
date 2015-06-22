@@ -364,6 +364,10 @@
             android:name=".RideRequestActivity"
             android:label="@string/title_activity_ride_request" >
         </activity>
+        <activity
+            android:name=".RideOnTheWayActivity"
+            android:label="@string/title_activity_ride_request" >
+        </activity>
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
