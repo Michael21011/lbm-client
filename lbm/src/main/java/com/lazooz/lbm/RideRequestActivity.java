@@ -179,8 +179,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             AcceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    SendAcceptMatchToServer(MatchRequestId, "yes");
+                    if (TypeActivity.contains("match_accept")) {
+                        SendAcceptMatchToServer(MatchRequestId, "yes");
+                    }
                     MySharedPreferences msp = MySharedPreferences.getInstance();
                     msp.saveMatchRequestId(RideRequestActivity.this,MatchRequestId);
                     mProgressBar.setVisibility(View.VISIBLE);
@@ -446,7 +447,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         setMapInitLocation(location);
 
-        drawPath(Direction);
+        if (Direction.equals("0")==false)
+         drawPath(Direction);
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User1Lat, User1Lo))
@@ -679,9 +681,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             // by default the profile url gives 50x50 px image only
             // we can replace the value with whatever dimension we want by
             // replacing sz=X
+
             personPhotoUrl = personPhotoUrl.substring(0,
                     personPhotoUrl.length() - 2)
                     + PROFILE_PIC_SIZE;
+
 
 
             new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);

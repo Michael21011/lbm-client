@@ -144,9 +144,18 @@ public class MainActivity extends MyActionBarActivity  {
         View.OnClickListener TrainRideShareListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(MainActivity.this, RideShareEnterRequestActivity.class);
                 startActivity(intent);
-            }
+
+
+				/*Comment this out for
+				TestScreen();
+				*/
+
+
+			}
         };
         mTrainRideShareBtn.setOnClickListener(TrainRideShareListener);
        // mShakeLL.setOnClickListener(shakeListener);
@@ -229,7 +238,45 @@ public class MainActivity extends MyActionBarActivity  {
 		FacebookSdk.sdkInitialize(getApplicationContext());
 	}
 
+    private void TestScreen()
+	{
+		Intent intent;
+		JSONObject message = new JSONObject();
+		try {
+			message.put("NAME","Shay Zluf");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			message.put("PHOTO","https://lh3.googleusercontent.com/-MGfoqD-y8Zg/AAAAAAAAAAI/AAAAAAAAAEo/6jW_xgUjjOM/photo.jpg?sz=400");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		try {
+			message.put("GOOGLE_PROFILE","https://plus.google.com/107797668666573144488");
+			message.put("EMAIL","shayz@lazooz.org");
+			message.put("OPPONENTID","3739787");
+			message.put("DESTINATION_ID","0");
+			message.put("LOC_1_LAT",32.855568333333);
+			message.put("LOC_1_LON",35.264236666667);
+			message.put("LOC_2_LAT",32.836595);
+			message.put("LOC_2_LON",35.27148);
+			message.put("MATCH_REQ_ID","684");
+			message.put("TYPE","match_accept");
+			message.put("DURATION","21 mins");
+			message.put("DIRECTION","0");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 
+		message.toString();
+
+		intent = new Intent(MainActivity.this, RideRequestActivity.class);
+		intent.putExtra("MESSAGE", message.toString());
+		startActivity(intent);
+
+
+	}
 	protected void checkVersion() {
 		if(!mUnderMinVersionShowed && MySharedPreferences.getInstance().isUnderMinBuildNum(this)){
 			mUnderMinVersionShowed = true;
