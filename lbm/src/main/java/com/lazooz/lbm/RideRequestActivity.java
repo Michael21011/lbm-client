@@ -742,7 +742,10 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
+                options.inSampleSize = 2;
+                options.inScaled=true;
+                options.outHeight = bmImage.getHeight();
+                options.outWidth = bmImage.getWidth();
                 mIcon11 = BitmapFactory.decodeStream(in,null,options);
 
             } catch (Exception e) {
