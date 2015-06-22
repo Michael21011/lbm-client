@@ -65,8 +65,9 @@ public class DialogsActivity extends Activity {
 
                 // collect all occupants ids
                 //
+
                 List<Integer> usersIDs = new ArrayList<Integer>();
-                for(QBDialog dialog : dialogs){
+                for (QBDialog dialog : dialogs) {
                     usersIDs.addAll(dialog.getOccupants());
                 }
 
@@ -82,20 +83,29 @@ public class DialogsActivity extends Activity {
 
                         // Save users
                         //
-                        ((ApplicationSingleton)getApplication()).setDialogsUsers(users);
+                        ((ApplicationSingleton) getApplication()).setDialogsUsers(users);
 
                         // build list view
                         //
-                       // buildListView(dialogs);
 
+                        {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("OPPONENTID",OpponentId);
+                            bundle.putString("OPPONENTLOGIN",OpponentLogin);
+                            bundle.putSerializable(ChatActivity.EXTRA_DIALOG, (QBDialog)dialogs.get(0));
+
+                            ChatActivity.start(DialogsActivity.this, bundle);
+                        }
+                        /*
                         Bundle bundle = new Bundle();
                         bundle.putInt("OPPONENTID",OpponentId);
                         bundle.putString("OPPONENTLOGIN",OpponentLogin);
 
                         ChatActivity.start(DialogsActivity.this, bundle);
+                        */
 
 
-                       // bundle.putSerializable(ChatActivity.EXTRA_DIALOG, (QBDialog)adapter.getItem(position));
+                        // bundle.putSerializable(ChatActivity.EXTRA_DIALOG, (QBDialog)adapter.getItem(position));
 
                     }
 
@@ -121,32 +131,65 @@ public class DialogsActivity extends Activity {
         final DialogsAdapter adapter = new DialogsAdapter(dialogs, DialogsActivity.this);
         dialogsListView.setAdapter(adapter);
 
-        progressBar.setVisibility(View.GONE);
+      //  progressBar.setVisibility(View.GONE);
         // choose dialog
         //
         dialogsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                QBDialog selectedDialog = (QBDialog)adapter.getItem(position);
+                QBDialog selectedDialog = (QBDialog) adapter.getItem(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ChatActivity.EXTRA_DIALOG, (QBDialog)adapter.getItem(position));
+                bundle.putSerializable(ChatActivity.EXTRA_DIALOG, (QBDialog) adapter.getItem(position));
 
                 // group
-                if(selectedDialog.getType().equals(QBDialogType.GROUP)){
+                if (selectedDialog.getType().equals(QBDialogType.GROUP)) {
                     bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.GROUP);
 
-                // private
+                    // private
                 } else {
                     bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
                 }
 
                 // Open chat activity
                 //
+                bundle.putInt("OPPONENTID",OpponentId);
+                bundle.putString("OPPONENTLOGIN",OpponentLogin);
                 ChatActivity.start(DialogsActivity.this, bundle);
             }
         });
     }
+
+    void buildListView_my(List<QBDialog> dialogs) {
+        final DialogsAdapter adapter = new DialogsAdapter(dialogs, DialogsActivity.this);
+        dialogsListView.setAdapter(adapter);
+
+      //  progressBar.setVisibility(View.GONE);
+        // choose dialog
+        //
+
+        QBDialog selectedDialog = (QBDialog) adapter.getItem(0);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ChatActivity.EXTRA_DIALOG, (QBDialog) adapter.getItem(0));
+
+        // group
+        if (selectedDialog.getType().equals(QBDialogType.GROUP)) {
+            bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.GROUP);
+
+            // private
+        } else {
+            bundle.putSerializable(ChatActivity.EXTRA_MODE, ChatActivity.Mode.PRIVATE);
+        }
+
+        // Open chat activity
+        //
+        bundle.putInt("OPPONENTID",OpponentId);
+        bundle.putString("OPPONENTLOGIN",OpponentLogin);
+
+        ChatActivity.start(DialogsActivity.this, bundle);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -144,7 +144,7 @@ public class ChatActivity extends Activity {
 
                 // Load CHat history
                 //
-                //loadChatHistory();
+                loadChatHistory();
                 adapter = new ChatAdapter(ChatActivity.this, new ArrayList<QBChatMessage>());
                 messagesContainer.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
