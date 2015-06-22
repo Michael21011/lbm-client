@@ -373,9 +373,9 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
                 String personNameArray[] = personName.split(" ");
                 MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this, "DONE", personNameArray[0] + "*" + personNameArray[1]);
                 String ChatLoginName[] = personName.split(" ");
-                //signUpQuickBlox(ChatLoginName[0]+"*"+ChatLoginName[1], "LAZOOZ10");
+                signUpQuickBlox(ChatLoginName[0]+"*"+ChatLoginName[1], "LAZOOZ10");
                 //MySharedPreferences.getInstance().setUserProfile(ProfileGoogleActivity.this,"DONE",personNameArray[0]+"*"+personNameArray[1]);
-                SubmitProfileToServer(personName, personPhotoUrl, personGooglePlusProfile, email, "dummy");
+                //SubmitProfileToServer(personName, personPhotoUrl, personGooglePlusProfile, email, "dummy");
 
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -409,6 +409,7 @@ public class ProfileGoogleActivity extends Activity implements View.OnClickListe
 
             @Override
             public void onError(List<String> errors) {
+                SubmitProfileToServer(personName,personPhotoUrl,personGooglePlusProfile,email,"dummy");
 
             }
         });

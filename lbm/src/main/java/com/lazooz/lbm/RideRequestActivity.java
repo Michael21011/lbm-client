@@ -272,17 +272,17 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                         .findFragmentById(R.id.chat_place);
                 SC.setParams(OpponentId, ChatLogin, "LAZOOZ10", LoginName[0] + "*" + LoginName[1]);
                 */
-                /*
+
+                String LoginName[] =  personName.split(" ");
+                Integer OpponentId = Integer.valueOf(OponnedID);
+                Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
+                String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this, "ChatLogin");
                 intent.putExtra("USER_LOGIN",ChatLogin);
                 intent.putExtra("OPPONENT_LOGIN",LoginName[0]+"*"+LoginName[1]);
                 intent.putExtra("PASSWORD","LAZOOZ10");
                 intent.putExtra("OPPONENTID",OpponentId);
                 startActivity(intent);
                 finish();
-                */
-
-
-
             }
         });
             // Update the UI after signin
@@ -451,13 +451,13 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User1Lat, User1Lo))
                 .title("You"))
-                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.thumb_marker));
+                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.car_marker));
 
 
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User2Lat, User2Lo))
                 .title(personName))
-              .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.car_marker));
+              .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.thumb_marker));
     }
 
     private void setMapInitLocation(Location location){
