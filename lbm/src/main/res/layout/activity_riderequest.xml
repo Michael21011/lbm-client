@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
-                    android:layout_weight="1"
+                    android:layout_weight="1.4"
 
                     android:background="@color/lazooz_mined_km_dark_blue"
                     >
@@ -94,7 +94,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3">
+                    android:layout_weight="2.6">
                     <ProgressBar
                         android:id="@+id/ride_progress"
                         android:layout_width="wrap_content"

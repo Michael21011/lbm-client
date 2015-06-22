@@ -338,10 +338,10 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
                 JSONArray legsArray = routes.getJSONArray("legs");
                 JSONObject legs = legsArray.getJSONObject(0);
                 JSONObject duration = legs.getJSONObject("duration");
-                DurationValue = duration.getInt("value");
+                DurationValue = duration.getInt("value")*1000;
             }
             else
-                DurationValue = 30*1000;
+                DurationValue = 1260*1000;
 
 
 

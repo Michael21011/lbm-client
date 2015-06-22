@@ -88,7 +88,7 @@
                 android:textSize="30sp"
                 android:gravity="center"
                 android:id="@+id/arrive_countdown"
-                android:layout_marginLeft="205dp"/>
+                android:layout_marginLeft="200dp"/>
         </FrameLayout>
 
     </LinearLayout>

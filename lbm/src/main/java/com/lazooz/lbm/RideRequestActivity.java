@@ -379,7 +379,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
-            DurationText.setVisibility(View.GONE);
+           // DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("5 minutes pass...try again");
             return true;
 
@@ -387,7 +387,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         if (sd.getMatchAccepted().contains("yes")) {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
-            DurationText.setVisibility(View.GONE);
+            //DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match accepted");
             msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
             return true;
@@ -395,7 +395,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         if (sd.getMatchAccepted().contains("no")) {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
-            DurationText.setVisibility(View.GONE);
+         //   DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match rejected");
             msp.saveDataFromServerService( this, null, null, null, null,null, "NA");
             return  true;
