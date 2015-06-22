@@ -180,10 +180,6 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         */
         ShowUsOnMap();
 
-
-        handler = new Handler();
-        MatchWaitTimeCounter = 0;
-        handler.postDelayed(runnable, 1000 * 10);
         imgProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -250,6 +246,17 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         }
 
         return poly;
+    }
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+
+        Intent intent = new Intent(RideOnTheWayActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+
+        super.onBackPressed();
+
     }
     public void drawPath(String  result) {
 

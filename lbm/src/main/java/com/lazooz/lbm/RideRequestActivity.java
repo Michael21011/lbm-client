@@ -185,10 +185,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                     mProgressBar.setVisibility(View.VISIBLE);
                     AcceptBtn.setVisibility(View.GONE);
                     DurationText.setVisibility(View.GONE);
-                    if (TypeActivity.contains("match_accept")) {
-                        RejectBtn.setVisibility(View.GONE);
-                        SendAcceptMatchToServer(MatchRequestId, "yes");
-                    }
+                    RejectBtn.setVisibility(View.GONE);
+
+                    SendAcceptMatchToServer(MatchRequestId, "yes");
 
                 }
             });
@@ -277,6 +276,17 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             // Update the UI after signin
             //updateUI(true);
         }
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+
+        Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+
+        super.onBackPressed();
+
+    }
     private List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<LatLng>();
@@ -914,7 +924,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 finish();
             }
             if (TypeActivity.contains("match_accept")) {
-                SendAcceptMatchToServer(MatchRequestId, "yes");
+            //    SendAcceptMatchToServer(MatchRequestId, "yes");
                 Intent intent;
                 intent = new Intent(RideRequestActivity.this, RideOnTheWayActivity.class);
                 intent.putExtra("MESSAGE", mMessage);
