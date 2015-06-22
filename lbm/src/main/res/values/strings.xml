@@ -823,6 +823,8 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <string name="will_arrive_in">Will arrive in:</string>
     <string name="facebook_app_id">424146754423511</string>
     <string name="reject">reject</string>
+    <string name="red_traffic_light">Red Traffic Light</string>
+    <string name="will_be_here_in">Will be here in:</string>
 
 
 </resources>
