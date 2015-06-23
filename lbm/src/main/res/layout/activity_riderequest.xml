@@ -158,6 +158,17 @@
                             android:layout_weight="1"
                             >
                             <Button
+                                android:id="@+id/btn_nav"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NAV 2 RIDER"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:visibility="gone"
+                                android:background="@drawable/wallet_btn"
+                                android:textColor="@color/white" />
+                            <Button
                                 android:id="@+id/btn_accept"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

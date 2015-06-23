@@ -148,7 +148,12 @@ public class MainActivity extends MyActionBarActivity  {
 
                 Intent intent = new Intent(MainActivity.this, RideShareEnterRequestActivity.class);
                 startActivity(intent);
+                finish();
 
+
+
+
+			//	TestScreen();
 
 				/*Comment this out for
 				TestScreen();
@@ -242,6 +247,7 @@ public class MainActivity extends MyActionBarActivity  {
 	{
 		Intent intent;
 		JSONObject message = new JSONObject();
+
 		try {
 			message.put("NAME","Shay Zluf");
 		} catch (JSONException e) {
@@ -262,16 +268,16 @@ public class MainActivity extends MyActionBarActivity  {
 			message.put("LOC_2_LAT",32.836595);
 			message.put("LOC_2_LON",35.27148);
 			message.put("MATCH_REQ_ID","684");
-			message.put("TYPE","match_accept");
+			message.put("TYPE","match_request");
 			message.put("DURATION","21 mins");
 			message.put("DIRECTION","0");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
-		message.toString();
 
 		intent = new Intent(MainActivity.this, RideRequestActivity.class);
+		//intent = new Intent(MainActivity.this, RideOnTheWayActivity.class);
 		intent.putExtra("MESSAGE", message.toString());
 		startActivity(intent);
 

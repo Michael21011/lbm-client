@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,11 +87,6 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
      * waiting for resolution intent to return.
      */
     private boolean mIsInResolution;
-    private boolean mIntentInProgress;
-    private static final int RC_SIGN_IN = 0;
-
-
-    private ConnectionResult mConnectionResult;
 
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail,txtDestPlace,
@@ -105,6 +101,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private  static String mMessage;
     private Button AcceptBtn;
     private Button RejectBtn;
+    private Button NavBtn;
+
 
     private static String personName;
     private static String personPhotoUrl;
@@ -157,6 +155,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         mProgressBar1 = (ProgressBar)findViewById(R.id.wait_progress);
         DurationText = (TextView)findViewById(R.id.duration);
         maplayout = (LinearLayout) findViewById(R.id.map_layout);
+        NavBtn    = (Button) findViewById(R.id.btn_nav);
 /*
         ChatLayout = (LinearLayout) findViewById(R.id.chatlayout);
         ChatLayout.setVisibility(GO);
@@ -241,9 +240,21 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             }
         };
 
-        handler = new Handler();
-        MatchWaitTimeCounter = 0;
-        handler.postDelayed(runnable, 1000 * 10);
+        if (TypeActivity.equals("match_request")) {
+            handler = new Handler();
+            MatchWaitTimeCounter = 0;
+            handler.postDelayed(runnable, 1000 * 10);
+        }
+        NavBtn.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          Uri gmmIntentUri = Uri.parse("google.navigation:q="+User1Lat+","+User1Lo);
+                                          Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                          mapIntent.setPackage("com.google.android.apps.maps");
+                                          startActivity(mapIntent);
+                                          finish();
+                                      }
+                                  });
         imgProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -386,12 +397,14 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             return true;
 
         }
-        if (sd.getMatchAccepted().contains("yes")) {
+        if (sd.getMatchAccepted().contains("yes")|| destination_place_id.equals("0")) {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
             //DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match accepted");
+            NavBtn.setVisibility(View.VISIBLE);
             msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
+
             return true;
         }
         if (sd.getMatchAccepted().contains("no")) {
@@ -669,7 +682,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
              Issue a request to the Places Geo Data API to retrieve a Place object with additional
               details about the place.
               */
-            if (TypeActivity.contains("match_request")) {
+            if (TypeActivity.contains("match_request") && (destination_place_id.equals("0")==false)) {
                 PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                         .getPlaceById(mGoogleApiClient, destination_place_id);
                 placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
