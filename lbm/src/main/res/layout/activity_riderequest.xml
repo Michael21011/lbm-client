@@ -115,13 +115,8 @@
                             android:id="@+id/match_accepted_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
-                            android:layout_marginLeft="90dp" />
-
-
-
-
-
+                            android:layout_gravity="center"
+                             />
                         <TextView
                             android:id="@+id/want_to_ride_text"
                             android:layout_width="wrap_content"

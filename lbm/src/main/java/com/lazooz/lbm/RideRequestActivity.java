@@ -179,8 +179,15 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 @Override
                 public void onClick(View v) {
 
+
                     MySharedPreferences msp = MySharedPreferences.getInstance();
-                    msp.saveMatchRequestId(RideRequestActivity.this,MatchRequestId);
+                    if (TypeActivity.equals("match_request")) {
+                        MatchAcceptedText.setVisibility(View.VISIBLE);
+                        MatchAcceptedText.setText("Please wait till the ride confirmed");
+                        msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
+                    }
+                    else
+                        msp.saveMatchRequestId(RideRequestActivity.this, "");
                     mProgressBar.setVisibility(View.VISIBLE);
                     AcceptBtn.setVisibility(View.GONE);
                     DurationText.setVisibility(View.GONE);
@@ -237,6 +244,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
 			      /* and here comes the "trick" */
                   handler.postDelayed(this, 1000*10);
+                else {
+                     MySharedPreferences msp = MySharedPreferences.getInstance();
+                     msp.saveMatchRequestId(RideRequestActivity.this,"");
+                 }
+
             }
         };
 
@@ -385,7 +397,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     }
     private boolean CheckIfMatchAccepted()
     {
-
+        boolean RetVal = false;
         MySharedPreferences msp = MySharedPreferences.getInstance();
         ServerData sd = msp.getServerData(this);
         if (MatchWaitTimeCounter++ == 30) /* 6*5=30 5 minutes*/
@@ -394,7 +406,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             MatchAcceptedText.setVisibility(View.VISIBLE);
            // DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("5 minutes pass...try again");
-            return true;
+            RetVal = true;
 
         }
         if (sd.getMatchAccepted().contains("yes")|| destination_place_id.equals("0")) {
@@ -402,10 +414,12 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             MatchAcceptedText.setVisibility(View.VISIBLE);
             //DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match accepted");
+            AcceptBtn.setVisibility(View.GONE);
+            RejectBtn.setVisibility(View.GONE);
             NavBtn.setVisibility(View.VISIBLE);
             msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
 
-            return true;
+            RetVal = true;
         }
         if (sd.getMatchAccepted().contains("no")) {
             mProgressBar.setVisibility(View.GONE);
@@ -413,9 +427,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
          //   DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match rejected");
             msp.saveDataFromServerService( this, null, null, null, null,null, "NA");
-            return  true;
+            RetVal = true;
         }
-        return false;
+        return RetVal;
     }
     private void ParseMessage()
     {
@@ -695,9 +709,12 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             // we can replace the value with whatever dimension we want by
             // replacing sz=X
 
+/*
             personPhotoUrl = personPhotoUrl.substring(0,
                     personPhotoUrl.length() - 2)
                     + PROFILE_PIC_SIZE;
+                    */
+
 
 
 
@@ -760,7 +777,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
-                options.inScaled=true;
+               // options.inScaled=true;
                 options.outHeight = bmImage.getHeight();
                 options.outWidth = bmImage.getWidth();
                 mIcon11 = BitmapFactory.decodeStream(in,null,options);
