@@ -186,6 +186,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                     AcceptBtn.setVisibility(View.GONE);
                     DurationText.setVisibility(View.GONE);
                     RejectBtn.setVisibility(View.GONE);
+                    AcceptBtn.setEnabled(false);
+                    RejectBtn.setEnabled(false);
 
                     SendAcceptMatchToServer(MatchRequestId, "yes");
 

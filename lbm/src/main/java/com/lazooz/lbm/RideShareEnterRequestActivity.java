@@ -153,10 +153,11 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
 
 
 
-        Button FindMatchButton = (Button) findViewById(R.id.find_match_submit);
+        final Button FindMatchButton = (Button) findViewById(R.id.find_match_submit);
         FindMatchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FindMatchButton.setEnabled(false);
                 if (DestPlaceId == null) {
                     Toast.makeText(getApplicationContext(), "Please enter your destination", Toast.LENGTH_SHORT).show();
                 } else {
