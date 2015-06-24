@@ -38,7 +38,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -260,7 +263,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         NavBtn.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
-                                          Uri gmmIntentUri = Uri.parse("google.navigation:q="+User1Lat+","+User1Lo);
+                                          Uri gmmIntentUri = Uri.parse("google.navigation:q="+User2Lat+","+User2Lo);
                                           Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                                           mapIntent.setPackage("com.google.android.apps.maps");
                                           startActivity(mapIntent);
@@ -293,11 +296,12 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 intent.putExtra("USER_LOGIN",ChatLogin);
                 intent.putExtra("OPPONENT_LOGIN",LoginName[0]+"*"+LoginName[1]);
                 intent.putExtra("PASSWORD","LAZOOZ10");
-                intent.putExtra("OPPONENTID",OpponentId);
+                intent.putExtra("OPPONENTID", OpponentId);
                 startActivity(intent);
                 finish();
             }
         });
+
             // Update the UI after signin
             //updateUI(true);
         }
@@ -487,14 +491,39 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 .position(new LatLng(User2Lat, User2Lo))
                 .title(personName))
               .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.thumb_marker));
+
+
+
     }
 
+
     private void setMapInitLocation(Location location){
+        Integer currentFoundPoi = 0;
+        Float  CurrentZoomLevel = map.getMaxZoomLevel();
+
+        float MAP_ZOOM_MIN = 12;
+
         if (location != null){
             LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-            map.getUiSettings().setZoomControlsEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 12));
+            LatLng l1 = new LatLng(User1Lat, User1Lo);
+            LatLng l2 = new LatLng(User2Lat, User2Lo);
 
+            map.getUiSettings().setZoomControlsEnabled(true);
+            //map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, CurrentZoomLevel));
+
+            while( CurrentZoomLevel> MAP_ZOOM_MIN) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, CurrentZoomLevel--));
+                currentFoundPoi = 0;
+                LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
+                if (bounds.contains(l1))
+                    currentFoundPoi++;
+                if (bounds.contains(l2))
+                    currentFoundPoi++;
+                if (currentFoundPoi == 2)
+                    break;
+                System.out.println("Zoom level calc "+CurrentZoomLevel);
+            }
+            System.out.println("Found Zoom level "+CurrentZoomLevel);
         }
 
     }
