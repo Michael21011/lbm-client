@@ -192,7 +192,7 @@ public class MainActivity extends MyActionBarActivity  {
 
 			}
 		};
-		mRideShareActiveBtn.setOnClickListener(RideShareListener);
+		mRideShareActiveBtn.setOnClickListener(RideShareActiveListener);
        // mShakeLL.setOnClickListener(shakeListener);
 
         /*************************************************************************/
