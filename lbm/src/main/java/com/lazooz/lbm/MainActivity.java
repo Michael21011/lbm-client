@@ -55,8 +55,8 @@ public class MainActivity extends MyActionBarActivity  {
 	private TextView mZoozBalTV;
 
 	private ImageButton mAddFriendsBtn;
-    private Button mRideShareBtn,mRideShareActiveBtn;
-	private ImageButton mShakeBtn;
+    private Button mRideShareBtn;
+	private ImageButton mShakeBtn,mRideShareActiveBtn;
 	private ProgressBar mCriticalMassPB;
 	private LocationManager mLocationManager;
 	private TextView mFriendsTV;
@@ -161,7 +161,7 @@ public class MainActivity extends MyActionBarActivity  {
         mRideShareBtn.setOnClickListener(RideShareListener);
 
 
-		mRideShareActiveBtn = (Button)findViewById(R.id.rideshare_active);
+		mRideShareActiveBtn = (ImageButton)findViewById(R.id.rideshare_active);
 		MySharedPreferences m_msp = MySharedPreferences.getInstance();
 		if (m_msp.getStateForRideShare(MainActivity.this)>0)
 			mRideShareActiveBtn.setVisibility(View.VISIBLE);
