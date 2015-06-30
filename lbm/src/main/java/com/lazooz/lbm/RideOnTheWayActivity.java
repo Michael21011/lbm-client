@@ -135,6 +135,7 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         }
 
         mMessage = getIntent().getStringExtra("MESSAGE");
+
         ParseMessage();
         setContentView(R.layout.activity_rideontheway);
 
@@ -343,16 +344,11 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
             else
                 DurationValue = 1260*1000;
 
-
-
-
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        MySharedPreferences msp = MySharedPreferences.getInstance();
+        msp.saveMessageForRideShare(this,mMessage,2);
 
     }
     private void ShowUsOnMap()
