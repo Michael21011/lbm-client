@@ -458,13 +458,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             OponnedID     = jsonMessage.getString("OPPONENTID");
 
 
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        MySharedPreferences msp = MySharedPreferences.getInstance();
+        msp.saveMessageForRideShare(this,mMessage,1);
 
     }
     private void ShowUsOnMap()

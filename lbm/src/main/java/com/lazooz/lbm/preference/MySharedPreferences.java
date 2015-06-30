@@ -197,7 +197,7 @@ public class MySharedPreferences {
 	}
 	
 	public void promoteRoute(Context context){
-		SharedPreferences spData = context.getSharedPreferences("LocationData",Context.MODE_MULTI_PROCESS);
+		SharedPreferences spData = context.getSharedPreferences("LocationData", Context.MODE_MULTI_PROCESS);
 
 		long numTime = System.currentTimeMillis();
 		spData.edit().putLong("CurrentRoute", numTime).commit();
@@ -348,7 +348,7 @@ public class MySharedPreferences {
 	}
 	
 	public void removeRecommendUser(Context context, Contact contactBean) {
-		SharedPreferences spData = context.getSharedPreferences("RecommendUser",Context.MODE_MULTI_PROCESS);
+		SharedPreferences spData = context.getSharedPreferences("RecommendUser", Context.MODE_MULTI_PROCESS);
 		spData.edit().remove(contactBean.getKey()).commit();
 	}
 	
@@ -614,8 +614,30 @@ public class MySharedPreferences {
 		
 		return list;
 	}
-	
-	
+
+	public void saveMessageForRideShare(Context context,String Message,int Activity) {
+		SharedPreferences spData = context.getSharedPreferences("RideShareInfo",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		editor.putString("RideShareMessage", Message);
+		editor.putInt("RideShareState", Activity);
+		editor.commit();
+	}
+
+
+
+	public String getMessageForRideShare(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RideShareInfo",Context.MODE_MULTI_PROCESS);
+		String res = "";
+		String s = spData.getString("RideShareMessage", "");
+		return s;
+	}
+
+	public int getStateForRideShare(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RideShareInfo",Context.MODE_MULTI_PROCESS);
+		int s = spData.getInt("RideShareState",0);
+		return s;
+	}
+
 
 	public void saveScreenInfoText(Context context, JSONObject jsonObj) {
 		SharedPreferences spData = context.getSharedPreferences("ScreenInfo",Context.MODE_MULTI_PROCESS);

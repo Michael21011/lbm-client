@@ -55,7 +55,7 @@ public class MainActivity extends MyActionBarActivity  {
 	private TextView mZoozBalTV;
 
 	private ImageButton mAddFriendsBtn;
-    private Button mTrainRideShareBtn;
+    private Button mRideShareBtn,mRideShareActiveBtn;
 	private ImageButton mShakeBtn;
 	private ProgressBar mCriticalMassPB;
 	private LocationManager mLocationManager;
@@ -139,30 +139,60 @@ public class MainActivity extends MyActionBarActivity  {
 		/*************************************************************************/
         /*************************************************************************/
 
-        mTrainRideShareBtn = (Button)findViewById(R.id.train_ride_share_button);
+        mRideShareBtn = (Button)findViewById(R.id.train_ride_share_button);
 
-        View.OnClickListener TrainRideShareListener = new View.OnClickListener() {
+        View.OnClickListener RideShareListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 Intent intent = new Intent(MainActivity.this, RideShareEnterRequestActivity.class);
+
                 startActivity(intent);
                 finish();
 
-
-
-
-			//	TestScreen();
-
+				//TestScreen();
 				/*Comment this out for
 				TestScreen();
 				*/
 
-
 			}
         };
-        mTrainRideShareBtn.setOnClickListener(TrainRideShareListener);
+        mRideShareBtn.setOnClickListener(RideShareListener);
+
+
+		mRideShareActiveBtn = (Button)findViewById(R.id.rideshare_active);
+		MySharedPreferences m_msp = MySharedPreferences.getInstance();
+		if (m_msp.getStateForRideShare(MainActivity.this)>0)
+			mRideShareActiveBtn.setVisibility(View.VISIBLE);
+
+
+		View.OnClickListener RideShareActiveListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				int State;
+				mRideShareActiveBtn.setEnabled(false);
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				State = msp.getStateForRideShare(MainActivity.this);
+				if (State ==1) {
+
+					Intent intent = new Intent(MainActivity.this, RideRequestActivity.class);
+					intent.putExtra("MESSAGE", msp.getMessageForRideShare(MainActivity.this));
+					startActivity(intent);
+					finish();
+				}
+				if (State == 2 )
+				{
+					Intent intent = new Intent(MainActivity.this, RideOnTheWayActivity.class);
+					intent.putExtra("MESSAGE", msp.getMessageForRideShare(MainActivity.this));
+					startActivity(intent);
+					finish();
+				}
+
+			}
+		};
+		mRideShareActiveBtn.setOnClickListener(RideShareListener);
        // mShakeLL.setOnClickListener(shakeListener);
 
         /*************************************************************************/
@@ -229,18 +259,16 @@ public class MainActivity extends MyActionBarActivity  {
 					guiHandler.post(guiRunnable);				
 				}
 			};
-		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10*1000);
+		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10 * 1000);
 
 		startOnDayScheduler();
 		
 		
 		
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN);
-		
 		//getUserKeyDataAsync();
-
-
 		FacebookSdk.sdkInitialize(getApplicationContext());
+
 	}
 
     private void TestScreen()
@@ -358,6 +386,9 @@ public class MainActivity extends MyActionBarActivity  {
 		checkGPS();
 		getUserKeyDataAsync();
 		checkNotif();
+		MySharedPreferences m_msp = MySharedPreferences.getInstance();
+		if (m_msp.getStateForRideShare(MainActivity.this)>0)
+			mRideShareActiveBtn.setVisibility(View.VISIBLE);
 	}
 	
 	
