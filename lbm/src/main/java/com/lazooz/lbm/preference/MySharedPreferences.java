@@ -623,6 +623,18 @@ public class MySharedPreferences {
 		editor.commit();
 	}
 
+	public void saveTimeForRideShare(Context context,long TimeInMilliseconds) {
+		SharedPreferences spData = context.getSharedPreferences("RideShareInfo",Context.MODE_MULTI_PROCESS);
+		Editor editor = spData.edit();
+		editor.putLong("RideShareTime", TimeInMilliseconds);
+		editor.commit();
+	}
+
+	public long getTimeForRideShare(Context context) {
+		SharedPreferences spData = context.getSharedPreferences("RideShareInfo",Context.MODE_MULTI_PROCESS);
+		long s = spData.getLong("RideShareTime", 0);
+		return s;
+	}
 
 
 	public String getMessageForRideShare(Context context) {
@@ -634,7 +646,7 @@ public class MySharedPreferences {
 
 	public int getStateForRideShare(Context context) {
 		SharedPreferences spData = context.getSharedPreferences("RideShareInfo",Context.MODE_MULTI_PROCESS);
-		int s = spData.getInt("RideShareState",0);
+		int s = spData.getInt("RideShareState", 0);
 		return s;
 	}
 

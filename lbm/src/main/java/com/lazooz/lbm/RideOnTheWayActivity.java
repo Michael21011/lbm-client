@@ -360,6 +360,8 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         Location location = new Location("dummy");
         location  = midPoint(User1Lat,User1Lo,User2Lat,User2Lo);
 
+        location.setLatitude(location.getLatitude()+0.005);
+
         setMapInitLocation(location);
 
         drawPath(Direction);

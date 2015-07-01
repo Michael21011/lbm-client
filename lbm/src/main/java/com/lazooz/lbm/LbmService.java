@@ -377,7 +377,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 							mSrvrUsersAroundMe = jsonReturnObj.getString("usersAroundMe");
 
 						if (jsonReturnObj.isNull("MatchAccepted"))
-							mMatchAccepted = null;
+							mMatchAccepted = "NA";
 						else
 							mMatchAccepted = jsonReturnObj.getString("MatchAccepted");
 						System.out.println("mMatchAccepted = " + mMatchAccepted);

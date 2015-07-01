@@ -68,6 +68,7 @@ public class MainActivity extends MyActionBarActivity  {
 	private LinearLayout mShakeLL;
 	private LinearLayout mZoozBalLL;
 	private LinearLayout mAddFriendsLL;
+	private LinearLayout mRideShareActiveLL;
 	//private TextView mConvertionRateTV;
 	private TextView mCriticalMassLocationTV;
 	protected boolean mUnderCurrentVersionShowed;
@@ -145,7 +146,8 @@ public class MainActivity extends MyActionBarActivity  {
             @Override
             public void onClick(View v) {
 
-
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				msp.saveMessageForRideShare(MainActivity.this,"",0);
                 Intent intent = new Intent(MainActivity.this, RideShareEnterRequestActivity.class);
 
                 startActivity(intent);
@@ -160,12 +162,9 @@ public class MainActivity extends MyActionBarActivity  {
         };
         mRideShareBtn.setOnClickListener(RideShareListener);
 
-
+		mRideShareActiveLL = (LinearLayout)findViewById(R.id.rideshare_active_layout);
 		mRideShareActiveBtn = (ImageButton)findViewById(R.id.rideshare_active);
-		MySharedPreferences m_msp = MySharedPreferences.getInstance();
-		if (m_msp.getStateForRideShare(MainActivity.this)>0)
-			mRideShareActiveBtn.setVisibility(View.VISIBLE);
-
+		//CheckRideShareActive();
 
 		View.OnClickListener RideShareActiveListener = new View.OnClickListener() {
 			@Override
@@ -269,6 +268,19 @@ public class MainActivity extends MyActionBarActivity  {
 		//getUserKeyDataAsync();
 		FacebookSdk.sdkInitialize(getApplicationContext());
 
+	}
+
+	private void CheckRideShareActive()
+	{
+		MySharedPreferences m_msp = MySharedPreferences.getInstance();
+		ServerData sd = m_msp.getServerData(this);
+		if ((sd.getMatchAccepted().contains("time_out")==false)&&(m_msp.getStateForRideShare(MainActivity.this) > 0))
+		{
+			mRideShareActiveLL.setVisibility(View.VISIBLE);
+			//mRideShareActiveBtn.setVisibility(View.VISIBLE);
+		}
+		else
+			mRideShareActiveLL.setVisibility(View.GONE);
 	}
 
     private void TestScreen()
@@ -386,9 +398,7 @@ public class MainActivity extends MyActionBarActivity  {
 		checkGPS();
 		getUserKeyDataAsync();
 		checkNotif();
-		MySharedPreferences m_msp = MySharedPreferences.getInstance();
-		if (m_msp.getStateForRideShare(MainActivity.this)>0)
-			mRideShareActiveBtn.setVisibility(View.VISIBLE);
+		//CheckRideShareActive();
 	}
 	
 	
@@ -428,7 +438,7 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , 24*60*60*1000, pintent);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 24 * 60 * 60 * 1000, pintent);
 
 		
 	}
@@ -560,10 +570,33 @@ public class MainActivity extends MyActionBarActivity  {
 		int numShakedUsers = msp.getNumShakedUsers(this);
 		int criticalMass = msp.getCriticalMass(this);
 		
-		mFriendsTV.setText(numInvitedContacts+"");
+		mFriendsTV.setText(numInvitedContacts + "");
 		//mShakeTV.setText(numShakedUsers +"");
 		mCriticalMassPB.setProgress(criticalMass);
 		mCriticalMassPB.setMax(100);
+
+		if ((sd.getMatchAccepted().contains("time_out")==false)&&(msp.getStateForRideShare(MainActivity.this) > 0))
+		{
+			mRideShareActiveLL.setVisibility(View.VISIBLE);
+			//mRideShareActiveBtn.setVisibility(View.VISIBLE);
+		}
+		else
+			mRideShareActiveLL.setVisibility(View.GONE);
+		int UsersAroundMe = 0;
+
+		try {
+			UsersAroundMe = Integer.parseInt(sd.getUsersAroundMe());
+			if (UsersAroundMe>0)
+				mRideShareBtn.setVisibility(View.VISIBLE);
+			else
+				mRideShareBtn.setVisibility(View.GONE);
+
+		} catch(NumberFormatException nfe) {
+			System.out.println("Could not parse " + nfe);
+		}
+
+
+
 		/*
 		String dolarConvertionRate = msp.getDolarConvertionRate(this);
 		if (dolarConvertionRate.equals(""))

@@ -129,6 +129,15 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     private boolean reject = false;
     private LinearLayout ChatLayout;
 
+    private static final int STATE_RIDE_REQUEST = 0x1;
+    private static final int STATE_RIDE_REQUEST_TIME_OUT = 0x12;
+    private static final int STATE_RIDE_REQUEST_MATCH_ACCEPTED = 0x13;
+    private static final int STATE_RIDE_REQUEST_MATCH_REJECT = 0x14;
+
+
+
+
+
     /**
      * Called when the activity is starting. Restores the activity state.
      */
@@ -182,31 +191,24 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 @Override
                 public void onClick(View v) {
 
-
-                    MySharedPreferences msp = MySharedPreferences.getInstance();
-                    if (TypeActivity.equals("match_request")) {
-                        MatchAcceptedText.setVisibility(View.VISIBLE);
-                        MatchAcceptedText.setText("Please wait till the ride confirmed");
-                        msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
-                    }
-                    else
-                        msp.saveMatchRequestId(RideRequestActivity.this, "");
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    AcceptBtn.setVisibility(View.GONE);
-                    DurationText.setVisibility(View.GONE);
-                    RejectBtn.setVisibility(View.GONE);
-                    AcceptBtn.setEnabled(false);
-                    RejectBtn.setEnabled(false);
+                    onPleaseWaitMessage();
 
                     SendAcceptMatchToServer(MatchRequestId, "yes");
 
                 }
             });
+
+
+
             RejectBtn = (Button)findViewById(R.id.btn_reject);
             RejectBtn.setVisibility(View.GONE);
             RejectBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    MySharedPreferences msp = MySharedPreferences.getInstance();
+                    msp.saveMessageForRideShare(RideRequestActivity.this,"",0);
+
                     if (TypeActivity.contains("match_accept")) {
 
                         reject =  true;
@@ -246,7 +248,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                  if (CheckIfMatchAccepted() == false)
 
 			      /* and here comes the "trick" */
-                  handler.postDelayed(this, 1000*10);
+                  handler.postDelayed(this, 1000*2);
                 else {
                      MySharedPreferences msp = MySharedPreferences.getInstance();
                      msp.saveMatchRequestId(RideRequestActivity.this,"");
@@ -257,8 +259,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         if (TypeActivity.equals("match_request")) {
             handler = new Handler();
-            MatchWaitTimeCounter = 0;
-            handler.postDelayed(runnable, 1000 * 10);
+            handler.postDelayed(runnable, 1000 * 2);
         }
         NavBtn.setOnClickListener(new View.OnClickListener() {
                                       @Override
@@ -302,9 +303,29 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             }
         });
 
-            // Update the UI after signin
+        MySharedPreferences msp = MySharedPreferences.getInstance();
+        if (msp.getMatchRequestId(this).equals("")==false)
+            onPleaseWaitMessage();
+        // Update the UI after signin
             //updateUI(true);
         }
+    private void onPleaseWaitMessage()
+    {
+        MySharedPreferences msp = MySharedPreferences.getInstance();
+        if (TypeActivity.equals("match_request")) {
+            MatchAcceptedText.setVisibility(View.VISIBLE);
+            MatchAcceptedText.setText("Please wait till the ride confirmed");
+            msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
+        }
+        else
+            msp.saveMatchRequestId(RideRequestActivity.this, "");
+        mProgressBar.setVisibility(View.VISIBLE);
+        AcceptBtn.setVisibility(View.GONE);
+        DurationText.setVisibility(View.GONE);
+        RejectBtn.setVisibility(View.GONE);
+        AcceptBtn.setEnabled(false);
+        RejectBtn.setEnabled(false);
+    }
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
@@ -404,12 +425,18 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         boolean RetVal = false;
         MySharedPreferences msp = MySharedPreferences.getInstance();
         ServerData sd = msp.getServerData(this);
-        if (MatchWaitTimeCounter++ == 30) /* 6*5=30 5 minutes*/
+        if (sd.getMatchAccepted().contains("time_out")) /* 6*5=30 5 minutes*/
         {
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
            // DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("5 minutes pass...try again");
+            AcceptBtn.setVisibility(View.GONE);
+            RejectBtn.setVisibility(View.GONE);
+            msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
+            msp.saveMessageForRideShare(RideRequestActivity.this, "", 0);
+            //msp.saveMessageForRideShare(this,mMessage,STATE_RIDE_REQUEST_TIME_OUT);
+
             RetVal = true;
 
         }
@@ -422,7 +449,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             RejectBtn.setVisibility(View.GONE);
             NavBtn.setVisibility(View.VISIBLE);
             msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
-
+            //msp.saveMessageForRideShare(this, mMessage, STATE_RIDE_REQUEST_MATCH_ACCEPTED);
             RetVal = true;
         }
         if (sd.getMatchAccepted().contains("no")) {
@@ -430,7 +457,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             MatchAcceptedText.setVisibility(View.VISIBLE);
          //   DurationText.setVisibility(View.GONE);
             MatchAcceptedText.setText("Match rejected");
-            msp.saveDataFromServerService( this, null, null, null, null,null, "NA");
+            msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
+            msp.saveMessageForRideShare(RideRequestActivity.this, "", 0);
+            //msp.saveMessageForRideShare(this, mMessage, STATE_RIDE_REQUEST_MATCH_REJECT);
             RetVal = true;
         }
         return RetVal;
@@ -462,7 +491,12 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             e.printStackTrace();
         }
         MySharedPreferences msp = MySharedPreferences.getInstance();
-        msp.saveMessageForRideShare(this,mMessage,1);
+        msp.saveMessageForRideShare(this, mMessage, 1);
+        /*
+        long TimeFromRequest = msp.getTimeForRideShare(this);
+        if (TimeFromRequest == 0)
+            msp.saveTimeForRideShare(this,System.currentTimeMillis());
+            */
 
     }
     private void ShowUsOnMap()
@@ -488,7 +522,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(User2Lat, User2Lo))
                 .title(personName))
-              .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.thumb_marker));
+                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.thumb_marker));
 
 
 
@@ -978,6 +1012,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         protected void onPostExecute(String result) {
 
             if (reject) {
+
                 Intent intent = new Intent(RideRequestActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
