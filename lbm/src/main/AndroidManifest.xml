@@ -33,6 +33,13 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.NFC" />
+
+
+    <!-- [START gcm_permission] -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- [END gcm_permission] -->
+
     <!--
 	<uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
@@ -58,7 +65,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAWkGVsCPtDpK1g2DMC3Xf434IRtsGx_-M" />
+            android:value="AIzaSyAxbjmGJx-BQ59QkSXlXwyEylgZuRTc4Ms" />
 
         <!-- AIzaSyAr-c9L6Yz4-C1vkaKPFFOF_4p0g7t35fw  build to send -->
         <!-- AIzaSyCcuAxgxP5lLJT56BGJH6GEw1tTQXSg_Ls  debugger -->
@@ -296,7 +303,6 @@
             </intent-filter>
         </receiver>
         <!-- Used for Google Play Store Campaign Measurement -->
-;
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
         <receiver
@@ -310,6 +316,48 @@
         <meta-data
             android:name="com.google.android.gms.analytics.globalConfigResource"
             android:resource="@xml/global_tracker" />
+
+
+        <!-- [START gcm_receiver] -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.lazooz.lbm" />
+            </intent-filter>
+        </receiver>
+        <!-- [END gcm_receiver] -->
+
+        <!-- [START gcm_listener] -->
+        <service
+            android:name=".LiveDataListenerService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <!-- [END gcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <!--
+        <service
+            android:name=".MyInstanceIDListenerService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        -->
+        <!-- [END instanceId_listener] -->
+
+        <service
+            android:name=".RegistrationIntentService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
 
     </application>
 

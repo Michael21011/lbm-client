@@ -39,6 +39,7 @@ import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
 import com.lazooz.lbm.utils.Utils;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.IntentSender;
 import android.support.v4.app.DialogFragment;
@@ -110,6 +111,7 @@ public class RegistrationActivity extends MyActionBarActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		//super.onCreate(savedInstanceState);
 		super.onCreate(savedInstanceState, R.layout.activity_registration, false);
 		Thread.setDefaultUncaughtExceptionHandler( new BBUncaughtExceptionHandler(this));
@@ -630,6 +632,12 @@ public class RegistrationActivity extends MyActionBarActivity
 	
 	private void startNextScreen(){
 		Utils.freezOrientation(this);
+
+		if (checkPlayServices()) {
+			Intent intent = new Intent(this, RegistrationIntentService.class);
+			startService(intent);
+			Log.i("registration", "start intent");
+		}
 		
 		if(mIsNewUser){
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -692,8 +700,29 @@ public class RegistrationActivity extends MyActionBarActivity
 //		startActivity(intent);
 //		finish();		
 	}
-	
-	
+
+
+	private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+	/**
+	 * Check the device to make sure it has the Google Play Services APK. If
+	 * it doesn't, display a dialog that allows users to download the APK from
+	 * the Google Play Store or enable it in the device's system settings.
+	 */
+	private boolean checkPlayServices() {
+		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (resultCode != ConnectionResult.SUCCESS) {
+			if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+				GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+						PLAY_SERVICES_RESOLUTION_REQUEST).show();
+			} else {
+				Log.i("Registration", "This device is not supported.");
+				finish();
+			}
+			return false;
+		}
+		return true;
+	}
 	  private void addPurpleToolTipView() {
 		  /*    	
 		      	mToolTipView = mToolTipFrameLayout.showToolTipForView(new ToolTip()

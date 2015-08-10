@@ -3,6 +3,7 @@ package com.lazooz.lbm;
 
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -47,6 +48,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -87,6 +89,10 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private boolean mWifiWasInit = false;
 	private String mPotentialZoozBalance = "0.0";
 	private String mPrevPotentialZoozBalance = "0.0";
+
+    IBinder mBinder = new LocalBinder();
+
+
 	private Runnable runnable;
 	
 	private Handler handler; 
@@ -98,8 +104,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
-		return null;
+		return mBinder;
 	}
+
+    public class LocalBinder extends Binder {
+        public LbmService getServerInstance() {
+            return LbmService.this;
+        }
+    }
 
 	private boolean isLocationEnabled(){
 		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -168,23 +180,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			};
 		LongPeriodTimer.scheduleAtFixedRate(oneMinTimerTask, 60*1000, 2*60*1000);
 		*/
-		runnable = new Runnable() {
-			   @Override
-			   public void run() {
-			      /* do what you need to do */
-				  checkEveryLongPeriod();
-			      /* and here comes the "trick" */
-			      handler.postDelayed(this, 1000*60);
-			   }
-			};
-			
-		handler = new Handler();
-		handler.postDelayed(runnable, 1000*60);
-		
-		
-		
-		
-		
+
 		startOnDayScheduler();
 		
 		listenToContactsChanges();
@@ -266,25 +262,26 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	}
 */
 	protected void checkEveryLongPeriod() {
-		
+
 	//	MySharedPreferences msp = MySharedPreferences.getInstance();
-		
+
 	//	Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
-		
+        Log.i("LbmService", "checkEveryLongPeriod");
 		sendDataToServerAsync();
 		isLiveAsync();
 		try {
-			if ((Integer.parseInt(mPotentialZoozBalance)-Integer.parseInt(mPrevPotentialZoozBalance))>=1)
+			if (new BigDecimal(mPotentialZoozBalance).subtract( new java.math.BigDecimal(mPrevPotentialZoozBalance)).compareTo(new BigDecimal("1.00")) >= 0)
 			{
 				 Utils.playSound1(LbmService.this, R.raw.drop_coin_10);
 				 mPrevPotentialZoozBalance = mPotentialZoozBalance;
 			}
 		} catch (Exception e) {
+            e.printStackTrace();
 		}
-		
+
 	}
-	
-		
+
+
 	private void isLiveAsync(){
 		String jString = "";
 		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -297,25 +294,25 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 				if (location.hasAccuracy())
 					jObj.put("location_accuracy", location.getAccuracy());
-				
+
 				if (location.hasSpeed())
-					jObj.put("location_speed", location.getSpeed());		
-				
+					jObj.put("location_speed", location.getSpeed());
+
 				jString = jObj.toString();
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
-			
+
+
+
 		}
 
 		IsLive isLive = new IsLive();
 		isLive.execute(jString);
 	}
-	
-	
+
+
 
 
 	private class IsLive extends AsyncTask<String, Void, String> {
@@ -327,22 +324,22 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 		@Override
 		protected String doInBackground(String... params) {
-			
+
           	ServerCom bServerCom = new ServerCom(LbmService.this);
           	String locationString = params[0];
-              
+
         	JSONObject jsonReturnObj=null;
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
-				String publicKey = MySharedPreferences.getInstance().getPublicKey(LbmService.this); 
+				String publicKey = MySharedPreferences.getInstance().getPublicKey(LbmService.this);
 				bServerCom.isLive(msp.getUserId(LbmService.this), msp.getUserSecret(LbmService.this), locationString, publicKey);
 				jsonReturnObj = bServerCom.getReturnObject();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-        	
+
         	String serverMessage = "";
-	
+
 			try {
 				if (jsonReturnObj == null)
 					serverMessage = "ConnectionError";
@@ -355,19 +352,19 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						MySharedPreferences.getInstance().saveBuildNum(LbmService.this, mSrvrCurrentBuildNum, mSrvrMinBuildNum);
 					}
 				}
-			} 
+			}
 			catch (JSONException e) {
 				e.printStackTrace();
 				serverMessage = "GeneralError";
 			}
-			
-			
+
+
 			return serverMessage;
 		}
-		
+
 		@Override
 		protected void onPostExecute(String result) {
-			
+
 			if (result.equals("success")){
 				int lastNotifNum = MySharedPreferences.getInstance().getLastNotificationNum(LbmService.this, mNotifNum);
 				if (mNotifNum > lastNotifNum)
@@ -375,17 +372,17 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 			}
 
 		}
-			
-		
+
+
 		@Override
 		protected void onPreExecute() {
-			
+
 		}
 
 
-		
+
 	}
-	
+
 	private void getUserNotificationsAsync(int fromNum){
 		GetUserNotifications getUserNotifications = new GetUserNotifications();
 		getUserNotifications.execute(fromNum);
@@ -472,7 +469,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	
 	
 	private void sendDataToServerAsync(){
-		
+
 		LocationDataToServer locationDataToServer = new LocationDataToServer();
 		locationDataToServer.execute();
 
@@ -482,14 +479,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 
 		@Override
 		protected String doInBackground(String... params) {
-			
+
           	ServerCom bServerCom = new ServerCom(LbmService.this);
-        	
-              
+
+
         	JSONObject jsonReturnObj=null;
 			try {
 				MySharedPreferences msp = MySharedPreferences.getInstance();
-				
+
 				JSONArray dataList = msp.getLocationDataList(LbmService.this);
 				if (dataList != null){
 		          	Log.i(FILE_TAG, "send location data to server");
@@ -502,14 +499,14 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 					mSendingDataToServer = 0;
 					return "";
 				}
-				
+
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				Log.e(FILE_TAG, "error sending location data to server " + e1.getMessage());
 			}
-        	
+
         	String serverMessage = "";
-	
+
 			try {
 				if (jsonReturnObj == null)
 					serverMessage = "ConnectionError";
@@ -522,53 +519,53 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 						String potentialZoozBalance = jsonReturnObj.getString("potential_zooz_balance");
 						String distance = jsonReturnObj.getString("distance");
 						boolean isDistanceAchievement = Utils.yesNoToBoolean(jsonReturnObj.getString("is_distance_achievement"));
-						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);						
+						boolean prevIsDistanceAchievement = MySharedPreferences.getInstance().isDistanceAchievement(LbmService.this);
 
 						mPotentialZoozBalance = potentialZoozBalance;
 						MySharedPreferences.getInstance().saveDataFromServerService(LbmService.this, zoozBalance, potentialZoozBalance, distance, isDistanceAchievement);
 						if (!prevIsDistanceAchievement && isDistanceAchievement){ // achieved distance
 							serverMessage = "success_distance_achieved";
 						}
-							
-						
+
+
 					}
 				}
-			} 
+			}
 			catch (JSONException e) {
 				e.printStackTrace();
 				serverMessage = "GeneralError";
 			}
-			
+
 			mSendingDataToServer = 0;
 			return serverMessage;
 		}
-		
+
 		@Override
 		protected void onPostExecute(String result) {
 			mSendingDataToServer = 0;
 			/*
 			if (result.equals("success_distance_achieved")){
-				Utils.sendNotifications(LbmService.this, 
-						R.drawable.ic_launcher, 
-						"La'Zooz Notification", 
-						"You have achieved 100 km", 
-						"You have achieved 100 km", 
+				Utils.sendNotifications(LbmService.this,
+						R.drawable.ic_launcher,
+						"La'Zooz Notification",
+						"You have achieved 100 km",
+						"You have achieved 100 km",
 						new Intent(LbmService.this, MainActivity.class),
 						true);
-				
+
 				//startActivity(new Intent(LbmService.this, CongratulationsDrive100Activity.class));
 
 			}*/
 		}
-			
-		
+
+
 		@Override
 		protected void onPreExecute() {
 			mSendingDataToServer = 1;
-			
+
 		}
 	}
-	
+
 	
 	private void initWifi(){
 		

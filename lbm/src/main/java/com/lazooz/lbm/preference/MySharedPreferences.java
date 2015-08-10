@@ -38,6 +38,10 @@ public class MySharedPreferences {
 	public final static int STAGE_REG_CONF_SENT_OK = 7;
 	public final static int STAGE_REG_CONGRATS = 8;
 	public final static int STAGE_MAIN = 9;
+
+
+	public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+	public static final String REGISTRATION_COMPLETE = "registrationComplete";
 	
 	private static MySharedPreferences instance = null;
 
