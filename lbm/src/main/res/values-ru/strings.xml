@@ -844,8 +844,22 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <string name="fan_of">Fan Of</string>
     <string name="title_activity_profile__google_">Profile_Google_Activity</string>
     <string name="title_activity_profile_google">ProfileGoogleActivity</string>
+    <string name="title_activity_ride_request">RideRequestActivity</string>
 
+    <string name="wants_to_come_and_pick_you_up">Wants to come and pick you up.</string>
+    <string name="is_it_still_relevant">Is it still relevant?</string>
+    <string name="still_relevant">It is still relevant</string>
+    <string name="no_need">No need</string>
+    <string name="riderequest">Ride Request</string>
 
+    <string name="want_to_ride">Want to get to:</string>
+    <string name="try_to_rideshare" >Try To Rideshare</string>
+    <string name="is_on_his_way_to_you">Is on his way to you</string>
+    <string name="will_arrive_in">Will arrive in:</string>
+    <string name="facebook_app_id">424146754423511</string>
+    <string name="reject">reject</string>
+    <string name="red_traffic_light">Red Traffic Light</string>
+    <string name="will_be_here_in">Will be here in:</string>
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>

@@ -71,16 +71,11 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
 
     private PlaceAutocompleteAdapter mAdapter;
 
-
     private AutoCompleteTextView mAutocompleteViewDest;
 
     private TextView mPlaceDetailsText;
 
     private static String DestPlaceId = null;
-
-
-
-
 
     private static  LatLngBounds bounds = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
@@ -93,14 +88,10 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
         LogWrapper logWrapper = new LogWrapper();
         Log.setLogNode(logWrapper);
 
-        Log.i(TAG, "Ready");
-
-        Log.i(TAG, " onCreate 1" );
 
         if (!MySharedPreferences.getInstance().getUserProfile(this,"SET").equalsIgnoreCase("DONE"))
         {
             showDialogForProfile(this);
-
         }
 
         // Set up the Google API Client if it has not been initialised yet.
@@ -108,11 +99,7 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
             rebuildGoogleApiClient();
         }
 
-        Log.i(TAG, " onCreate 2" );
-
         setContentView(activity_ride_share_request);
-        Log.i(TAG, " onCreate 3" );
-
 
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         mAutocompleteViewDest = (AutoCompleteTextView)
@@ -129,7 +116,7 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
         String provider = locationManager.getBestProvider(criteria, true);
         if (provider == null)
         {
-            Utils.messageToUser(this, "TrainRideShare", "Your location service is off.Please turn it on",RideShareEnterRequestActivity.this);
+            Utils.messageToUser(this, "RideShare", "Your location service is off.Please turn it on",RideShareEnterRequestActivity.this);
             return;
         }
         Location location = locationManager.getLastKnownLocation(provider);

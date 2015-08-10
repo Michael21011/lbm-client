@@ -191,9 +191,11 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 @Override
                 public void onClick(View v) {
 
+                    MySharedPreferences msp = MySharedPreferences.getInstance();
+                    msp.saveMessageForRideShare(RideRequestActivity.this, mMessage,STATE_RIDE_REQUEST_MATCH_ACCEPTED);
                     onPleaseWaitMessage();
-
                     SendAcceptMatchToServer(MatchRequestId, "yes");
+
 
                 }
             });
@@ -262,18 +264,18 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             handler.postDelayed(runnable, 1000 * 2);
         }
         NavBtn.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          Uri gmmIntentUri = Uri.parse("google.navigation:q="+User2Lat+","+User2Lo);
-                                          Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                                          mapIntent.setPackage("com.google.android.apps.maps");
-                                          startActivity(mapIntent);
-                                          finish();
-                                      }
-                                  });
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + User2Lat + "," + User2Lo);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+                finish();
+            }
+        });
         imgProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 System.out.println("image clicked...");//check logcat
                  /*
                 String LoginName[] =  personName.split(" ");
@@ -290,13 +292,13 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
                 SC.setParams(OpponentId, ChatLogin, "LAZOOZ10", LoginName[0] + "*" + LoginName[1]);
                 */
 
-                String LoginName[] =  personName.split(" ");
+                String LoginName[] = personName.split(" ");
                 Integer OpponentId = Integer.valueOf(OponnedID);
                 Intent intent = new Intent(RideRequestActivity.this, com.lazooz.lbm.chat.ui.activities.SplashChatActivity.class);
                 String ChatLogin = MySharedPreferences.getInstance().getUserProfile(RideRequestActivity.this, "ChatLogin");
-                intent.putExtra("USER_LOGIN",ChatLogin);
-                intent.putExtra("OPPONENT_LOGIN",LoginName[0]+"*"+LoginName[1]);
-                intent.putExtra("PASSWORD","LAZOOZ10");
+                intent.putExtra("USER_LOGIN", ChatLogin);
+                intent.putExtra("OPPONENT_LOGIN", LoginName[0] + "*" + LoginName[1]);
+                intent.putExtra("PASSWORD", "LAZOOZ10");
                 intent.putExtra("OPPONENTID", OpponentId);
                 startActivity(intent);
                 finish();
@@ -304,8 +306,10 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         });
 
         MySharedPreferences msp = MySharedPreferences.getInstance();
-        if (msp.getMatchRequestId(this).equals("")==false)
-            onPleaseWaitMessage();
+        msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
+        msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
+        if (msp.getStateForRideShare(RideRequestActivity.this)== STATE_RIDE_REQUEST_MATCH_ACCEPTED)
+          onPleaseWaitMessage();
         // Update the UI after signin
             //updateUI(true);
         }
@@ -313,18 +317,20 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
     {
         MySharedPreferences msp = MySharedPreferences.getInstance();
         if (TypeActivity.equals("match_request")) {
+
             MatchAcceptedText.setVisibility(View.VISIBLE);
             MatchAcceptedText.setText("Please wait till the ride confirmed");
-            msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
+            //msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
         }
-        else
-            msp.saveMatchRequestId(RideRequestActivity.this, "");
+        //else
+          //  msp.saveMatchRequestId(RideRequestActivity.this, "");
         mProgressBar.setVisibility(View.VISIBLE);
         AcceptBtn.setVisibility(View.GONE);
         DurationText.setVisibility(View.GONE);
         RejectBtn.setVisibility(View.GONE);
         AcceptBtn.setEnabled(false);
         RejectBtn.setEnabled(false);
+
     }
     @Override
     public void onBackPressed() {
