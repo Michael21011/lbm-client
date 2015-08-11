@@ -72,8 +72,9 @@ import android.widget.Toast;
 
 public class RegistrationActivity extends MyActionBarActivity
         implements View.OnClickListener, ToolTipView.OnToolTipViewClickedListener , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-	
-	
+
+
+	private static final String TAG = "RegistrationActivity";
 	private Button mRegBtn;
 
 	private Button mConfBtn;
@@ -106,6 +107,8 @@ public class RegistrationActivity extends MyActionBarActivity
     private boolean  with_num =false;
     private String accountName =null;
     private boolean mIsFromMenuMode;
+
+	private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
 
 	@Override
@@ -630,6 +633,12 @@ public class RegistrationActivity extends MyActionBarActivity
 	
 	private void startNextScreen(){
 		Utils.freezOrientation(this);
+
+		if (checkPlayServices()) {
+			Intent intent = new Intent(this, RegistrationIntentService.class);
+			startService(intent);
+			Log.i(TAG, "start intent");
+		}
 		
 		if(mIsNewUser){
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -691,6 +700,26 @@ public class RegistrationActivity extends MyActionBarActivity
 		
 //		startActivity(intent);
 //		finish();		
+	}
+
+	/**
+	 * Check the device to make sure it has the Google Play Services APK. If
+	 * it doesn't, display a dialog that allows users to download the APK from
+	 * the Google Play Store or enable it in the device's system settings.
+	 */
+	private boolean checkPlayServices() {
+		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (resultCode != ConnectionResult.SUCCESS) {
+			if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+				GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+						PLAY_SERVICES_RESOLUTION_REQUEST).show();
+			} else {
+				Log.i("Registration", "This device is not supported.");
+				finish();
+			}
+			return false;
+		}
+		return true;
 	}
 	
 	

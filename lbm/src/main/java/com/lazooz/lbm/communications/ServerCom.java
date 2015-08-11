@@ -13,6 +13,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
@@ -430,6 +431,19 @@ public class ServerCom {
 		
 	}
 
+	public void subscribePushNotication(String userid, String token) {
+		String url = StaticParms.PUSH_SERVER_URL + "subscribe";
+		JSONObject entity = new JSONObject();
+		try {
+			entity.put("user", userid);
+			entity.put("type", "android");
+			entity.put("token", token);
+			this.postJsonRequestToServer(-1, -1, url, entity);
+		} catch (JSONException e) {
+			Log.e("Server","Fail to create json entity to subscribe push notification");
+		}
+	}
+
 	
 
 	
@@ -482,6 +496,53 @@ public class ServerCom {
     	      }
 			
 		
+		return "";
+	}
+
+	public String postJsonRequestToServer(int connTimeout, int SoTimeout, String apiUrl, JSONObject entity) {
+
+		String TAG = "server";
+		//Log.e(TAG,"postRequestToServer: " + apiUrl);
+		//Log.e(TAG,"postRequestToServerParams: " + params.toString());
+
+		try {
+			HttpClient client = new DefaultHttpClient();
+
+			if (connTimeout > -1)
+				HttpConnectionParams.setConnectionTimeout(client.getParams(), connTimeout);
+			if (SoTimeout > -1)
+				HttpConnectionParams.setSoTimeout(client.getParams(), SoTimeout);
+
+			HttpPost request = new HttpPost();
+			request.setURI(new URI(apiUrl));
+			StringEntity se = new StringEntity(entity.toString());
+			//sets the post request as the resulting string
+			request.setEntity(se);
+			//sets a request header so the page receving the request
+			//will know what to do with it
+			request.setHeader("Accept", "application/json");
+			request.setHeader("Content-type", "application/json");
+			//  Log.e(TAG,apiUrl);
+
+			HttpResponse response = client.execute(request);
+
+
+
+			this.responseProcess(response);
+
+
+		}catch(URISyntaxException e){
+			Log.e(TAG,"myHttpGetHttpGet URISyntaxException");
+
+		}catch(IOException e){
+			Log.e(TAG,"myHttpGetHttpGet IOException : " + e.getMessage());
+		}catch(IllegalStateException e){
+			Log.e(TAG,"myHttpGetHttpGet IllegalStateException");
+		}catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+
 		return "";
 	}
 	

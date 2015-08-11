@@ -15,7 +15,8 @@ public final class StaticParms {
 	public static final String PLAY_STORE_APP_LINK = "http://play.google.com/store/apps/details?id=com.lazooz.lbm";
 	
 	public static final boolean TEST_VERSION = true;
-	
+
+	public static final String PUSH_SERVER_URL = "http://52.19.29.83:8000/";
 	
 
 }

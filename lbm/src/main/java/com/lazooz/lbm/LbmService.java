@@ -49,6 +49,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -90,6 +91,7 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	private String mPotentialZoozBalance = "0.0";
 	private String mPrevPotentialZoozBalance = "0.0";
 	private Runnable runnable;
+	private	IBinder mBinder = new LocalBinder();
 	
 	private Handler handler;
 	private boolean ScheduleAlt = false;
@@ -102,7 +104,13 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
-		return null;
+		return mBinder;
+	}
+
+	public class LocalBinder extends Binder {
+		public LbmService getServerInstance() {
+			return LbmService.this;
+		}
 	}
 
 	private boolean isLocationEnabled(){

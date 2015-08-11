@@ -83,6 +83,7 @@
     <string name="no_connection_msg">Failed to connect to La\'Zooz server, please try again later.</string>
     <string name="no_net_connection">No Network Connection</string>
     <string name="no_net_connection_msg">Please connect your device to the network and restart the application</string>
+    <string name="gcm_defaultSenderId">54566305933</string>
 
     <string-array name="sched_gps">
         <item>a day</item>
