@@ -86,7 +86,8 @@ public class LiveDataListenerService extends GcmListenerService {
         if (notif.isNotif()) {
             Log.d(TAG, "invoke notif");
             notif.displayNotifBar(LiveDataListenerService.this);
-        } else if (notif.isPopup()) {
+        }
+        if (notif.isPopup()) {
             Log.d(TAG, "invoke popup");
             MySharedPreferences.getInstance().addNotificationToDisplayList(LiveDataListenerService.this, notif);
         }
