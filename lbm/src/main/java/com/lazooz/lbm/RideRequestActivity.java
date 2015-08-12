@@ -52,6 +52,7 @@ import com.lazooz.lbm.chat.ui.activities.SplashChatActivity;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 
+import com.lazooz.lbm.utils.Utils;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.model.QBSession;
 import com.quickblox.chat.QBChatService;
@@ -310,6 +311,8 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
         if (msp.getStateForRideShare(RideRequestActivity.this)== STATE_RIDE_REQUEST_MATCH_ACCEPTED)
           onPleaseWaitMessage();
+
+        Utils.messageToUser(this,"Please note", "You are ride sharing on your own risk!", RideRequestActivity.this);
         // Update the UI after signin
             //updateUI(true);
         }

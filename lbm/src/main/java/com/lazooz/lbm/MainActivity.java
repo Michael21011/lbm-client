@@ -564,7 +564,15 @@ public class MainActivity extends MyActionBarActivity  {
 		float pzb = Float.valueOf(sd.getPotentialZoozBalance());
 		mZoozBalTV.setText(String.format("%.2f", pzb));
 
-		mShakeTV.setText(sd.getUsersAroundMe());
+		JSONObject jsonUsersAroundMe = null;
+
+		try {
+			jsonUsersAroundMe = new JSONObject(sd.getUsersAroundMe());
+			mShakeTV.setText(jsonUsersAroundMe.getString("3_KM"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 
 		int numInvitedContacts = msp.getNumInvitedContacts(this);
 		int numShakedUsers = msp.getNumShakedUsers(this);
@@ -585,7 +593,14 @@ public class MainActivity extends MyActionBarActivity  {
 		int UsersAroundMe = 0;
 
 		try {
-			UsersAroundMe = Integer.parseInt(sd.getUsersAroundMe());
+			JSONObject jsonUsersAroundMeForRideShare = null;
+
+			try {
+				jsonUsersAroundMeForRideShare = new JSONObject(sd.getUsersAroundMe());
+				UsersAroundMe = Integer.parseInt(jsonUsersAroundMeForRideShare.getString("3_KM"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			if (UsersAroundMe>0)
 				mRideShareBtn.setVisibility(View.VISIBLE);
 			else
@@ -594,6 +609,7 @@ public class MainActivity extends MyActionBarActivity  {
 		} catch(NumberFormatException nfe) {
 			System.out.println("Could not parse " + nfe);
 		}
+		checkNotif();
 
 
 
@@ -604,7 +620,7 @@ public class MainActivity extends MyActionBarActivity  {
 		else
 			mConvertionRateTV.setText("1=$" + dolarConvertionRate);
 			*/
-	
+
 	}
 	
 
