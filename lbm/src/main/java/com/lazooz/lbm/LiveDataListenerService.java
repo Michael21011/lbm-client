@@ -63,18 +63,18 @@ public class LiveDataListenerService extends GcmListenerService {
         Log.d(TAG, "Event: " + event);
 
         if (event != null && event.equalsIgnoreCase("LiveData")) {
-            sendNotification(data.getString("is_notification"), data.getString("is_popup"));
+            sendNotification(data.getString("is_notification"), data.getString("is_popup"),data.getString("title"),data.getString("message"));
             Log.d(TAG, "done call LbmService");
         }
     }
 
 
-    private void sendNotification(String isNotif, String isPopup) {
+    private void sendNotification(String isNotif, String isPopup,String title,String Body) {
         JSONObject jsonObject = new JSONObject();
         Log.d(TAG, "isNotif=" + isNotif + ", isPopup= " + isPopup);
         try {
-            jsonObject.put("body", "Body");
-            jsonObject.put("title", "Title");
+            jsonObject.put("body", Body);
+            jsonObject.put("title", title);
             jsonObject.put("num", 1);
             jsonObject.put("is_notification", isNotif);
             jsonObject.put("is_popup", isPopup);
