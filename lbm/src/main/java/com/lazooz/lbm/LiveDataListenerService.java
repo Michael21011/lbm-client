@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.gcm.GcmListenerService;
+import com.lazooz.lbm.businessClasses.UserNotification;
+import com.lazooz.lbm.preference.MySharedPreferences;
+import com.lazooz.lbm.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LiveDataListenerService extends GcmListenerService {
 
@@ -53,14 +59,37 @@ public class LiveDataListenerService extends GcmListenerService {
 
         Log.d(TAG, "From: " + from);
         String event = data.getString("event");
+
         Log.d(TAG, "Event: " + event);
 
         if (event != null && event.equalsIgnoreCase("LiveData")) {
-            callLbmService();
+            sendNotification(data.containsKey("is_notification"), data.containsKey("is_popup"));
             Log.d(TAG, "done call LbmService");
         }
     }
 
+
+    private void sendNotification(boolean isNotif, boolean isPopup) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("body", "Body");
+            jsonObject.put("title", "Title");
+            jsonObject.put("num", 1);
+            jsonObject.put("is_notification", isNotif);
+            jsonObject.put("is_popup", isPopup);
+            jsonObject.put("type", "type");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        UserNotification notif = new UserNotification(jsonObject);
+        if (notif.isNotif()) {
+            Log.d(TAG, "invoke notif");
+            notif.displayNotifBar(LiveDataListenerService.this);
+        } else if (notif.isPopup()) {
+            Log.d(TAG, "invoke popup");
+            MySharedPreferences.getInstance().addNotificationToDisplayList(LiveDataListenerService.this, notif);
+        }
+    }
 
     private void callLbmService() {
         Intent mIntent = new Intent(this, LbmService.class);
