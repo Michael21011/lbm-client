@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center"
-        android:text="RIDE SHARING V.03 ALPHA"
+        android:text="RIDE SHARING V.04 ALPHA"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/red" />
 </FrameLayout>
