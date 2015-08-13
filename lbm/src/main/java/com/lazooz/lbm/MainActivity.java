@@ -401,16 +401,18 @@ public class MainActivity extends MyActionBarActivity  {
 		super.onResume();
 		checkGPS();
 		getUserKeyDataAsync();
-		//checkNotif();
+		checkNotif();
+		/*
 		this.registerReceiver(mMessageReceiver,
 				new IntentFilter("com.lazooz.lbm.UserNotification"));
+				*/
 		//CheckRideShareActive();
 	}
 
 	@Override
 	protected void onPause() {
 		// Unregister since the activity is not visible
-		this.unregisterReceiver(mMessageReceiver);
+		//this.unregisterReceiver(mMessageReceiver);
 		super.onPause();
 	}
 

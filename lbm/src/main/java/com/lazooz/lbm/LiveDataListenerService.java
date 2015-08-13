@@ -94,6 +94,7 @@ public class LiveDataListenerService extends GcmListenerService {
             Log.d(TAG, "invoke popup");
 
             MySharedPreferences.getInstance().addNotificationToDisplayList(LiveDataListenerService.this, notif);
+            /*
             ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
             List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
             ComponentName componentInfo = taskInfo.get(0).topActivity;
@@ -105,6 +106,7 @@ public class LiveDataListenerService extends GcmListenerService {
             } else{
                 notif.displayNotifBar(LiveDataListenerService.this);
             }
+            */
         }
 
 
