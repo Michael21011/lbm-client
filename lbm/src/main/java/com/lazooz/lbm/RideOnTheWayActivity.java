@@ -329,20 +329,9 @@ public class RideOnTheWayActivity extends ActionBarActivity implements View.OnCl
         MatchRequestId = jsonMessage.getString("MATCH_REQ_ID");
         TypeActivity = jsonMessage.getString("TYPE");
         Duration     = jsonMessage.getString("DURATION");
+            DurationValue     = jsonMessage.getInt("DURATION_VALUE")*1000;
             Direction     = jsonMessage.getString("DIRECTION");
             OponnedID     = jsonMessage.getString("OPPONENTID");
-
-            if (Direction.equals("0")==false) {
-                final JSONObject json = new JSONObject(Direction);
-                JSONArray routeArray = json.getJSONArray("routes");
-                JSONObject routes = routeArray.getJSONObject(0);
-                JSONArray legsArray = routes.getJSONArray("legs");
-                JSONObject legs = legsArray.getJSONObject(0);
-                JSONObject duration = legs.getJSONObject("duration");
-                DurationValue = duration.getInt("value")*1000;
-            }
-            else
-                DurationValue = 1260*1000;
 
         } catch (JSONException e) {
             e.printStackTrace();
