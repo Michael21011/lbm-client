@@ -416,7 +416,6 @@
             android:enabled="true"
             android:exported="false">
         </service>
-
     </application>
 
 </manifest>

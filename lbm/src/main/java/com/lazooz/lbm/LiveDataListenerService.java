@@ -16,6 +16,7 @@
 
 package com.lazooz.lbm;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -38,6 +39,8 @@ import com.lazooz.lbm.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class LiveDataListenerService extends GcmListenerService {
 
@@ -89,8 +92,22 @@ public class LiveDataListenerService extends GcmListenerService {
         }
         if (notif.isPopup()) {
             Log.d(TAG, "invoke popup");
+
             MySharedPreferences.getInstance().addNotificationToDisplayList(LiveDataListenerService.this, notif);
+            ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+            ComponentName componentInfo = taskInfo.get(0).topActivity;
+            Log.d(TAG, "component info class name=" + componentInfo.getClassName());
+            if(componentInfo.getClassName().equalsIgnoreCase("com.lazooz.lbm.MainActivity")){
+                Intent intent = new Intent();
+                intent.setAction("com.lazooz.lbm.UserNotification");
+                sendBroadcast(intent);
+            } else{
+                notif.displayNotifBar(LiveDataListenerService.this);
+            }
         }
+
+
     }
 
     private void callLbmService() {

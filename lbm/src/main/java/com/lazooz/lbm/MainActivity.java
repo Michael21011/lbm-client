@@ -21,9 +21,11 @@ import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -34,6 +36,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -397,11 +401,29 @@ public class MainActivity extends MyActionBarActivity  {
 		super.onResume();
 		checkGPS();
 		getUserKeyDataAsync();
-		checkNotif();
+		//checkNotif();
+		this.registerReceiver(mMessageReceiver,
+				new IntentFilter("com.lazooz.lbm.UserNotification"));
 		//CheckRideShareActive();
 	}
-	
-	
+
+	@Override
+	protected void onPause() {
+		// Unregister since the activity is not visible
+		this.unregisterReceiver(mMessageReceiver);
+		super.onPause();
+	}
+
+	// handler for received Intents for the "my-event" event
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Extract data included in the Intent
+			String message = intent.getStringExtra("message");
+			Log.d("receiver", "Got message: " + message);
+			checkNotif();
+		}
+	};
 	
 	
 	private void checkNotif() {
@@ -413,7 +435,6 @@ public class MainActivity extends MyActionBarActivity  {
 			}
 		}
 	}
-
 
 	private void checkGPS() {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
