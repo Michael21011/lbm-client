@@ -312,7 +312,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         if (msp.getStateForRideShare(RideRequestActivity.this)== STATE_RIDE_REQUEST_MATCH_ACCEPTED)
           onPleaseWaitMessage();
 
-        Utils.messageToUser(this,"Please note", "You are ride sharing on your own risk!", RideRequestActivity.this);
+        Utils.messageToUser(this,"Please note", "You are ride sharing on your own responsibility!", RideRequestActivity.this);
         // Update the UI after signin
             //updateUI(true);
         }

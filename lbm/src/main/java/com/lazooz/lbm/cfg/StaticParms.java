@@ -17,6 +17,7 @@ public final class StaticParms {
 	public static final boolean TEST_VERSION = true;
 
 	public static final String PUSH_SERVER_URL = "http://52.19.29.83:8000/";
+	public final static int RIDE_SHARING_ZOOZ_COST = 15;
 	
 
 }

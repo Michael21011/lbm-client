@@ -51,9 +51,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
+import com.lazooz.lbm.cfg.StaticParms;
 
 public class MainActivity extends MyActionBarActivity  {
-	
+
+
 	private Timer ShortPeriodTimer;
 	private TextView mDistanceTV;
 	private TextView mZoozBalTV;
@@ -150,8 +152,20 @@ public class MainActivity extends MyActionBarActivity  {
             @Override
             public void onClick(View v) {
 
+
 				MySharedPreferences msp = MySharedPreferences.getInstance();
-				msp.saveMessageForRideShare(MainActivity.this,"",0);
+				ServerData sd = msp.getServerData(MainActivity.this);
+
+				if (Float.valueOf(sd.getPotentialZoozBalance())< StaticParms.RIDE_SHARING_ZOOZ_COST)
+				{
+					String MsgToUser = "You do not have enough credit (%d RZ) for ride sharing.";
+					String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
+
+					Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
+					return;
+				}
+				msp.saveMessageForRideShare(MainActivity.this, "", 0);
+
                 Intent intent = new Intent(MainActivity.this, RideShareEnterRequestActivity.class);
 
                 startActivity(intent);

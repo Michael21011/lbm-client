@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.android.common.activities.SampleActivityBase;
+import com.lazooz.lbm.cfg.StaticParms;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.logger.Log;
 import com.lazooz.lbm.logger.LogWrapper;
@@ -148,10 +149,13 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
                 if (DestPlaceId == null) {
                     Toast.makeText(getApplicationContext(), "Please enter your destination", Toast.LENGTH_SHORT).show();
                 } else {
-                    SubmitMatchRequestToServer(null,null,null,null,null,DestPlaceId,null,null,"barcelona");
+                    SubmitMatchRequestToServer(null, null, null, null, null, DestPlaceId, null, null, "barcelona");
                 }
             }
         });
+        String MsgToUser = "You will be charged for %d Road ZOOZ for a successful ride sharing match";
+        String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
+        Utils.messageToUser(this, "Please note", MsgToUser, RideShareEnterRequestActivity.this);
     }
 
     /**
