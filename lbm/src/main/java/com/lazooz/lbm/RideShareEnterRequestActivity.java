@@ -154,7 +154,7 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
             }
         });
         String MsgToUser = "You will be charged for %d Road ZOOZ for a successful ride sharing match";
-        String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
+        MsgToUser = String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
         Utils.messageToUser(this, "Please note", MsgToUser, RideShareEnterRequestActivity.this);
     }
 

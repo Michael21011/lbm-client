@@ -158,8 +158,8 @@ public class MainActivity extends MyActionBarActivity  {
 
 				if (Float.valueOf(sd.getPotentialZoozBalance())< StaticParms.RIDE_SHARING_ZOOZ_COST)
 				{
-					String MsgToUser = "You do not have enough credit (%d RZ) for ride sharing.";
-					String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
+					String MsgToUser = "You do not have enough credit\n(%d RZ) for ride sharing.";
+					MsgToUser  = String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
 
 					Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
 					return;
