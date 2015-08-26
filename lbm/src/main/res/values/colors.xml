@@ -199,8 +199,7 @@
     
     
     <color name="gil_background_light">#f7f7f7</color>
-    
-    
-    
-    	 
+    <color name="dark_blue_lazooz_text">#65a8ac</color>
+
+
 </resources>
