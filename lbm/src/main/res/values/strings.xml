@@ -718,7 +718,7 @@ After testing phase they will be stored onto a secured public ledger.</string>
     <string name="me_my_impact">My Impact</string>
     <string name="me_wallet_num">Wallet #: </string>
     <string name="me_id">ID: </string>
-    <string name="info_version">Version: </string>
+    <string name="info_version">BETA Version:</string>
     <string name="info_app_build_version">Application Build Number: </string>
     <string name="info_server_build_number">Server Build Number: </string>
     <string name="total">Total</string>

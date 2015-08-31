@@ -751,7 +751,7 @@
       <string name="me_id">ID: </string>
       
       
-      <string name="info_version">Версия: </string>
+      <string name="info_version">BETA Версия:</string>
       <string name="info_app_build_version">Номер сборки приложения: </string>
       <string name="info_server_build_number">Номер серверной сборки: </string>
       

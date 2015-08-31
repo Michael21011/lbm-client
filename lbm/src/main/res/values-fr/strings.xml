@@ -707,7 +707,7 @@ Après la phase de test, ils seront stockés sur un registre public et sécuris�
 <string name="me_my_impact">Mon impact</string>
 <string name="me_wallet_num">Portefeuille n°: </string>
 <string name="me_id">ID: </string>
-<string name="info_version">Version: </string>
+<string name="info_version">BETA Version:</string>
 <string name="info_app_build_version">Numéro de référence de l\'application : </string>
 <string name="info_server_build_number">Numéro de référence du serveur: </string>
 <string name="total">Total</string>
