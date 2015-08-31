@@ -114,7 +114,7 @@ public class MainActivity extends MyActionBarActivity  {
 		
 		//mConvertionRateTV = (TextView)findViewById(R.id.main_zooz_conversion_rate_tv);
 		
-		mShakeTV.setText("0.0");
+		mShakeTV.setText("0");
 		
 		/*************************************************************************/
 		mAddFriendsBtn = (ImageButton)findViewById(R.id.main_friends_btn);
