@@ -654,9 +654,10 @@
 
     <string name="intro_text" formatted="false">Hello, I am La\'Zooz %v%.\r\n\r\nBy running and sharing this app with others,you are taking part in the establishment of the first\n  Collaborative Transportation Web.\n\rYour contribution will be rewarded with Road Zooz tokens, to be traded for movement once the network is established.</string>
     <string name="disclaimer_title">La\'Zooz DISCLAIMER</string>
-    <string name="disclaimer_text">* You need to scroll the text before you can press \'I accept the terms\'.
+    <string name="disclaimer_text"> <p>By clicking \'I accept the terms\' you are accepting La`Zooz  http://lazooz.org/terms_and_conditions.html .
 
-This is a Beta version of La\'Zooz mobile App. Any information shown by this App might not be accurate .This version of the app mines Unverified Road Zooz ,Verification of these Unverified Road Zooz could be proved to be impossible and therefore your Unverified Road Zooz balance may change or be reset at any time.An abuse of the system can cause your Road Zooz balance to be erased.Road Zooz may not be usable at all.The Collaborative Transportation Web may never be established.</string>
+This is a Beta version of La\'Zooz mobile App. Any information shown by this App might not be accurate .This version of the app mines Unverified Road Zooz ,Verification of these Unverified Road Zooz could be proved to be impossible and therefore your Unverified Road Zooz balance may change or be reset at any time.An abuse of the system can cause your Road Zooz balance to be erased.Road Zooz may not be usable at all.The Collaborative Transportation Web may never be established.</p></string>
+
     <string name="second_step_screen_text">Your movement is a building block for this network, and you will be rewarded with Road Zooz for this contribution.
 
 Each travel with La\'Zooz app and GPS active will mine for you some Road Zooz tokens.
@@ -826,6 +827,471 @@ Altogether we must stress the fact that the effort of making this happen is a jo
     <string name="reject">reject</string>
     <string name="red_traffic_light">Red Traffic Light</string>
     <string name="will_be_here_in">Will be here in:</string>
+    <string name="terms_and_conditions" translatable="false"><strong id="docs-internal-guid-e05ef12d-958b-8292-f053-36f70f6a4094">
+															<p dir="ltr">Terms of Use</p>
+															<p dir="ltr">Last revised May 19, 2015</p>
+															<ol>
+															  <li dir="ltr">
+																<p dir="ltr">Acceptance of Terms</p>
+																</li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">The following terms and conditions shall govern your use of the La\'Zooz website, located at <a href="http://lazooz.org" style="color: blue"><u>lazooz.org</u></a> (the \"Website\") and the La\'Zooz decentralized transportation platform (the \"Platform\"), the download, installation and use of the La\'Zooz application and any software files made available from time to time through or in connection with the Website or the Platform (the \"Software\", and together with the Website and the Platform, the \"Services\"), as well as the participation in or performance of any activity or transaction enabled or facilitated through the Services (the \"Activities\"). </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">By using the Services or participating in Activities, you (the \"User\") accept and agree to be bound by these terms and conditions (the \"Agreement\"). IF YOU DO NOT ACCEPT ANY OF THE TERMS AND CONDITIONS, YOU ARE REQUIRED TO REFRAIN FROM USING THE SERVICES AND PARTICIPATING IN ACTIVITIES.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">This Agreement constitutes the entire agreement between you and us, La\'Zooz - Mine the Gap Ltd. (the \"Representatives\"), with respect to the use of the Services and participation in Activities, and shall replace any and all other agreements.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">The La\'Zooz Community</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">By using the Services or participating in Activities you agree to become part of the La\'Zooz community (the \"Community\").</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">As a member of the Community, in participating in Activities you also accept, agree to be bound by, and undertake to fully comply with the written policies adopted by the Community, as may be amended from time to time (the \"Protocol\"), as well as any and all decisions made by the Community in accordance with the Protocol (\"Decisions\").</p>
+																</li>
+															  </ol>
+															</ol>
+															<p dir="ltr">For your convenience, a current copy of the Protocol may be found at:  <a href="https://docs.google.com/file/d/0B8DXTngEHOSmN2ZzTDJBTHppc1E/edit" style="color: blue"><u>protocol</u></a>
+                                                                .</p>
+															<ol start="3">
+															  <ol start="3">
+																<li dir="ltr">
+																  <p dir="ltr">Regardless of any provision to the contrary in this Agreement or in the Protocol, the Protocol shall be construed as imposing obligations and not as bestowing rights, entitlements or benefits, and shall in no event give rise to any claim or demand against the Community or the Representatives.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">User acknowledges and accepts, waiving and disclaiming any claim to the contrary, as follows – </p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">User may not necessarily be able to influence Decisions, and has no inherent right to participate in Decision making;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User shall only be entitled to such rights and benefits if and as determined by a Decision of the Community;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User shall have no claim against the Community or Representatives on account of the content of any Decision; </p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Upon the Decision of the Community, any dispute arising between User and any member of the Community in connection with the Activities shall be resolved exclusively by arbitration conducted in accordance with the Protocol. </p>
+																  </li>
+																</ol>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Terms of Use</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">You are granted permission to use the Services and participate in Activities subject to your full compliance with the provisions of this Agreement.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">You may not use any of the Services or participate in any Activity if you lack the legal capacity to do so under Applicable Law.</p>
+																</li>
+															  </ol>
+															</ol>
+															<p dir="ltr">For the purpose of this Agreement, \"Applicable Law\" shall mean the laws, regulations, orders and guidelines of such countries (i) in which you are registered, domiciled, have a permanent establishment, or are accessing the Services; or (ii) from, in or through which Activities are to be performed or to which they are directed; all to the extent designed to govern your specific use of the Services or your specific Activities.</p>
+															<ol start="3">
+															  <ol start="3">
+																<li dir="ltr">
+																  <p dir="ltr">While using the Services or participating in Activities, you may not perform, intentionally or carelessly, any of the following:</p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">Browse, surf, process, scan or use the Software or Website via operation of a computer program designed to gather information or perform operations imitating a human user (including, without limitation, Bots or Crawlers), other than as specifically intended by Representatives.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Manipulate the URL of the Website, or otherwise gain access to any internal pages to which the Representatives have not provided you with a direct link (including, without limitation, URL Hacking).</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Manipulate information collected by the Software, or intercept or interfere with the transmission of such information to Representatives.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Carry out any action which may infringe the copyrights of the Representatives or any other copyright holder.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Carry out any action which may infringe any laws, regulations, orders or any guidelines of any governmental authority, which is designed or intended to circumvent restrictions imposed under Applicable Law, or is likely to offend or harm the public order.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Carry out any action which violates any community guidelines contained within the Protocol or otherwise determined by the Community from time to time.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Gain access to other users wallet </p>
+																  </li>
+																</ol>
+																<li dir="ltr">
+																  <p dir="ltr">We reserve the right to bar you from using any of the Services or participating in any Activity, and suspend or cancel any action carried out on the Website or through the Software, (i) upon Community\'s Instruction, or (ii) should we have reasonable suspicion that such use or participation is in violation of this Agreement or Applicable Law.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Registration to Services</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">Upon Community\'s Instruction, the access to certain Services or Activities may be subject to additional terms and conditions or limited to specific Users or group of Users, for example, who have subscribed to the Services or Activities (the \"Account\"), who maintain a 3rd Party Account (as defined below), who have provided certain information and details, who have accumulated a certain number of \"Zooz\", who maintain a certain reputation within the Community (as determined in accordance with the Protocol) or who are current in the payment of certain membership fees.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">It is clarified that information submitted by User must not contain partial or inaccurate data – only the full, true and accurate details required.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">If User is required to set or change a password for the Account, and so as to avoid any unauthorized access to the Account as well as any possible damage in the event such password is illegally obtained:</p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">User should not disclose password to any third party nor present, enter or use this password with respect to any third party service.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User must be aware of the importance of changing the password on a periodical basis. </p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User must be aware it is highly advisable for the password not to contain, whether in straight forward form or reverse order, any of the following: User\'s name; identity, social security, passport or phone number; significant date; or dictionary word.</p>
+																  </li>
+																</ol>
+																<li dir="ltr">
+																  <p dir="ltr">User shall notify Representatives immediately of any suspicion regarding unauthorized access to the Services through User\'s Account or through a 3rd Party Account. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Without limiting from Owner\'s rights under Section ‎3.4, the Representatives reserve the right to suspend any Account and condition access to Account on presentation of proof that the provisions of this Agreement and any Applicable Law have not been violated. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">User may not create more than one Account. For the avoidance of doubt, User\'s Account, and any privileges granted with respect to such Account, is personal and non-transferable. User may not assign, transfer or share access to the Account or to any Services or Activities which are subject to additional terms and conditions or which are limited to User\'s specific characteristics.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">THOUGH REPRESENTATIVES MAINTAIN REASONABLE MEASURES TO SECURE AND PROTECT ACCOUNT CONTENTS AND INFORMATION REGARDING USER\'S ACCESS TO SERVICES, REPRESENTATIVES CAN NOT ENSURE DEFINITE PROTECTION FROM EXPOSURE DUE TO MALICIOUS ACTS, AND SHALL NOT BE LIABLE TO ANY DAMAGES, WHETHER DIRECT, INDIRECT, INCIDENTAL OR CONSEQUENTIAL, INCURRED BY USER DUE TO ANY SUCH EXPOSURE OF ACCOUNT CONTENTS OR INFORMATION REGARDING USER\'S ACCESS. </p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">3rd Party Login Services</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">As specified in Section ‎4 above, use of or access to certain Services or Activities may be subject to registration or login via Facebook Connect or similar third party services (the \"3rd Party Login Services\"). </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Representatives expressly disclaim any liability or responsibility to the use of 3rd Party Login Services in connection with the Services or Activities, and must assume you have been made familiar with the nature of these 3rd Party Login Services prior to registration or login. </p>
+																</li>
+															  </ol>
+															</ol>
+															<p dir="ltr">For more information regarding 3rd Party Login Services, their operation or the information they may share and exchange with the Representatives, please visit the relevant 3rd Party Login Service website. </p>
+															<ol start="3">
+															  <ol start="3">
+																<li dir="ltr">
+																  <p dir="ltr">By connecting with or logging in via 3rd Party Login Services: </p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">User warrants and certifies that the 3rd Party Login Services account stated or utilized by User (the \"3rd Party Account\") constitutes User\'s sole account with such 3rd Party Login Services, used by User, and solely by User, on a regular basis, and that no other entity or person has any right to access the 3rd Party Account; and </p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User consents to Representatives presenting or sending to or through such 3rd Party Account, or such email address or social network account associated thereof, notifications and updates, to or on behalf of User, re User\'s use of the Services and participation in Activities and any amendment of the terms hereunder.</p>
+																  </li>
+																</ol>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Administration of Services, Activities and Community Assets</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">Administration of the Services and Activities is carried out by Representatives for and on behalf of the Community as a whole, subject to and in accordance with any instructions decided upon by the Community and communicated to the Representatives through the Services (\"Instructions\"). </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">It is clarified that Representatives obligations towards the Community as a whole shall in no event be construed as granting User a personal right, entitlement or benefit, and User shall in no event have any personal right of standing against the Representatives with respect to Representatives\' obligations towards the Community. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">With respect to Instructions, User explicitly confirms and acknowledged – </p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">WE SHALL IN NO EVENT BE HELD LIABLE FOR ANY ACTION MADE PURSUANT TO AN INSTRUCTION, OR FOR ANY FAILURE TO ACT IN THE ABSENCE OF AN INSTRUCTION, AND YOU EXPLICITLY WAIVE AND DISCLAIM ANY CLAIM TO THE CONTRARY;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">We shall in no event be required to comply with any Instruction where we are advised by our professional advisors that compliance may result in legal exposure, adversely affect our rights under this Agreement or lead to us incurring potentially unrecoverable expenses, losses or liabilities;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">We shall be entitled to act upon and rely upon Instructions received through the Services without further investigation as to whether such Instruction has been properly decided upon by the Community.</p>
+																  </li>
+																</ol>
+																<li dir="ltr">
+																  <p dir="ltr">User explicitly confirms and acknowledges – </p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">Representatives shall be authorized by Community to transact on Community\'s behalf in accordance with Community\'s Instructions;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Administration of the Services and Activities, as well as performance of Instructions, may be performed by Representatives through their own resources or 3rd parties approved by the Community.</p>
+																  </li>
+																</ol>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Zooz</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">Certain Activities and Services may be limited to Users credited with \"Zooz\" – virtual points \"awarded\" on account of User\'s contribution to the Community, to be used in connection with the Services or in facilitation of Activities (\"Zooz\"). </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Strictly for the purpose of convenience, block chain and wallet solutions may be implemented in order to facilitate the award and transfer of Zooz in the course of the Activities, as well as track and record the number of Zooz credited to User at any given time; terminology relating to Zooz may also be borrowed from the world of cryptocurrency (e.g. use of the term \"mining\" to denominate earning of Zooz, or the term \"transaction\" to denominate Zooz being removed from the amount credited to User in favor of to another).</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">REGARDLESS OF THE ABOVE, IT IS EMPHASIZED AND AGREED THAT ZOOZ ARE NOT INTENDED TO FORM A CRYPTOCURRENCY NOR HAVE ANY VALUE WHATSOEVER OUTSIDE OF THE SERVICES AND THE ACTIVITIES, AND YOU EXPLICITLY WAIVE AND DISCLAIM ANY CLAIM TO THE CONTRARY. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Upon Community\'s Instruction, Zooz may also be awarded to User in return for actual or digital currency, to be used by Representatives pursuant to the provisions of Section ‎10 below. For the avoidance of doubt, in acquiring Zooz you are merely acquiring the right for virtual points to be credited to your record by the Representatives – you are not acquiring units of cryptocurrency.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">While Zooz are not intended to form cryptocurrency, in case they are nevertheless wrongly classified as such by regulatory bodies, in acquiring Zooz User confirms and warrants –</p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">User is acquiring Zooz with the intention of contributing to the Community or for use within the Services, and not as a speculative investment or in view of Zooz as a form of cryptocurrency; </p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User possesses the legal capacity to transact in cryptocurrency, as well as the required knowledge, experience and expertise required to deal in cryptocurrency;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Purchase and possession of cryptocurrency is permitted in User\'s jurisdiction;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">User is solely responsible for tax and any liabilities associated with purchase or holding of Zooz.</p>
+																  </li>
+																</ol>
+																<li dir="ltr">
+																  <p dir="ltr">Zooz are acquired \"As-Is\", without any representations or warranties of any kind; User explicitly acknowledges the following risk factors– </p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">There is no market for Zooz and no assurance of liquidity or ability to use the Zooz whether outside or within the Community and Services;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">There is no inherent value in Zooz outside of the Community and the Services; </p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">The value of Zooz within the Community and the Services may fluctuate, with or without reason or warning;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Regulatory changes may render the Platform or the Zooz unusable;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">External competition, unsatisfactory results of the Platform, loss of Community assets or abandonment of the development or operations of the Platform may render Zooz valueless;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">The value of Zooz held by User is affected by the total number of Zooz held by all users at such time, and may be reduced due to allocation of additional Zooz (\"diluting\" current holders). Additionally, the total number of Zooz credited to members of the Community at the time of the purchase may not be accurately represented;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">Malicious activities and security breaches may result in the loss, theft or dilution of Zooz, without the ability to trace the culprit. </p>
+																  </li>
+																</ol>
+																<li dir="ltr">
+																  <p dir="ltr">User further confirms and acknowledges that, as block chain and wallet solutions are implemented for the purpose of tracking and recording the number of Zooz credited to User at any given time, loss or theft of User\'s wallet or account details would result in loss of Zooz credited to User.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">User explicitly confirms and acknowledges receipt of Zooz acquired, and the continued availability of such Zooz, may require User to use and operate technological solutions (such as maintain a cryptocurrency address and use a suitable wallet) determined from time to time by the Community. </p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Cancellation and Redemption</p>
+															  </li>
+															</ol>
+															<p dir="ltr">Subject to any Instruction to the contrary, once processed, acquisition of Zooz may not be cancelled and Zooz may not be redeemed.</p>
+															<ol start="9">
+															  <li dir="ltr">
+																<p dir="ltr">Use of Funds</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">We shall not engage in any activity likely to interfere with the furtherance, development and administration of the Services and Activities, or give rise to any conflict-of-interests, unless approved by the Community. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Funds received by us in connection with or on account of the Services and Activities shall be used by us strictly – </p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">To cover our operating expenses and capital expenditures on account of the furtherance, development and administration of the Services and Activities;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">To expand and develop the Services and Activities;</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">To cover liquidation costs and expenses, in the event we are instructed or are forced to cease administering the Services and Activities. </p>
+																  </li>
+																</ol>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Suitability of Services</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">Services and Activities are provided As-Is. The Representatives cannot guarantee the suitability of the Services or the Activities to your needs or the availability of any of the Services or Activities.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">You are responsible to verify, prior to using the Services or participating in the Activities, their suitability to your needs, and you will have no claim against the Representatives due to any mismatch of the Services or the Activities.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Use of the Software on a device set to allow mobile data may lead to additional charges from your wireless service provider, depending on your network subscription. </p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Responsibility for Information</p>
+															  </li>
+															</ol>
+															<p dir="ltr">Information presented through the Services (the \"Information\") shall not constitute advice or professional opinion but rather the personal opinion of members of the Community; and we do not represent in any way that any Information is accurate, complete or error free. </p>
+															<ol start="12">
+															  <li dir="ltr">
+																<p dir="ltr">EXCLUSION OF LIABILITY; LIMITATION OF LIABILITY</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">SUBJECT TO THE APPLICABLE LAW, THE REPRESENTATIVES, AS WELL AS THEIR OFFICERS, AGENTS, ASSOCIATES AND EMPLOYEES, SHALL NOT BE LIABLE TO ANY DIRECT, INDIRECT, INCIDENTAL OR CONSEQUENTIAL DAMAGES, WHATSOEVER, INCURRED BY USER DUE TO USE OF THE SERVICES OR DUE TO THE NON-AVAILABILITY OF THE SERVICES. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">WITHOUT DEROGATING FROM THE ABOVE, SHOULD ABOVE EXCLUSION BE HELD BY THE COMPETENT COURTS AS UNENFORCEABLE OR VOID, THE CUMULATIVE LIABILITY TO USER FOR ANY AND ALL CLAIMS RELATING TO USE OF THE SERVICES OR DUE TO THE NON-AVAILABILITY OF THE SERVICES, INCLUDING ANY EXPOSURE OF ACCOUNT OR 3RD PARTY ACCOUNT CONTENT OR INFORMATION, SHALL NOT EXCEED THE HIGHER OF THE TOTAL AMOUNT PAID BY USER AS CONSIDERATION FOR THE SERVICES (IF PAID) OR $100. </p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">External Links</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">Upon Community\'s Instruction, advertisements to third party products may be presented on the Services by an external service, matching the advertisements to the content. It is clarified that the Representatives would have no control over the selection of the advertisements displayed, the order of their presentation or their accuracy and would not be a direct party to any transaction resulting from such advertisements.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Certain adverts or Hyper-Links used in the Services may refer or direct to websites managed or owned by third parties. It is clarified that any links to such websites are supplied solely for the convenience of the User, and that the Representatives did not examine these websites and do not support them or their content and can not verify their security. You are solely responsible and are required to use full caution when browsing, purchasing products, submitting information or otherwise using these websites.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">It is emphasized that there is no distinction between internal links and external links, and it is your sole responsibility to verify the URL a link refers to before following it.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Contribution of Content </p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">In the course of the Services and the Activities, Users may upload or share content of their own creation (\"Contributed Content\") to be displayed, used or distributed through the Services or among the Community.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">It is clarified the process of uploading and sharing Contributed Content is, fully or partially, an automatic process, thus the Representatives cannot examine the content uploaded, and shall not be held liable for any Contributed Content displayed or distributed through the Services.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">In addition to the terms stated under Section ‎3.3.5 above, User explicitly warrants and represents that uploading or sharing Contributed Content to the Services, and using, commercializing or displaying such Contributed Content in accordance with these terms, shall not constitute or result in violation of Applicable Law, including copyright or trademark infringement, violation of privacy, obscenity or slander.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Regardless of any provision to the contrary, by uploading or sharing Contributed Content on or through the Services, User explicitly assigns and transfers to the Representatives any and all rights, title and interest to such Contributed Content, to be held by the Representatives pursuant to the provisions of Section ‎16.1 below, and waives and disclaims any and all moral rights with respect thereof (including attribution of Contributed Content to User and preservation of its integrity) or any claim for remuneration or compensation with respect to the use and commercialization of such Contributed Content by the Community or and third party.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Copyright (Copyleft)</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">All rights, title and interest in and to the Website, Platform, Software and Contributed Content, their design, source code, and content elements are held exclusively by the Representatives, for and on behalf of the Community as a whole, under the terms of the GNU Affero General Public License, a copy of which is made available at – <a href="https://www.gnu.org/licenses/agpl.txt">https://www.gnu.org/licenses/agpl.txt</a>. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Regarding Software, it is clarified such is not sold or granted – rather, User may be granted a non-exclusive, non-transferrable, limited license to download, install and use the Software in accordance with these terms. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">For the avoidance of doubt, such license shall immediately terminate upon breach of any of the terms and conditions of this Agreement.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Trademarks</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">The trademarks \"La\'Zooz\" and \"Zooz\" are used to designate Community endorsed services and products, and may not be used without Community\'s explicit permission. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Any other trademarks appearing on the Services, whether currently or in the future, are the property of their respective owners, as applicable.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Notice of Infringement (DMCA Takedown Policy)</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">If you have cause to believe any Services content to be in violation to the terms hereunder, in breach of intellectual property of others, or in infringement of any Applicable Law, we would appreciate it if you would notify us of such content via email to _info@lazooz.org_, stating the violating content and the nature of violation. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Without derogating from Section ‎15.2, we reserve the right to deny presentation of Contributed Content and to remove Contributed Content, as stipulated in Section ‎3.4.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Privacy</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">The terms of the <a href="https://docs.google.com/document/d/1gj2BmKDeHBrxlYDoKPyTOeU-EEXlUqRKeoVqzPq5OKo/edit" style="color: blue"><u>Privacy Policy</u></a> constitute an inseparable part of these Terms and Conditions – by expressing your consent to these Terms and Conditions you hereby agree to the terms of the Privacy Policy.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Regarding Software, please be advised some of the basic functionalities of the software may require monitoring, recording and processing User\'s activities with respect to the device through which the Software is accessed and the location thereof (\"Activity-Information\"). For the avoidance of doubt, Activity Information shall be protected and used only in strict accordance with our Privacy Policy, or otherwise subject to obtaining your explicit permission.</p>
+																</li>
+															  </ol>
+															  <li dir="ltr">
+																<p dir="ltr">Amendment to Services and Terms of Agreement</p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">Upon Community\'s Instruction, we may make Non-substantial Changes to the terms of the Agreement, at any time, without having to give prior notice. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Upon Community\'s Instruction, we may make Substantial Changes to the terms of the Agreement, providing adequate notice will be displayed in the webpage of this Agreement at least 7 days prior to the amendment taking effect, and providing the following conditions are met:</p>
+																</li>
+																<ol>
+																  <li dir="ltr">
+																	<p dir="ltr">You will be entitled to terminate the Agreement prior to the amendments taking effect.</p>
+																  </li>
+																  <li dir="ltr">
+																	<p dir="ltr">The amendments will not affect any actions already taken by you prior to the amendments taking effect. </p>
+																  </li>
+																</ol>
+																<li dir="ltr">
+																  <p dir="ltr">It is solely your responsibility to check the terms of this Agreement, every once in a while, for amendments. Please note the date stated at the top of this page to see when the Agreement was last revised.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">In this section, \"Substantial Changes\" shall mean any changes sufficient to impose new charges on the User, derogate from the User\'s rights under this Agreement, change any copyright permission or alter the Services\' privacy policy. </p>
+																</li>
+															  </ol>
+															</ol>
+															<p dir="ltr">\"Non-substantial Changes\" shall mean any changes which are not \"Substantial Changes\".</p>
+															<ol start="20">
+															  <li dir="ltr">
+																<p dir="ltr">Waiver of Rights to Recommendations and Suggestions</p>
+															  </li>
+															</ol>
+															<p dir="ltr">In order to avoid any unpleasantness, you agree and acknowledge that in sending suggestions or comments regarding the Services (the \"Suggestions\") YOU WAIVE ANY AND ALL RIGHTS TO THE SUGGESTIONS AND SHALL HAVE NO CLAIM REGARDING IMPLEMENTATION OF THE SUGGESTIONS OR LACK THEREOF, TRANSFER OF THE SUGGESTIONS TO A THIRD PARTY, OR REGARDING LACK OF ANY ATTRIBUTION, ACKNOWLEDGEMENT, CREDIT, REMUNERATION, OR COMPENSATION WITH RESPECT TO ANY IMPLEMENTATION OF THE SUGGESTIONS BY US OR ANY THIRD PARTY. We will exclusively own any rights to suggestions which, at our sole decision, we have chosen to adopt.</p>
+															<ol start="21">
+															  <li dir="ltr">
+																<p dir="ltr">Indemnification</p>
+															  </li>
+															</ol>
+															<p dir="ltr">You undertake to indemnify us for any losses or damages resulting from any 3rd party claims or complaints arising from, or in connection with, your actions on the Services or in the course of the Activities or breach of this Agreement.</p>
+															<ol start="22">
+															  <li dir="ltr">
+																<p dir="ltr">Governing Law and Jurisdiction</p>
+															  </li>
+															</ol>
+															<p dir="ltr">This agreement shall be construed and governed by the laws of the State of Israel. Any dispute arising from the terms of this agreement, the use or misuse of the Software, Website, or any of the Website\'s services shall be subject to the exclusive jurisdiction of the competent courts in the District of Tel Aviv, Israel.</p>
+															<ol start="23">
+															  <li dir="ltr">
+																<p dir="ltr">Termination </p>
+															  </li>
+															  <ol>
+																<li dir="ltr">
+																  <p dir="ltr">User may terminate this Agreement by providing Representatives with written notice, such notice certifying User deleted any and all Software in User\'s possession, removed any Account maintained, withdrew from any and all Services and Activities, and surrendered any Zooz credited to User. </p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">Representatives shall terminate the Agreement with User only upon the Instruction of the Community.</p>
+																</li>
+																<li dir="ltr">
+																  <p dir="ltr">For the avoidance of doubt, provisions designed or intended to survive the termination of this Agreement (including, for example, all waivers and disclaimers) shall not be affected by termination. </p>
+																</li>
+															  </ol>
+															</ol>
+															</strong></string>
 
 
 </resources>
