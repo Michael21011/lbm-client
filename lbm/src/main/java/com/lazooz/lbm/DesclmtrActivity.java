@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,10 +53,11 @@ public class DesclmtrActivity extends MyActionBarActivity {
 		String theTitle = getString(R.string.disclaimer_title);
 		//String theTitle = MySharedPreferences.getInstance().getDisclaimerScreenTitle(this);
 		//String theText = MySharedPreferences.getInstance().getDisclaimerScreenText(this);
+
 		String theText = getString(R.string.disclaimer_text);
 		
-		mInfoTV.setText(theTitle + "\n"+ theText);
-		
+		//mInfoTV.setText(Html.fromHtml(theText));
+        //mInfoTV.setText(Html.fromHtml(theText));
 
 		mScrollView = (MyScrollView)findViewById(R.id.dsclmr_scrill_view);
 		mScrollView.setOnScrollChangeListener(new MyScrollView.OnScrollChangeListener() {

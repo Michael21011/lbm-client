@@ -23,6 +23,7 @@
         android:layout_margin="20dp"
         android:paddingBottom="20dp"
         android:gravity="center"
+        android:autoLink="web"
         android:text="@string/disclaimer_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />
@@ -50,6 +51,11 @@
             android:textSize="@dimen/_20" />
 
     </LinearLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center_vertical"></TableRow>
 
 </FrameLayout>
 
