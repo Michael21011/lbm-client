@@ -417,8 +417,8 @@
         android:visibility="gone"
         android:id="@+id/rideshare_active_layout">
         <ImageButton
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:padding="15dp"
             android:scaleType="fitXY"
             android:src="@drawable/thumbs"

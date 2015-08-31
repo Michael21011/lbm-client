@@ -655,7 +655,6 @@
     <string name="intro_text" formatted="false">Hello, I am La\'Zooz %v%.\r\n\r\nBy running and sharing this app with others,you are taking part in the establishment of the first\n  Collaborative Transportation Web.\n\rYour contribution will be rewarded with Road Zooz tokens, to be traded for movement once the network is established.</string>
     <string name="disclaimer_title">La\'Zooz DISCLAIMER</string>
     <string name="disclaimer_text">* You need to scroll the text before you can press \'I accept the terms\'.
-
 This is a Beta version of La\'Zooz mobile App. Any information shown by this App might not be accurate .This version of the app mines Unverified Road Zooz ,Verification of these Unverified Road Zooz could be proved to be impossible and therefore your Unverified Road Zooz balance may change or be reset at any time.An abuse of the system can cause your Road Zooz balance to be erased.Road Zooz may not be usable at all.The Collaborative Transportation Web may never be established.</string>
     <string name="second_step_screen_text">Your movement is a building block for this network, and you will be rewarded with Road Zooz for this contribution.
 
