@@ -164,6 +164,29 @@ public class MainActivity extends MyActionBarActivity  {
 					Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
 					return;
 				}
+
+
+				try {
+					int UsersAroundMe = 0;
+					JSONObject jsonUsersAroundMeForRideShare = null;
+
+					try {
+						jsonUsersAroundMeForRideShare = new JSONObject(sd.getUsersAroundMe());
+						UsersAroundMe = Integer.parseInt(jsonUsersAroundMeForRideShare.getString("3_KM"));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					if (UsersAroundMe == 0) {
+						String MsgToUser = "There is no active LaZooz user around you in a radius of 3 km\n Try again later.";
+						Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
+						return;
+					}
+
+
+				} catch(NumberFormatException nfe) {
+					System.out.println("Could not parse " + nfe);
+				}
+
 				msp.saveMessageForRideShare(MainActivity.this, "", 0);
 
                 Intent intent = new Intent(MainActivity.this, RideShareEnterRequestActivity.class);
@@ -627,28 +650,8 @@ public class MainActivity extends MyActionBarActivity  {
 		}
 		else
 			mRideShareActiveLL.setVisibility(View.GONE);
-		int UsersAroundMe = 0;
 
-		try {
-			JSONObject jsonUsersAroundMeForRideShare = null;
-
-			try {
-				jsonUsersAroundMeForRideShare = new JSONObject(sd.getUsersAroundMe());
-				UsersAroundMe = Integer.parseInt(jsonUsersAroundMeForRideShare.getString("3_KM"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			if (UsersAroundMe>0)
-				mRideShareBtn.setVisibility(View.VISIBLE);
-			else
-				mRideShareBtn.setVisibility(View.GONE);
-
-		} catch(NumberFormatException nfe) {
-			System.out.println("Could not parse " + nfe);
-		}
 		checkNotif();
-
-
 
 		/*
 		String dolarConvertionRate = msp.getDolarConvertionRate(this);
