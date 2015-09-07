@@ -177,7 +177,7 @@ public class MainActivity extends MyActionBarActivity  {
 						e.printStackTrace();
 					}
 					if (UsersAroundMe == 0) {
-						String MsgToUser = "There is no active LaZooz user around you in a radius of 3 km\n Try again later.";
+						String MsgToUser = "There is no active La'Zooz users around you in a radius of 3 km\nTry again later";
 						Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
 						return;
 					}
