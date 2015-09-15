@@ -78,7 +78,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCP_0YNR95TZJmnV08JbjUKEOeX7AftKcw" />
+            android:value="AIzaSyAxbjmGJx-BQ59QkSXlXwyEylgZuRTc4Ms" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -334,6 +334,8 @@
         </receiver>
         <receiver android:name=".AlarmOneDaySchedReciever" >
         </receiver>
+        <receiver android:name=".GcmHeartBeatReceiver" >
+        </receiver>
         <receiver android:name=".SMSReceiver" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -416,6 +418,7 @@
             android:enabled="true"
             android:exported="false">
         </service>
+
     </application>
 
 </manifest>
