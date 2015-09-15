@@ -12,6 +12,7 @@ import com.lazooz.lbm.businessClasses.ServerData;
 import com.lazooz.lbm.businessClasses.UserNotification;
 import com.lazooz.lbm.businessClasses.UserNotificationList;
 import com.lazooz.lbm.cfg.StaticParms;
+import com.lazooz.lbm.chat.ui.activities.SplashChatActivity;
 import com.lazooz.lbm.communications.ServerCom;
 import com.lazooz.lbm.preference.MySharedPreferences;
 import com.lazooz.lbm.utils.BBUncaughtExceptionHandler;
@@ -25,7 +26,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -34,9 +34,9 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.Settings;
 
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +51,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
-import com.lazooz.lbm.cfg.StaticParms;
 
 public class MainActivity extends MyActionBarActivity  {
 
@@ -272,7 +271,7 @@ public class MainActivity extends MyActionBarActivity  {
 		mCriticalMassFrame = (FrameLayout)findViewById(R.id.main_critical_mass_frame);
 		
 		mCriticalMassFrame.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
@@ -302,13 +301,23 @@ public class MainActivity extends MyActionBarActivity  {
 		ShortPeriodTimer.scheduleAtFixedRate(twoSecondsTimerTask, 0, 10 * 1000);
 
 		startOnDayScheduler();
-		
-		
-		
+		startGcmHeartBeatScheduler();
+
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN);
 		//getUserKeyDataAsync();
 		FacebookSdk.sdkInitialize(getApplicationContext());
 
+
+	}
+
+	public void openChat(View view) {
+		Log.d("Main", "Open Chat");
+        Intent intent = new Intent(this, SplashChatActivity.class);
+        intent.putExtra("USER_LOGIN", "chatuser1");
+        intent.putExtra("PASSWORD", "chatuser1");
+        intent.putExtra("OPPONENT_LOGIN", "chatuser2");
+        intent.putExtra("OPPONENTID", 5249824);
+        this.startActivity(intent);
 	}
 
 	private void CheckRideShareActive()
@@ -499,9 +508,16 @@ public class MainActivity extends MyActionBarActivity  {
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 24*60*60*1000, pintent);
 		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + delay, 3*60*1000, pintent);
 		alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 24 * 60 * 60 * 1000, pintent);
-
-		
 	}
+
+	private void startGcmHeartBeatScheduler() {
+
+		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		Intent gcmHeartBeatIntent = new Intent(this, GcmHeartBeatReceiver.class);
+		PendingIntent gcmHeartBeatPendingIntent = PendingIntent.getBroadcast(this, 0, gcmHeartBeatIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), 2 * 60 * 1000, gcmHeartBeatPendingIntent);//every 2 minutes
+	}
+
 	public void showSettingsAlertOneTime(String theMessage){
 		
 		
