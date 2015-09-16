@@ -81,8 +81,20 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 			
 			@Override
 			public void onClick(View arg0) {
+				/*
 				Intent i = new Intent(MainAddFriendsActivity.this, ContactListActivity.class);
-   	    		startActivityForResult(i, 1);				
+   	    		startActivityForResult(i, 1);
+   	    						*/
+				MySharedPreferences msp = MySharedPreferences.getInstance();
+				Intent sharingIntent = new Intent();
+				sharingIntent.setAction(Intent.ACTION_SEND);
+				sharingIntent.setType("text/plain");
+				sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "*");
+
+				//sharingIntent.putExtra(Intent.EXTRA_TEXT, "join La'Zooz google community to download the App \nhttps://plus.google.com/u/0/communities/116028422996838948960");
+				sharingIntent.putExtra(Intent.EXTRA_TEXT,  getString(R.string.share_def_text)+ String.format(StaticParms.PLAY_STORE_APP_LINK_FORMAT,"share",msp.getPublicKey(MainAddFriendsActivity.this),msp.getUserId(MainAddFriendsActivity.this))); // url: current URL (String or Uri));
+				startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
+
 			}
 		});
 		
@@ -92,7 +104,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 		mNumPendingTV = (TextView)findViewById(R.id.num_pending_tv);
 		
 		
-		getUserContactDataAsync();
+		//getUserContactDataAsync();
 			
 		//CreateList(null);
 		
