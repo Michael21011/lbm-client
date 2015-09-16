@@ -89,7 +89,7 @@ public class MainAddFriendsActivity extends ActionBarActivity {
 				Intent sharingIntent = new Intent();
 				sharingIntent.setAction(Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "*");
+				sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Join LaZooz Ride Sharing Network");
 
 				//sharingIntent.putExtra(Intent.EXTRA_TEXT, "join La'Zooz google community to download the App \nhttps://plus.google.com/u/0/communities/116028422996838948960");
 				sharingIntent.putExtra(Intent.EXTRA_TEXT,  getString(R.string.share_def_text)+ String.format(StaticParms.PLAY_STORE_APP_LINK_FORMAT,"share",msp.getPublicKey(MainAddFriendsActivity.this),msp.getUserId(MainAddFriendsActivity.this))); // url: current URL (String or Uri));
