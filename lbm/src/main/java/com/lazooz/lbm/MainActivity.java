@@ -157,10 +157,10 @@ public class MainActivity extends MyActionBarActivity  {
 
 				if (Float.valueOf(sd.getPotentialZoozBalance())< StaticParms.RIDE_SHARING_ZOOZ_COST)
 				{
-					String MsgToUser = "You do not have enough credit\n(%d RZ) for ride sharing.";
+					String MsgToUser = getString(R.string.rideshare_not_enogh_credit);
 					MsgToUser  = String.format(MsgToUser, StaticParms.RIDE_SHARING_ZOOZ_COST);
 
-					Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
+					Utils.messageToUser(MainActivity.this,getString(R.string.oops), MsgToUser, MainActivity.this);
 					return;
 				}
 
@@ -176,8 +176,8 @@ public class MainActivity extends MyActionBarActivity  {
 						e.printStackTrace();
 					}
 					if (UsersAroundMe == 0) {
-						String MsgToUser = "There is no active La'Zooz users around you in a radius of 3 km\nTry again later";
-						Utils.messageToUser(MainActivity.this,"Ooops", MsgToUser, MainActivity.this);
+						String MsgToUser = getString(R.string.ridesharing_no_active_user_around_you);
+						Utils.messageToUser(MainActivity.this,getString(R.string.oops), MsgToUser, MainActivity.this);
 						return;
 					}
 
@@ -306,8 +306,6 @@ public class MainActivity extends MyActionBarActivity  {
 		MySharedPreferences.getInstance().setStage(this, MySharedPreferences.STAGE_MAIN);
 		//getUserKeyDataAsync();
 		FacebookSdk.sdkInitialize(getApplicationContext());
-
-
 	}
 
 	public void openChat(View view) {

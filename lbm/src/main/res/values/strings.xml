@@ -1291,6 +1291,18 @@ Altogether we must stress the fact that the effort of making this happen is a jo
 															  </ol>
 															</ol>
 															</strong></string>
+    <string name="rideshare_not_enogh_credit">You do not have enough credit\n(%d RZ) for ride sharing.</string>
+    <string name="oops">ooops</string>
+    <string name="ridesharing_no_active_user_around_you">There is no active La'Zooz users around you in a radius of 3 km\nTry again later</string>
+    <string name="rideshare_match_accepted">Match accepted</string>
+    <string name="rideshare_match_rejected">Match rejected</string>
+    <string name="rideshare_want_to_pick_you_up">Want to come and pick you up</string>
+    <string name="rideshare_still_relevant">Still relevant</string>
+    <string name="rideshare_no_need">No need</string>
+    <string name="rideshare_please_note">Please note</string>
+    <string name="rideshare_on_your_own_responsibility">You are ride sharing on your own responsibility!</string>
+    <string name="rideshare_please_wait_for_confirmation">Please wait till the ride confirmed</string>
+    <string name="rideshare_your_request_sent_yo_server">Your request has been sent to the server. Please wait till we found a match</string>
 
 
 </resources>

@@ -193,9 +193,9 @@ public class LbmService extends Service implements OnTelephonyDataListener{
 		handler = new Handler();
 		handler.postDelayed(runnable, 1000*30);
 
-		startOnDayScheduler();
+		//startOnDayScheduler();
 		
-		listenToContactsChanges();
+		//listenToContactsChanges();
 		
 		
 		

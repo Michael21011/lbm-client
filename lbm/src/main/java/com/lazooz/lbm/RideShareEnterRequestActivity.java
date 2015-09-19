@@ -388,7 +388,7 @@ public class RideShareEnterRequestActivity extends ActionBarActivity
         protected void onPostExecute(String result) {
 
             if (result.equals("success")){
-                Toast.makeText(RideShareEnterRequestActivity.this, "Your request has been sent to the server. Please wait till we found a match", Toast.LENGTH_LONG).show();
+                Toast.makeText(RideShareEnterRequestActivity.this, getString(R.string.rideshare_your_request_sent_yo_server), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(RideShareEnterRequestActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

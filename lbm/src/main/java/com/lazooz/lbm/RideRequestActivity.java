@@ -229,9 +229,9 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
 
         if (TypeActivity.contains("match_accept")) {
 
-            WantToRideText.setText("Want to come and pick you up");
-            AcceptBtn.setText("Still relevant");
-            RejectBtn.setText("No need");
+            WantToRideText.setText(getString(R.string.rideshare_want_to_pick_you_up));
+            AcceptBtn.setText(getString(R.string.rideshare_still_relevant));
+            RejectBtn.setText(getString(R.string.rideshare_no_need));
 
         }
 
@@ -277,7 +277,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         imgProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("image clicked...");//check logcat
+               // System.out.println("image clicked...");//check logcat
                  /*
                 String LoginName[] =  personName.split(" ");
                 Integer OpponentId = Integer.valueOf(OponnedID);
@@ -312,7 +312,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         if (msp.getStateForRideShare(RideRequestActivity.this)== STATE_RIDE_REQUEST_MATCH_ACCEPTED)
           onPleaseWaitMessage();
 
-        Utils.messageToUser(this,"Please note", "You are ride sharing on your own responsibility!", RideRequestActivity.this);
+        Utils.messageToUser(this,getString(R.string.rideshare_please_note), getString(R.string.rideshare_on_your_own_responsibility), RideRequestActivity.this);
         // Update the UI after signin
             //updateUI(true);
         }
@@ -322,7 +322,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
         if (TypeActivity.equals("match_request")) {
 
             MatchAcceptedText.setVisibility(View.VISIBLE);
-            MatchAcceptedText.setText("Please wait till the ride confirmed");
+            MatchAcceptedText.setText(getString(R.string.rideshare_please_wait_for_confirmation));
             //msp.saveMatchRequestId(RideRequestActivity.this, MatchRequestId);
         }
         //else
@@ -453,7 +453,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
             //DurationText.setVisibility(View.GONE);
-            MatchAcceptedText.setText("Match accepted");
+            MatchAcceptedText.setText(getString(R.string.rideshare_match_accepted));
             AcceptBtn.setVisibility(View.GONE);
             RejectBtn.setVisibility(View.GONE);
             NavBtn.setVisibility(View.VISIBLE);
@@ -465,7 +465,7 @@ public class RideRequestActivity extends ActionBarActivity implements View.OnCli
             mProgressBar.setVisibility(View.GONE);
             MatchAcceptedText.setVisibility(View.VISIBLE);
          //   DurationText.setVisibility(View.GONE);
-            MatchAcceptedText.setText("Match rejected");
+            MatchAcceptedText.setText(getString(R.string.rideshare_match_rejected));
             msp.saveDataFromServerService(this, null, null, null, null, null, "NA");
             msp.saveMessageForRideShare(RideRequestActivity.this, "", 0);
             //msp.saveMessageForRideShare(this, mMessage, STATE_RIDE_REQUEST_MATCH_REJECT);
